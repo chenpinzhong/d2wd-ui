@@ -1,0 +1,7 @@
+.slide_frame {
+    width: 1200px;
+    height: 500px;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+}

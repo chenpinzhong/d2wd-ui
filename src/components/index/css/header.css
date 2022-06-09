@@ -1,0 +1,36 @@
+/*标头区域*/
+.header_area{
+	width:1200px;
+	margin:auto;
+}
+.header_area .main_header{
+	margin: 0;
+}
+.header_area .main_header .header_top{
+	padding: 10px 0;
+	border-bottom: 1px solid #ebebeb;
+}
+/*容器*/
+.header_area .container{
+	max-width: 1200px;
+}
+.header_area .container .row {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	-ms-flex-align: center!important;
+	align-items: center!important;
+}
+.header_area .container .row .col_lg_6 {
+	flex: 6;
+}
+.header_area .container .row .welcome_message p {
+    margin-bottom: 0rem;
+}
+.header_area .container .row .position_static {
+    position: static!important;
+}
+.header_area .container .row .col_lg_6 .text_right {
+	text-align: right!important;
+}

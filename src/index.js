@@ -5,9 +5,9 @@ import MainRoutes from './main_route'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 //渲染根组件
 root.render(
-  <div>
+  <>
     <BrowserRouter>
       <MainRoutes/>
     </BrowserRouter>
-  </div>
+  </>
 );

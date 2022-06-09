@@ -1,6 +1,6 @@
 import {useRoutes,} from "react-router-dom";
 import {lazy} from 'react';
-import IndexLayout from '../../layout/IndexLayout'
+import IndexLayout from '../../layout/index/IndexLayout'
 const Index = lazy(()=>import('./index'))
 
 function IndexRoutes() {

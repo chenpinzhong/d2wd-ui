@@ -1,9 +1,17 @@
-//开发模式导航
+import index_css from  './css/index.css'
+import Slide from '../../components/Slide'
+
 function Index(){
     return (
-        <div>
-            1
-        </div>
+        <>
+            <main>
+                <section className="slider_area">
+                    <div className="slide_frame">
+                        <Slide width="1200" height="600"/>
+                    </div>
+                </section>
+            </main>
+        </>
     )
 }
 export default Index
