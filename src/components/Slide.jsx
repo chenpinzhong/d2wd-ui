@@ -1,7 +1,7 @@
 import React from "react"
 import $ from "jquery" //引入 jq
 import "./module/jq_slide" //引入jq 插件
-import "./css/slide.css" //引入样式文件
+import "./css/jq_slide.css" //引入样式文件
 
 class Slide extends React.Component{
   
