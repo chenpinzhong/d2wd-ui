@@ -1,18 +1,37 @@
 import React from "react"
-import slide_css from  './css/slide.css'
+import $ from "jquery" //引入 jq
+import "./module/jq_slide" //引入jq 插件
+import "./css/slide.css" //引入样式文件
+
 class Slide extends React.Component{
   
-  render(){
+  //默认渲染组件
+  slide_list(){
+    return (<>
+      <div className="element" style={{backgroundColor:'#f44336'}}>demo1</div>
+      <div className="element" style={{backgroundColor:'#1CDCCF'}}>demo2</div>
+    </>)
+  }
+
+  //dom渲染完成
+  componentDidMount(){
     const {width,height} = this.props
-    console.log(width,height)
-    
+    let home_slide=$(".slide").slide();
+    home_slide.init(width,height);
+  }
+
+  render(){
+    const {slide_list} = this.props
+    if(typeof(slide_list)!="undefined")this.slide_list=slide_list
+
     return(
       <>
         <div className="slide">
+          {/* 列表部分 */}
           <div className="slide_content">
-            <div className="element" style={{backgroundColor:'#f44336'}}>div1</div>
-            <div className="element" style={{backgroundColor:'#f44336'}}>div2</div>
+            <this.slide_list/>
           </div>
+          {/* 控制按钮部分 */}
           <div className="left">
             <div className="control">
               <div className="bc"></div>

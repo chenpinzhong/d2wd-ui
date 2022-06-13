@@ -1,7 +1,6 @@
 import React from "react"
 import {Button} from 'antd'
-import 'antd/dist/antd.css';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
 import header from  './css/header.css'
 class Header extends React.Component{
   render(){
