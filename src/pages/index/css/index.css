@@ -5,3 +5,28 @@
     position: relative;
     overflow: hidden;
 }
+.section_space{
+	padding-top: 80px;
+	padding-bottom: 80px;
+}
+.section_space .container {
+	width: 1200px;
+	margin: auto;
+}
+.section_space .container .row {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+.section_space .container .row .col_12 {
+	-ms-flex: 0 0 100%;
+	flex: 0 0 100%;
+	max-width: 100%;
+}
+.section_space .container .row .section_title {
+	margin-top: -8px;
+	margin-bottom: 48px;
+	padding: 0 30px;
+	text-align:center;
+}

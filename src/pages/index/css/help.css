@@ -1,0 +1,27 @@
+.help_frame {
+    width: 1200px;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.help_frame .title {
+    height: 50px;
+    line-height: 50px;
+    font-size: 24px;
+}
+
+.help_frame .fonts_list {
+    font-size: 24px;
+}
+
+.help_frame .fonts_list .fonts_element {
+    width: 160px;
+    height: 80px;
+    display: inline-block;
+    text-align: center;
+}
+
+.help_frame .fonts_list .fonts_element .name {
+    font-size: 14px;
+}
