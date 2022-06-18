@@ -20,7 +20,7 @@ function Index(){
                 {/*轮播图*/}
                 <section className='slider_area'>
                     <div className='slide_frame'>
-                        <Slide width='1200' height='600' slide_list={slide_list} />
+                        <Slide width='1200' height='500' slide_list={slide_list} />
                     </div>
                 </section>
                 <section className='section_space'>
@@ -39,9 +39,8 @@ function Index(){
                                                 <img className="pri-img" src={process.env.PUBLIC_URL + '/images/product/iphone13 black.jpg'} width="270" height="270" alt="product"/>
                                             </a>
                                             <div className="product_badge">
-                                                <div className="product_label discount">
-                                                    <span>0%</span>
-                                                </div>
+                                                <div className="product_label new"><span>new</span></div>
+                                                <div className="product_label discount"><span>0%</span></div>
                                             </div>
                                             <div className="button_group" style={{display:'none'}}>
                                                 {/*<!--加入商品收藏夹-->*/}
@@ -58,6 +57,427 @@ function Index(){
                                                 </a>
                                             </div>
                                         </figure>
+                                        <div className="product_caption">
+                                            <p className="product_name">
+                                                {/*<!--产品名称-->*/}
+                                                <a href="/shop/product/show/id/1">iphone13</a>
+                                            </p>
+                                            <div className="price_box">
+                                                <span className="price_regular">¥5399.00</span>
+                                                <span className="price_old"><del>¥6399.00</del></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="product_display">
+                                    <div className="product_item mt_40">
+                                        <figure className="product_thumb">
+                                            <a href="/shop/product/show/id/1">
+                                                <img className="pri-img" src={process.env.PUBLIC_URL + '/images/product/iphone13 black.jpg'} width="270" height="270" alt="product"/>
+                                            </a>
+                                            <div className="product_badge">
+                                                <div className="product_label new"><span>new</span></div>
+                                                <div className="product_label discount"><span>0%</span></div>
+                                            </div>
+                                            <div className="button_group" style={{display:'none'}}>
+                                                {/*<!--加入商品收藏夹-->*/}
+                                                <a href="/" title="加入商品收藏夹">
+                                                    <i className="lnr lnr_heart"></i>
+                                                </a>
+                                                {/*<!--快速查看-->*/}
+                                                <a href="/" title="快速查看">
+                                                    <i className="lnr lnr_magnifier"></i>
+                                                </a>
+                                                {/*<!--加入购物车-->*/}
+                                                <a href="/" title="加入购物车">
+                                                    <i className="lnr lnr_cart"></i>
+                                                </a>
+                                            </div>
+                                        </figure>
+                                        <div className="product_caption">
+                                            <p className="product_name">
+                                                {/*<!--产品名称-->*/}
+                                                <a href="/shop/product/show/id/1">iphone13</a>
+                                            </p>
+                                            <div className="price_box">
+                                                <span className="price_regular">¥5399.00</span>
+                                                <span className="price_old"><del>¥6399.00</del></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="product_display">
+                                    <div className="product_item mt_40">
+                                        <figure className="product_thumb">
+                                            <a href="/shop/product/show/id/1">
+                                                <img className="pri-img" src={process.env.PUBLIC_URL + '/images/product/iphone13 black.jpg'} width="270" height="270" alt="product"/>
+                                            </a>
+                                            <div className="product_badge">
+                                                <div className="product_label new"><span>new</span></div>
+                                                <div className="product_label discount"><span>0%</span></div>
+                                            </div>
+                                            <div className="button_group" style={{display:'none'}}>
+                                                {/*<!--加入商品收藏夹-->*/}
+                                                <a href="/" title="加入商品收藏夹">
+                                                    <i className="lnr lnr_heart"></i>
+                                                </a>
+                                                {/*<!--快速查看-->*/}
+                                                <a href="/" title="快速查看">
+                                                    <i className="lnr lnr_magnifier"></i>
+                                                </a>
+                                                {/*<!--加入购物车-->*/}
+                                                <a href="/" title="加入购物车">
+                                                    <i className="lnr lnr_cart"></i>
+                                                </a>
+                                            </div>
+                                        </figure>
+                                        <div className="product_caption">
+                                            <p className="product_name">
+                                                {/*<!--产品名称-->*/}
+                                                <a href="/shop/product/show/id/1">iphone13</a>
+                                            </p>
+                                            <div className="price_box">
+                                                <span className="price_regular">¥5399.00</span>
+                                                <span className="price_old"><del>¥6399.00</del></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="product_display">
+                                    <div className="product_item mt_40">
+                                        <figure className="product_thumb">
+                                            <a href="/shop/product/show/id/1">
+                                                <img className="pri-img" src={process.env.PUBLIC_URL + '/images/product/iphone13 black.jpg'} width="270" height="270" alt="product"/>
+                                            </a>
+                                            <div className="product_badge">
+                                                <div className="product_label new"><span>new</span></div>
+                                                <div className="product_label discount"><span>0%</span></div>
+                                            </div>
+                                            <div className="button_group" style={{display:'none'}}>
+                                                {/*<!--加入商品收藏夹-->*/}
+                                                <a href="/" title="加入商品收藏夹">
+                                                    <i className="lnr lnr_heart"></i>
+                                                </a>
+                                                {/*<!--快速查看-->*/}
+                                                <a href="/" title="快速查看">
+                                                    <i className="lnr lnr_magnifier"></i>
+                                                </a>
+                                                {/*<!--加入购物车-->*/}
+                                                <a href="/" title="加入购物车">
+                                                    <i className="lnr lnr_cart"></i>
+                                                </a>
+                                            </div>
+                                        </figure>
+                                        <div className="product_caption">
+                                            <p className="product_name">
+                                                {/*<!--产品名称-->*/}
+                                                <a href="/shop/product/show/id/1">iphone13</a>
+                                            </p>
+                                            <div className="price_box">
+                                                <span className="price_regular">¥5399.00</span>
+                                                <span className="price_old"><del>¥6399.00</del></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='row mtn-40'>
+                                <div className="product_display">
+                                    <div className="product_item mt_40">
+                                        <figure className="product_thumb">
+                                            <a href="/shop/product/show/id/1">
+                                                <img className="pri-img" src={process.env.PUBLIC_URL + '/images/product/iphone13 black.jpg'} width="270" height="270" alt="product"/>
+                                            </a>
+                                            <div className="product_badge">
+                                                <div className="product_label new"><span>new</span></div>
+                                                <div className="product_label discount"><span>0%</span></div>
+                                            </div>
+                                            <div className="button_group" style={{display:'none'}}>
+                                                {/*<!--加入商品收藏夹-->*/}
+                                                <a href="/" title="加入商品收藏夹">
+                                                    <i className="lnr lnr_heart"></i>
+                                                </a>
+                                                {/*<!--快速查看-->*/}
+                                                <a href="/" title="快速查看">
+                                                    <i className="lnr lnr_magnifier"></i>
+                                                </a>
+                                                {/*<!--加入购物车-->*/}
+                                                <a href="/" title="加入购物车">
+                                                    <i className="lnr lnr_cart"></i>
+                                                </a>
+                                            </div>
+                                        </figure>
+                                        <div className="product_caption">
+                                            <p className="product_name">
+                                                {/*<!--产品名称-->*/}
+                                                <a href="/shop/product/show/id/1">iphone13</a>
+                                            </p>
+                                            <div className="price_box">
+                                                <span className="price_regular">¥5399.00</span>
+                                                <span className="price_old"><del>¥6399.00</del></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="product_display">
+                                    <div className="product_item mt_40">
+                                        <figure className="product_thumb">
+                                            <a href="/shop/product/show/id/1">
+                                                <img className="pri-img" src={process.env.PUBLIC_URL + '/images/product/iphone13 black.jpg'} width="270" height="270" alt="product"/>
+                                            </a>
+                                            <div className="product_badge">
+                                                <div className="product_label new"><span>new</span></div>
+                                                <div className="product_label discount"><span>0%</span></div>
+                                            </div>
+                                            <div className="button_group" style={{display:'none'}}>
+                                                {/*<!--加入商品收藏夹-->*/}
+                                                <a href="/" title="加入商品收藏夹">
+                                                    <i className="lnr lnr_heart"></i>
+                                                </a>
+                                                {/*<!--快速查看-->*/}
+                                                <a href="/" title="快速查看">
+                                                    <i className="lnr lnr_magnifier"></i>
+                                                </a>
+                                                {/*<!--加入购物车-->*/}
+                                                <a href="/" title="加入购物车">
+                                                    <i className="lnr lnr_cart"></i>
+                                                </a>
+                                            </div>
+                                        </figure>
+                                        <div className="product_caption">
+                                            <p className="product_name">
+                                                {/*<!--产品名称-->*/}
+                                                <a href="/shop/product/show/id/1">iphone13</a>
+                                            </p>
+                                            <div className="price_box">
+                                                <span className="price_regular">¥5399.00</span>
+                                                <span className="price_old"><del>¥6399.00</del></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="product_display">
+                                    <div className="product_item mt_40">
+                                        <figure className="product_thumb">
+                                            <a href="/shop/product/show/id/1">
+                                                <img className="pri-img" src={process.env.PUBLIC_URL + '/images/product/iphone13 black.jpg'} width="270" height="270" alt="product"/>
+                                            </a>
+                                            <div className="product_badge">
+                                                <div className="product_label new"><span>new</span></div>
+                                                <div className="product_label discount"><span>0%</span></div>
+                                            </div>
+                                            <div className="button_group" style={{display:'none'}}>
+                                                {/*<!--加入商品收藏夹-->*/}
+                                                <a href="/" title="加入商品收藏夹">
+                                                    <i className="lnr lnr_heart"></i>
+                                                </a>
+                                                {/*<!--快速查看-->*/}
+                                                <a href="/" title="快速查看">
+                                                    <i className="lnr lnr_magnifier"></i>
+                                                </a>
+                                                {/*<!--加入购物车-->*/}
+                                                <a href="/" title="加入购物车">
+                                                    <i className="lnr lnr_cart"></i>
+                                                </a>
+                                            </div>
+                                        </figure>
+                                        <div className="product_caption">
+                                            <p className="product_name">
+                                                {/*<!--产品名称-->*/}
+                                                <a href="/shop/product/show/id/1">iphone13</a>
+                                            </p>
+                                            <div className="price_box">
+                                                <span className="price_regular">¥5399.00</span>
+                                                <span className="price_old"><del>¥6399.00</del></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="product_display">
+                                    <div className="product_item mt_40">
+                                        <figure className="product_thumb">
+                                            <a href="/shop/product/show/id/1">
+                                                <img className="pri-img" src={process.env.PUBLIC_URL + '/images/product/iphone13 black.jpg'} width="270" height="270" alt="product"/>
+                                            </a>
+                                            <div className="product_badge">
+                                                <div className="product_label new"><span>new</span></div>
+                                                <div className="product_label discount"><span>0%</span></div>
+                                            </div>
+                                            <div className="button_group" style={{display:'none'}}>
+                                                {/*<!--加入商品收藏夹-->*/}
+                                                <a href="/" title="加入商品收藏夹">
+                                                    <i className="lnr lnr_heart"></i>
+                                                </a>
+                                                {/*<!--快速查看-->*/}
+                                                <a href="/" title="快速查看">
+                                                    <i className="lnr lnr_magnifier"></i>
+                                                </a>
+                                                {/*<!--加入购物车-->*/}
+                                                <a href="/" title="加入购物车">
+                                                    <i className="lnr lnr_cart"></i>
+                                                </a>
+                                            </div>
+                                        </figure>
+                                        <div className="product_caption">
+                                            <p className="product_name">
+                                                {/*<!--产品名称-->*/}
+                                                <a href="/shop/product/show/id/1">iphone13</a>
+                                            </p>
+                                            <div className="price_box">
+                                                <span className="price_regular">¥5399.00</span>
+                                                <span className="price_old"><del>¥6399.00</del></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='row mtn-40'>
+                                <div className="product_display">
+                                    <div className="product_item mt_40">
+                                        <figure className="product_thumb">
+                                            <a href="/shop/product/show/id/1">
+                                                <img className="pri-img" src={process.env.PUBLIC_URL + '/images/product/iphone13 black.jpg'} width="270" height="270" alt="product"/>
+                                            </a>
+                                            <div className="product_badge">
+                                                <div className="product_label new"><span>new</span></div>
+                                                <div className="product_label discount"><span>0%</span></div>
+                                            </div>
+                                            <div className="button_group" style={{display:'none'}}>
+                                                {/*<!--加入商品收藏夹-->*/}
+                                                <a href="/" title="加入商品收藏夹">
+                                                    <i className="lnr lnr_heart"></i>
+                                                </a>
+                                                {/*<!--快速查看-->*/}
+                                                <a href="/" title="快速查看">
+                                                    <i className="lnr lnr_magnifier"></i>
+                                                </a>
+                                                {/*<!--加入购物车-->*/}
+                                                <a href="/" title="加入购物车">
+                                                    <i className="lnr lnr_cart"></i>
+                                                </a>
+                                            </div>
+                                        </figure>
+                                        <div className="product_caption">
+                                            <p className="product_name">
+                                                {/*<!--产品名称-->*/}
+                                                <a href="/shop/product/show/id/1">iphone13</a>
+                                            </p>
+                                            <div className="price_box">
+                                                <span className="price_regular">¥5399.00</span>
+                                                <span className="price_old"><del>¥6399.00</del></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="product_display">
+                                    <div className="product_item mt_40">
+                                        <figure className="product_thumb">
+                                            <a href="/shop/product/show/id/1">
+                                                <img className="pri-img" src={process.env.PUBLIC_URL + '/images/product/iphone13 black.jpg'} width="270" height="270" alt="product"/>
+                                            </a>
+                                            <div className="product_badge">
+                                                <div className="product_label new"><span>new</span></div>
+                                                <div className="product_label discount"><span>0%</span></div>
+                                            </div>
+                                            <div className="button_group" style={{display:'none'}}>
+                                                {/*<!--加入商品收藏夹-->*/}
+                                                <a href="/" title="加入商品收藏夹">
+                                                    <i className="lnr lnr_heart"></i>
+                                                </a>
+                                                {/*<!--快速查看-->*/}
+                                                <a href="/" title="快速查看">
+                                                    <i className="lnr lnr_magnifier"></i>
+                                                </a>
+                                                {/*<!--加入购物车-->*/}
+                                                <a href="/" title="加入购物车">
+                                                    <i className="lnr lnr_cart"></i>
+                                                </a>
+                                            </div>
+                                        </figure>
+                                        <div className="product_caption">
+                                            <p className="product_name">
+                                                {/*<!--产品名称-->*/}
+                                                <a href="/shop/product/show/id/1">iphone13</a>
+                                            </p>
+                                            <div className="price_box">
+                                                <span className="price_regular">¥5399.00</span>
+                                                <span className="price_old"><del>¥6399.00</del></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="product_display">
+                                    <div className="product_item mt_40">
+                                        <figure className="product_thumb">
+                                            <a href="/shop/product/show/id/1">
+                                                <img className="pri-img" src={process.env.PUBLIC_URL + '/images/product/iphone13 black.jpg'} width="270" height="270" alt="product"/>
+                                            </a>
+                                            <div className="product_badge">
+                                                <div className="product_label new"><span>new</span></div>
+                                                <div className="product_label discount"><span>0%</span></div>
+                                            </div>
+                                            <div className="button_group" style={{display:'none'}}>
+                                                {/*<!--加入商品收藏夹-->*/}
+                                                <a href="/" title="加入商品收藏夹">
+                                                    <i className="lnr lnr_heart"></i>
+                                                </a>
+                                                {/*<!--快速查看-->*/}
+                                                <a href="/" title="快速查看">
+                                                    <i className="lnr lnr_magnifier"></i>
+                                                </a>
+                                                {/*<!--加入购物车-->*/}
+                                                <a href="/" title="加入购物车">
+                                                    <i className="lnr lnr_cart"></i>
+                                                </a>
+                                            </div>
+                                        </figure>
+                                        <div className="product_caption">
+                                            <p className="product_name">
+                                                {/*<!--产品名称-->*/}
+                                                <a href="/shop/product/show/id/1">iphone13</a>
+                                            </p>
+                                            <div className="price_box">
+                                                <span className="price_regular">¥5399.00</span>
+                                                <span className="price_old"><del>¥6399.00</del></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="product_display">
+                                    <div className="product_item mt_40">
+                                        <figure className="product_thumb">
+                                            <a href="/shop/product/show/id/1">
+                                                <img className="pri-img" src={process.env.PUBLIC_URL + '/images/product/iphone13 black.jpg'} width="270" height="270" alt="product"/>
+                                            </a>
+                                            <div className="product_badge">
+                                                <div className="product_label new"><span>new</span></div>
+                                                <div className="product_label discount"><span>0%</span></div>
+                                            </div>
+                                            <div className="button_group" style={{display:'none'}}>
+                                                {/*<!--加入商品收藏夹-->*/}
+                                                <a href="/" title="加入商品收藏夹">
+                                                    <i className="lnr lnr_heart"></i>
+                                                </a>
+                                                {/*<!--快速查看-->*/}
+                                                <a href="/" title="快速查看">
+                                                    <i className="lnr lnr_magnifier"></i>
+                                                </a>
+                                                {/*<!--加入购物车-->*/}
+                                                <a href="/" title="加入购物车">
+                                                    <i className="lnr lnr_cart"></i>
+                                                </a>
+                                            </div>
+                                        </figure>
+                                        <div className="product_caption">
+                                            <p className="product_name">
+                                                {/*<!--产品名称-->*/}
+                                                <a href="/shop/product/show/id/1">iphone13</a>
+                                            </p>
+                                            <div className="price_box">
+                                                <span className="price_regular">¥5399.00</span>
+                                                <span className="price_old"><del>¥6399.00</del></span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

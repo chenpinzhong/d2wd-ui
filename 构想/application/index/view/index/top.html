@@ -1,0 +1,189 @@
+﻿	<!-- 开始页眉区 -->
+	<header class="header_area">
+		<!-- 主头开始 -->
+		<div class="main_header">
+			<!--标题顶部开始 -->
+			<div class="header_top">
+				<div class="container">
+					<div class="row align-items-center">
+						<div class="col_lg_6">
+							<div class="welcome_message">
+								<p>{$label.welcome}</p>
+							</div>
+						</div>
+						<!--右边区域-->
+						<div class="col_lg_6 text_right">
+							<div class="header_top_settings">
+								<ul class="nav">
+									<!--语言区域-->
+									<li class="language">
+										<span>Language:</span>
+										<img src="{ui_template}/img/icon/{$label.flag}" class="country_icon" alt="flag">
+										<span  class="country_name">{$label.country_name}</span>
+										<i class="fa fa_angle_down"></i>
+										<ul class="dropdown_list">
+											<li><a href="?language=en" data-language="en"><img src="{ui_template}/img/icon/en.png" alt="flag"> english</a></li>
+											<li><a href="?language=zh" data-language="zh"><img src="{ui_template}/img/icon/zh.png" alt="flag"> 中文</a></li>
+										</ul>
+									</li>
+									<!--货币区域-->
+									<li class="curreny_wrap">
+										<span>Currency:</span>
+										{$current_currency_info.symbol}&nbsp;{$current_currency_info.currency_name}
+										<i class="fa fa-angle-down"></i>
+										<ul class="dropdown_list curreny-list">
+											<li><a href="?currency=USD" data-currency="USD">$ USD</a></li>
+											<li><a href="?currency=RMB" data-currency="RMB">¥ RMB</a></li>
+										</ul>
+									</li>
+									{if !empty($user_data.user_name)}
+									<!--用户区域-->
+									<li class="user_wrap">
+										<!--用户信息-->
+										<div class="user_data">
+											<div class="user_img">
+												<a href="/user/index/index"><img class="Avatar AppHeader-profileAvatar" width="30" height="30" src="{ui_template}/img/user_img.png"></a>
+											</div>
+											<div class="user_name">{$user_data.user_name}</div>
+										</div>
+										
+										<ul class="dropdown_list curreny-list">
+											<li><a href="/user/index/login">{$label.login}</a></li>
+											<li><a href="/user/index/register">{$label.register}</a></li>
+											<li><a href="/user/index/my_account">{$label.my_account}</a></li>
+											<li><a href="/user/index/logout">{$label.logout}</a></li>
+											<li><a href="/user/index/change_password">{$label.change_password}</a></li>
+										</ul>
+									</li>
+									{/if}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 标题顶部结束 -->
+			<!-- 标头中间区域开始 -->
+			<div class="header_main_area">
+				<div class="container">
+					<div class="row">
+						<!--logo区域 -->
+						<div class="col_lg_3">
+							<div class="logo">
+								<a href="/">
+									<img src="{ui_template}/img/logo/logo.png" alt="">
+								</a>
+							</div>
+						</div>
+						<!-- 开始 logo 区域结束-->
+						<!--主菜单区域开始 -->
+						<div class="col_lg_6">
+							<div class="main_menu_area">
+								<div class="main_menu">
+									<!--主菜单导航栏开始 -->
+									<nav class="desktop_menu">
+										<ul>
+											<li><a href="/" class="{if $label.current_menu=='index'}current_menu{/if}">{$label.home}</a></li>
+											<li><a href="/shop" class="{if $label.current_menu=='shop'}current_menu{/if}">{$label.shop}</a></li>
+											<!--<li><a href="product-details.html">{$label.product}</a></li>-->
+											<li><a href="/wiki" class="{if $label.current_menu=='wiki'}current_menu{/if}">{$label.wiki}</a></li>
+											<li><a href="/bbs" class="{if $label.current_menu=='bbs'}current_menu{/if}">{$label.bbs}</a></li>
+										</ul>
+									</nav>
+									<!-- 主菜单导航栏开始 结束 -->
+								</div>
+							</div>
+						</div>
+						<!-- 主菜单区域结束 -->
+						<!-- 迷你购物车区域开始 -->
+						<div class="col_lg_3">
+							<div class="header_configure_wrapper">
+								<div class="header_configure_area">
+									<ul class="nav justify_content_end">
+										<li>
+											<a href="javacript:void(0);" class="offcanvas_btn">
+												<i class="lnr lnr_magnifier"></i>
+											</a>
+										</li>
+										<li class="user_hover">
+											<a href="javacript:void(0);">
+												<i class="lnr lnr_user"></i>
+											</a>
+											<ul class="dropdown_list">
+												<li><a href="/user/index/login">{$label.login}</a></li>
+												<li><a href="/user/index/register">{$label.register}</a></li>
+												<li><a href="/user/index/my_account">{$label.my_account}</a></li>
+												<li><a href="/user/index/change_password">{$label.change_password}</a></li>
+												<li><a href="/user/index/logout">{$label.logout}</a></li>
+											</ul>
+										</li>
+										<li>
+											<a href="javacript:void(0);">
+												<i class="lnr lnr_heart"></i>
+												<div class="notification">0</div>
+											</a>
+										</li>
+										<li>
+											<a href="javacript:void(0);" class="minicart_btn">
+												<i class="lnr lnr_cart"></i>
+												<div class="notification">2</div>
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<!--迷你购物车区域结束-->
+					</div>
+				</div>
+			</div>
+			<!-- 标头中间区域开始 end -->
+		</div>
+		<!--主头开始 -->
+	</header>
+	<!--标题区域 结束 -->
+	{literal}
+	<script>
+		current_language="{$current_language}";
+		//自动选择当前的国家图标与 国家名称
+		$(".dropdown-list>li").each(function(){
+			temp_language=$(this).find('a').attr('data-language');
+			if(temp_language==current_language){
+				country_icon=$(this).find('img').attr('src');//获取当前国家的国旗图标
+				country_name=$(this).text();//获取当前国家名称
+				$(".language .country_icon").attr('src',country_icon);
+				$(".language .country_name").text(country_name);
+			}
+		})
+		
+		//语言选择
+		/*
+		$(".header_top_settings .language,.header_top_settings .curreny_wrap").mouseenter(function(){
+			$(this).find('.dropdown_list').show();
+		})
+		$(".header_top_settings .language,.header_top_settings .curreny_wrap").mouseleave(function(){
+			$(this).find('.dropdown_list').hide();
+		})
+		*/
+		/*用户选择国家 语言的地方*/
+		$('.header_top_settings .language,.header_top_settings .curreny_wrap').hover(function() {
+			$(this).find('.dropdown_list').show();
+		}, function() {
+			$(this).find('.dropdown_list').hide();
+		});
+		/*用户选择国家 语言的地方*/
+		$('.header_top_settings .user_wrap').hover(function() {
+			$(this).find('.dropdown_list').show();
+		}, function() {
+			$(this).find('.dropdown_list').hide();
+		});
+		/*用户选择登录退出的地方*/
+		$('.nav .user_hover').hover(function() {
+			$(this).find('.dropdown_list').show();
+		}, function() {
+			$(this).find('.dropdown_list').hide();
+		});
+
+	</script>
+{/literal}
+

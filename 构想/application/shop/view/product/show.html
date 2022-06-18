@@ -1,0 +1,335 @@
+﻿<html class="no-js" lang="zxx">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="meta description">
+	<title>Home</title>
+	<!--=== Favicon ===-->
+	<link rel="shortcut icon" href="{ui_template}/img/favicon.ico" type="image/x-icon" />
+	<!-- Main Style CSS -->
+	<link href="{ui_template}/css/style.css" rel="stylesheet">
+	<link href="{ui_template}/css/page.css"  rel="stylesheet">
+	<link href="{ui_template}/css/show_product.css" rel="stylesheet">
+	<script type="text/javascript" src="{ui_template}/js/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="{ui_template}/js/fun.js"></script>
+	
+	<script type="text/javascript" src="{ui_template}/js/page.js"></script>
+	<script type="text/javascript" src="{ui_template}/js/shop_product.js"></script>
+	
+	<script>
+		//产品购买地址
+		$payment_address='{$product_info.payment_address}';
+		$sku_info_array=JSON.parse('{json_encode($product_info.sku_info_array,true)}');
+	</script>
+	
+	{literal}
+	<script>
+		//图片显示初始化
+		//属性数据
+		$product_data={
+			default_attributes:{"套装":"上衣","尺码":"L","颜色":""},
+			sku_array:[
+				{
+					"套装":"上衣",
+					"尺码":"L",
+					"颜色":"黑色",
+					"原价":200.70,
+					"售价":100.70,
+					"qty":0,
+					"sku":1011,
+				}
+			]
+		};
+		var $sku="",$key="";
+		
+		//建立一个sku空信息
+		var $sku_array=new Array();
+		for($key in $sku_info_array){
+			$sku=$key;
+			
+			var $sku_info=$sku_info_array[$sku]
+			var $current_len=$sku_array.length;
+			var $attribute_value_list=$sku_info['attribute_value_list'];
+			var $product_sku_info=$sku_info['product_sku_info'];
+			//新建sku对象
+			$sku_array[$current_len]={};
+			
+			//sku的属性信息
+			for($k in $attribute_value_list){
+				$sku_array[$current_len][$attribute_value_list[$k]['attribute_name']]=$attribute_value_list[$k]['attribute_value'];
+			}
+			$sku_array[$current_len]['原价']=$product_sku_info['sku_old_price'];
+			$sku_array[$current_len]['售价']=$product_sku_info['sku_price'];
+			$sku_array[$current_len]['重量']=$product_sku_info['sku_weight'];//产品重量
+			$sku_array[$current_len]['qty']=$product_sku_info['sku_qty'];//产品数量
+			$sku_array[$current_len]['sku']=$product_sku_info['sku'];//产品sku
+			$sku_array[$current_len]['sku_status']=$product_sku_info['sku_status'];//产品状态
+		}
+		$product_data['default_attributes']={};
+		$product_data['sku_array']=$sku_array;
+	</script>
+	{/literal}
+	
+</head>
+<body>
+	<!-- 开始 Header 区域 -->
+	{include file="{template_dir}index/view/index/top.html"}
+	<!-- 结束 Header 区域 -->
+	<!-- main wrapper 开始 -->
+	<main>
+		<!-- breadcrumb 区域开始 -->
+		<div class="breadcrumb_area common_bg">
+			<div class="container">
+				<div class="row">
+					<div class="col_12">
+						<div class="breadcrumb_wrap">
+							<nav aria-label="breadcrumb">
+								<h1>{$label.product_details}</h1>
+								<ul class="breadcrumb">
+									<li class="breadcrumb_item"><a href="index.html"><i class="fa fa_home"></i></a></li>
+									<li class="breadcrumb_item active" aria-current="page">{$label.product_details}</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--breadcrumb 区域结束 -->
+		<div id="detail">
+			<!--产品头部信息-->
+			<div class="detail_meta">
+				<div class="detail_content">
+					<div class="product_showcase">
+						<div class="main_image">
+							<img id="attribute_image" alt="{$product_info.product_name}" src="{reset($product_info.product_imsges_array)}" />
+							<!--用户缩放层-->
+							<div class="zoom_black"></div>
+						</div>
+						<div class="product_image_group">
+							{foreach $product_info.product_imsges_array as $k=>$imsges}
+								<div class="product_image {if $k==0}selected{/if}">
+									<img src="{$imsges}" data-src="{$imsges}">
+								</div>
+							{/foreach}
+						</div>
+					</div>
+					<!--主图放大信息-->
+					<div id="hd_display" class="hd_display">
+						<div class="overlay_content">
+							<img src="/upload/edit/20190816/20170815235825_8AftT.jpg" style="position: absolute; top: 0px; left: 0px;">
+						</div>
+					</div>
+					<!--购买信息-->
+					<div class="sales_info">
+						<!--产品标题-->
+						<div class="product_name">{$product_info.product_name}</div>
+						<!--促销信息-->
+						<div class="promo">
+							<!--原价-->
+							<div class="promo_row">
+								<div class="name">{$label.original_price}</div>
+								<div class="old_price">
+									<em class="{$label.currency_name}">{$label.symbol}</em><span class="price">{$product_info.min_old_price}</span>
+								</div>
+							</div>
+							<!--促销价-->
+							<div class="promo_row">
+								<div class="name">{$label.promotion_price}</div>
+								<div class="new_price">
+									<em class="{$label.currency_name}">{$label.symbol}</em><span class="price">{$product_info.min_price}</span>
+								</div>
+							</div>
+							<!--销量信息-->
+							<ul class="sales">
+								<!--月销量-->
+								<div class="sell_count">
+									<span class="label">{$label.monthly_sales}</span>
+									<span class="count">{$product_info.monthly_sales}</span>
+								</div>
+								<!--总销量-->
+								<div class="sell_count">
+									<span class="label">{$label.total_sales_volume}</span>
+									<span class="count">{$product_info.total_sales}</span>
+								</div>
+								<!--累计评价-->
+								<div class="sell_count">
+									<span class="label">{$label.evaluate_sum}</span>
+									<span class="count">{$product_info.total_evaluate}</span>
+								</div>
+							</ul>
+							
+							<!--属性信息区域 开始-->
+							{foreach $product_info.product_attribute_array as $attribute}
+							<div class="promo_row">
+								<div class="name" data-id="{$attribute.attribute_id}" data-name="{$attribute.attribute_name}">{$attribute.attribute_name}</div>
+								{foreach $attribute.attribute_value_list as $attribute_info}
+									{if $attribute_info.attribute_image==""}
+										<div class="attributes_value" data-id="{$attribute_info.id}" data-value="{$attribute_info.attribute_value}">{$attribute_info.attribute_value}</div>
+									{else}
+										<div style="color:#F00;" class="attributes_value attribute_img" data-id="{$attribute_info.id}" data-value="{$attribute_info.attribute_value}">
+											<a title="{$attribute_info.attribute_value}" src="{$attribute_info.attribute_image}"><img src="{$attribute_info.attribute_image}" onload="img_onload(this,40);" style="width:40px;"></a>
+										</div>
+									{/if}
+								{/foreach}
+							</div>
+							{/foreach}
+							<!--属性信息区域 结束-->
+							<!--数量-->
+							<div class="promo_row">
+								<div class="name">{$label.quantity}</div>
+								<div class="tock" id="stock">
+									<a href="javascript:void(0);" title="减1"class="qty_action reduce">-</a>
+									<input id="sku_qty" type="text" class="qty_val" value="1" maxlength="8" title="请输入购买量" >
+									<a href="javascript:void(0);" class="qty_action increase" title="加1">+</a>
+									&nbsp;
+									{$label.unit}({$label.inventory} <span class="inventory">11</span>{$label.unit})
+								</div>
+							</div>
+							<!--购买产品-->
+							<div id="shopping_cart" class="action">
+								<!--立即购买-->
+								<div class="btn_buy">
+									<a href="{$product_info.payment_address}" title="点击此按钮，到下一步确认购买信息" class="J_LinkBuy" >{$label.buy_now}</a>
+								</div>
+								<!--添加购物车-->
+								<div class="btn_add">
+									<a href="javascript:void(0);" title="{$label.add_to_cart}" class="J_LinkAdd" >
+										<i class="lnr lnr-cart"></i>{$label.add_to_cart}
+									</a>
+								</div>
+							</div>
+							<!--服务承诺-->
+							<div class="promo_row bottom_row">
+								<div class="name">{$label.service_promise}</div>
+								{foreach $product_info.product_pledge_array as $product_pledge}
+									<div class="promise">{$product_pledge}</div>
+								{/foreach}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab_bar_box">
+				<div class="tab selected" data-name="product_details" data-name_zh="商品详情">{$label.product_details}</div>
+				<div class="tab" data-name="product_review" data-name_zh="评论信息" style="display:none;">{$label.review_information}</div>
+			</div>
+			<!--属性模块-->
+			<div id="attributes" class="attributes">
+				<div class="attributes_list" id="J_AttrList">
+					<div class="brand_name" id="J_BrandAttr" style="display: block;" data-spm-anchor-id="a220o.1000855.0.i2.5c3c2bf5S1XA7z">
+						<div class="name" data-spm-anchor-id="a220o.1000855.0.i5.5c3c2bf5S1XA7z">
+							<!--品牌名称-->
+							{$label.product_details}：
+							<b target="_blank" href="javascript:void(0);">{$product_info.brand_name}</b>
+						</div>
+					</div>
+					<!--产品参数-->
+					<p class="attr_list_hd"><em>{$label.product_details}：</em></p>
+					<ul id="attr_ul">
+						{foreach $product_info.product_parameters_array as $key_name=>$value}
+							<li title="{$key_name} {$value}">{$key_name}:{$value}</li>
+						{/foreach}
+						<!-- 健字号相关-->
+					</ul>
+				</div>
+			</div>
+			<!--产品内容模块-->
+			<div id="desc_content" class="desc_content">
+				{$product_info.description}
+			</div>
+			<!--评论模块-->
+			<div id="review" style="display:none;">
+				<table>
+					<tbody>
+						<!--一条评论记录-->
+						<tr>
+							<!--用户评论-->
+							<td class="master" >
+								<div class="tm-rate-content">
+									<div class="tm-rate-fulltxt" >一直吃，味道挺香</div>
+								</div>
+								<br/>
+								<div class="tm-rate-date">19.08.15</div>
+							</td>
+							<!--套餐类型-->
+							<td class="meta">
+								<div class="rate-sku">
+									<p title="套餐类型:2盒：伊可新滴剂50粒(0-1岁)"><span>套餐类型：</span>2盒：伊可新滴剂50粒(0-1岁)</p>
+								</div>
+							</td>
+							<!--用户信息-->
+							<td class="author">
+								<div class="rate-user-info">l<span>***</span>3<span>（匿名）</span></div>
+								<div class="rate-user-grade"><p class="gold-user">超级会员</p></div>
+							</td>
+						</tr>
+						<!--一条评论记录-->
+						<tr>
+							<!--用户评论-->
+							<td class="master" >
+								<div class="tm-rate-content">
+									<div class="tm-rate-fulltxt" >一直吃，味道挺香</div>
+								</div>
+								<br/>
+								<div class="tm-rate-date">19.08.15</div>
+							</td>
+							<!--套餐类型-->
+							<td class="meta">
+								<div class="rate-sku">
+									<p title="套餐类型:2盒：伊可新滴剂50粒(0-1岁)"><span>套餐类型：</span>2盒：伊可新滴剂50粒(0-1岁)</p>
+								</div>
+							</td>
+							<!--用户信息-->
+							<td class="author">
+								<div class="rate-user-info">l<span>***</span>3<span>（匿名）</span></div>
+								<div class="rate-user-grade"><p class="gold-user">超级会员</p></div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<!--分页模块-->
+				<div class="page_box">
+					<div class="page_ctrl"></div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!-- main wrapper 结束 -->
+	<!-- 开始 Footer 区域 -->
+	{include file="{template_dir}index/view/index/bottom.html"}
+	<!-- 结束 Footer 区域 -->
+	<!-- Scroll to top start -->
+	<div class="scroll-top not-visible">
+		<i class="fa fa-angle-up"></i>
+	</div>
+	<!-- Scroll to Top End -->
+</body>
+{literal}
+<script>
+//dom加载完成
+$(function(){
+	//分页插件
+	//$current_page={$page};//页面的当前分页位置
+	$current_page=1;//当前位置
+	$page_size=5;//分页位置
+	$total_item=200;
+	if($current_page<=0){
+		$current_page=1;
+	}
+	$paging_plugin = {
+		obj_box: '.page_ctrl',
+		total_item: $total_item,
+		per_num: $page_size,
+		current_page: $current_page,
+		change_content: function(per_num, page) {
+			console.log(page)
+		}
+	};
+	//启动分页插件 评论分页
+	page_ctrl($paging_plugin);
+})
+</script>
+{/literal}
+</html>

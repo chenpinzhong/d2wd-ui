@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Purple Admin</title>
+	<link rel="stylesheet" href="/public/admin/css/style.css">
+	<link rel="stylesheet" href="/public/admin/css/category_tree.css">
+	<link rel="shortcut icon" href="/public/admin/images/favicon.png" />
+	<script type="text/javascript" src="/public/admin/js/jquery.min.js"></script>
+</head>
+<body>
+	<div id="catalog_json" style="display:none;">{$catalog_json}</div>
+	<div class="category_box">
+		<div class="category_tree product_category" style="width:500px;">
+			<ul>
+				<li class="folder open">
+					<a href="#" ref="xtgl">产品类目</a>
+				</li>
+			</ul>
+		</div>
+		<div class="category_edit">
+			<div class="input">
+				类目中文名称: <input type="text" name="catalog_name_zh" />
+				<br/>
+				类目英文名称: <input type="text" name="catalog_name_en" />
+			</div>
+			<div class="button">新增类目</div>
+			<div class="button">删除类目</div>
+			<div class="button">修改名称</div>
+		</div>
+	</div>
+	<br/>
+</body>
+{literal}
+<script type="text/javascript">
+	
+	$catalog_json=JSON.parse($("#catalog_json").text());
+	
+	//将catalog_json 显示为html代码
+	function catalog_show(catalog_array){
+		$temp_string='';
+		for(index in catalog_array){
+			$temp_string+='<li class="folder open">';
+			$temp_string+='<a href="javascript:void(0);" ref="xtgl" data-id="'+catalog_array[index]['id']+'" data-catalog_name_zh="'+catalog_array[index]['catalog_name_zh']+'"'+' data-catalog_name_en="'+catalog_array[index]['catalog_name_en']+'" >'+catalog_array[index]['catalog_name_zh']+'</a>';
+			//如果项目有子集
+			if(catalog_array[index]['child'].length>0){
+				$temp_string+='<ul>'+catalog_show(catalog_array[index]['child'])+'</ul>';
+			}
+			$temp_string+='</li>';//字符串拼接
+		}
+		
+		return $temp_string;
+	}
+	//调用类型显示
+	$catalog_html=catalog_show($catalog_json);
+	$(".category_tree").html('<ul>'+$catalog_html+'</ul>');
+	
+	
+	//类方法定义
+	function category_tree($category){
+		this.category=$category;//类目对象
+		this.id=0;//当前目录的id
+		this.dom = null;//当前的选择元素
+		//添加类目
+		this.set_element=function($dom){
+			//设置选中的颜色
+			this.category.find('a').css("color",'#000');
+			this.dom=$($dom);
+			this.dom.css("color","#F00");
+			//显示必要的选择新
+			this.id=this.dom.data('id');//设置pid
+			catalog_name_zh=$("input[name='catalog_name_zh']").val(this.dom.data('catalog_name_zh'));
+			catalog_name_en=$("input[name='catalog_name_en']").val(this.dom.data('catalog_name_en'));
+			
+		}
+		this.add_wiki_catalog=function(){
+			catalog_name_zh=$("input[name='catalog_name_zh']").val();
+			catalog_name_en=$("input[name='catalog_name_en']").val();
+			
+			if(catalog_name_zh==""){
+				alert("类目名称 为空!");
+				return false;
+			}
+			
+			if(catalog_name_en==""){
+				alert("类目英文名 为空!");
+				return false;
+			}
+			
+			$.post("../add_wiki_catalog", {'id':this.id,"catalog_name_zh":catalog_name_zh,'catalog_name_en':catalog_name_en },
+			function(data){
+				
+				if(data['status']==200){
+					alert('添加成功');
+				}else{
+					alert('添加失败');
+				}
+				location.reload();//刷新页面
+			}, "json");
+		}
+		//修改类目
+		this.modify_wiki_catalog=function(){
+			catalog_name_zh=$("input[name='catalog_name_zh']").val();
+			catalog_name_en=$("input[name='catalog_name_en']").val();
+			
+			if(catalog_name_zh==""){
+				alert("类目名称 为空!");
+				return false;
+			}
+			
+			if(catalog_name_en==""){
+				alert("类目编码 为空!");
+				return false;
+			}
+			
+			$.post("../modify_wiki_catalog", {'id':this.id,"catalog_name_zh":catalog_name_zh,'catalog_name_en':catalog_name_en },
+			function(data){
+				if(data['status']==200){
+					alert('修改成功');
+				}else{
+					alert('修改失败');
+				}
+				location.reload();//刷新页面
+			}, "json");
+		}
+		//删除类目
+		this.delete_wiki_catalog=function(){
+			$.post("../delete_wiki_catalog", {'id':this.id},
+			function(data){
+				if(data['status']==200){
+					alert('删除成功');
+				}else{
+					alert('删除失败');
+				}
+				location.reload();//刷新页面
+			}, "json");
+		}
+	}
+	$category_tree=new category_tree($('.category_tree'));
+	
+	//类目树
+	$(document).on('click','.category_tree a',function(event){
+		var $this_category_name=$(this).text();
+		var $temp_li=$(this).parent()
+		if($temp_li.is('.open')){
+			$temp_li.removeClass("open");
+			$temp_li.find('>ul').hide(200);
+		}else{
+			$temp_li.addClass("open")
+			$temp_li.find('>ul').show(200);
+		}
+		$category_tree.set_element(this);
+		console.log($this_category_name);
+		event.stopPropagation()
+	});
+	
+	//类目的事件触发函数
+	$(".category_edit .button").click(function(){
+		if($(this).text()=="新增类目"){
+			$category_tree.add_wiki_catalog();
+		}
+		if($(this).text()=="修改名称"){
+			$category_tree.modify_wiki_catalog();
+		}
+		if($(this).text()=="删除类目"){
+			$category_tree.delete_wiki_catalog();
+		}
+		
+	})
+	
+</script>
+{/literal}
+</html>

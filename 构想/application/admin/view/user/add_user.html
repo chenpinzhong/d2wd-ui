@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Purple Admin</title>
+	<link rel="stylesheet" href="/public/admin/css/style.css">
+	<link rel="stylesheet" href="/public/admin/css/category_tree.css">
+	<link rel="shortcut icon" href="/public/admin/images/favicon.png" />
+	<script type="text/javascript" src="/public/admin/js/jquery.min.js"></script>
+</head>
+<body>
+	<div class="add_user" style="margin:20px;">
+		<div class="input">
+			用户名称: <input type="text" name="user_name" />
+			<br/>
+			用户密码: <input type="text" name="user_password" />
+		</div>
+		<div class="button">添加用户</div>
+	</div>
+</body>
+<script type="text/javascript">
+{literal}
+//类目的事件触发函数
+$(".add_user .button").click(function(){
+		user_name=$("input[name='user_name']").val();
+		user_password=$("input[name='user_password']").val();
+		
+		if(user_name==""){
+			alert("用户名称 为空!");
+			return false;
+		}
+		
+		if(user_password==""){
+			alert("用户密码 为空!");
+			return false;
+		}
+		$.post("/admin/user/add_user/", {"user_name":user_name,'user_password':user_password },
+		function(data){
+			if(data['status']==200){
+				alert('添加成功');
+			}else{
+				alert('添加失败');
+			}
+			location.reload();//刷新页面
+		}, "json");
+})
+{/literal}
+</script>
+</html>

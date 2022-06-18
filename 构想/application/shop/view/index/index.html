@@ -1,0 +1,335 @@
+﻿<html class="no-js" lang="zxx">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="meta description">
+	<title>Home</title>
+	<!--=== Favicon ===-->
+	<link rel="shortcut icon" href="{ui_template}/img/favicon.ico" type="image/x-icon" />
+	<!-- Main Style CSS -->
+	<script>
+		//当前语言
+		$current_language="{$label.current_language}";
+	</script>
+	<link href="{ui_template}/css/style.css" rel="stylesheet" type="text/css">
+	<link href="{ui_template}/css/page.css"  rel="stylesheet" type="text/css">
+	<link href="{ui_template}/css/show_product.css" rel="stylesheet" type="text/css">
+	<link href="{ui_template}/css/report.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="{ui_template}/js/jquery.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{ui_template}/js/fun.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{ui_template}/js/page.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{ui_template}/js/report.js" charset="utf-8"></script>
+</head>
+<style>
+/*产品展示区域*/
+.goods_area{
+	width:1200px;
+	margin:auto;
+	/*display:flex;*/
+	padding-top: 20px;
+}
+.goods_area::after{
+	content:"."; 
+	display:block; 
+	height:0; 
+	visibility:hidden; 
+	clear:both; 
+}
+/*产品类目*/
+.goods_area .category{
+	float:left;
+	width:330px;
+	margin:auto;
+}
+
+.goods_area .category .category_title{
+	line-height: 30px;
+	font-size: 16px;
+	cursor: pointer;
+}
+.goods_area .category ul{
+	list-style: none;
+}
+.goods_area .category ul li{
+	list-style: none;
+	padding-left: 20px;
+	line-height: 30px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.goods_area .category ul li.child {
+	background-image: url({ui_template}/img/product/down.png);
+	background-repeat: no-repeat;
+    background-position: 0px 7px;
+    background-size: 16px 16px;
+}
+.goods_area .category ul li .select {
+	color: #F00;
+}
+
+/*产品 product*/
+.goods_area .product_box{
+	width: 870px;
+	float: right;
+}
+.product_list{
+	margin: auto;
+	width: 870px;
+	margin-bottom: 20px;
+}
+.product_list::after{
+	content:"."; 
+	display:block; 
+	height:0; 
+	visibility:hidden; 
+	clear:both; 
+}
+.product_list .product_display{
+	width: 212px;
+	float: left;
+	margin: 0 0 5px 5px;
+}
+.product_list .product_display .product_thumb{
+	position: relative;
+    border: 1px solid #dfdede;
+}
+.product_list .product_display .product_caption .product_name{
+	padding-bottom: 6px;
+}
+.product_list .product_display .product_caption .product_name a{
+    font-size: 16px;
+    color: #111;
+    line-height: 1.6;
+    font-family: "Roboto", sans-serif;
+    text-align: left;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+	min-height: 50px;
+}
+
+
+</style>
+<body>
+	
+	<!-- 开始 Header 区域 -->
+	{include file="{template_dir}index/view/index/top.html"}
+	<!-- 结束 Header 区域 -->
+	<!-- main wrapper 开始 -->
+	<main>
+		<!-- breadcrumb 区域开始 -->
+		<div class="breadcrumb_area common_bg">
+			<div class="container">
+				<div class="row">
+					<div class="col_12">
+						<div class="breadcrumb_wrap">
+							<nav aria-label="breadcrumb">
+								<h1>{$label.product_list}</h1>
+								<ul class="breadcrumb">
+									<li class="breadcrumb_item"><a href="index.html"><i class="fa fa_home"></i></a></li>
+									<li class="breadcrumb_item active" aria-current="page">{$label.product_list_note}</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--展示商品区域-->
+		<div class="goods_area">
+			<!--产品类目-->
+			<div class="category">
+				<div class="category_title">{$label.product_category}</div>
+				{$catalog_tree_html}
+			</div>
+			<!--展示产品-->
+			<div class="product_box">
+				<div class="search_bar" style="border:0;">
+					<form method="get" id="user_from">
+						<input id="product_catalog_id" type="hidden" name="product_catalog_id" label="目录id" value="{$param.product_catalog_id}"  height="100%">
+						<input id="page" type="hidden" name="page" label="分页" value="{$param.page}"  height="100%">
+						<input id="page_size" type="hidden" name="分页大小" label="page_size" value="{$param.page_size}"  height="100%">
+						<div class="search_box">
+							<div class="items">
+								<!--产品名称-->
+								<div class="lable">{$label.product_name}</div>
+								<div class="input_val"><input type="text" name="product_name" label="产品名称" value="{$param.product_name}" style="width: 320px;" height="100%"></div>
+							</div>
+							<div class="items">
+								<!--价格区间-->
+								<div class="lable">{$label.price_range}</div>
+								<div class="input_val">
+									<input type="text" name="bottom_price" label="最低价格" value="{$param.bottom_price}" style="width: 60px;" height="100%">
+								</div>
+								<span style="line-height: 30px;">&nbsp;-&nbsp;</span>
+								<div class="input_val">
+									<input type="text" name="peak_price" label="最高价格" value="{$param.peak_price}" style="width: 60px;" height="100%">
+								</div>
+							</div>
+							<!--
+							<div class="items">
+								<div class="lable">新品</div>
+								<div class="input_select">
+									<select id="new_product" name="new_product">
+										<option value="" selected="selected">全部</option>
+										<option value="0">待处理</option>
+									</select>
+								</div>
+							</div>
+							-->
+						</div>
+						<div class="action">
+							<!--查询-->
+							<input type="submit" class="next_btn" value="{$label.query}">
+						</div>
+					</form>
+				</div>
+				<div class="product_list">
+					{foreach item=product_info from=$product_list_array}
+					<!-- 产品单项开始 -->
+					<div class="product_display">
+						<div class="product_item ">
+							<figure class="product_thumb">
+								<a href="/shop/product/show/id/{$product_info.id}">
+									<img class="pri-img" src="{$product_info.product_image_show}" width="210" height="210" alt="product">
+								</a>
+								<div class="product_badge">
+									<!--判断产品是否为新产品-->
+									{if $product_info.new_product==true}
+									<div class="product_label new">
+										<span>{$label.new}</span>
+									</div>
+									{/if}
+									<div class="product_label discount">
+										<span>{$product_info.price_reduction*100}%</span>
+									</div>
+								</div>
+								<div class="button_group">
+									<!--加入商品收藏夹-->
+									<a href="javacript:void(0);"title="{$label.add_to_wishlist}">
+										<i class="lnr lnr_heart"></i>
+									</a>
+									<!--快速查看-->
+									<a href="javacript:void(0);" title="{$label.quick_view}">
+										<i class="lnr lnr_magnifier"></i>
+									</a>
+									<!--加入购物车-->
+									<a href="javacript:void(0);" title="{$label.add_to_cart}">
+										<i class="lnr lnr_cart"></i>
+									</a>
+								</div>
+							</figure>
+							<div class="product_caption">
+								<p class="product_name">
+									<!--产品名称-->
+									<a href="/shop/product/show/id/{$product_info.id}">{$product_info.product_name}</a>
+								</p>
+								<div class="price_box">
+									<span class="price_regular">{$label.symbol}{sprintf("%.2f",$product_info.sku_price)}</span>
+									<span class="price_old"><del>{$label.symbol}{sprintf("%.2f",$product_info.sku_old_price)}</del></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					{/foreach}
+				</div>
+				<!--分页模块-->
+				<div class="page_box">
+					<div class="page_ctrl"></div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!-- main wrapper 结束 -->
+	<!-- 开始 Footer 区域 -->
+	{include file="{template_dir}index/view/index/bottom.html"}
+	<!-- 结束 Footer 区域 -->
+	<!-- Scroll to top start -->
+	<div class="scroll-top not-visible">
+		<i class="fa fa-angle-up"></i>
+	</div>
+	<!-- Scroll to Top End -->
+</body>
+
+<script>
+$current_page="{$param.page}";//当前位置
+$page_size="{$param.page_size}";//分页位置
+$total_item="{$param.record_count}";
+
+//修改url参数
+function change_url_val(url,arg_name,arg_val){
+    var pattern=arg_name+'=([^&]*)';
+    var replace_text=arg_name+'='+arg_val; 
+    if(url.match(pattern)){
+        var tmp='/('+ arg_name+'=)([^&]*)/gi';
+        tmp=url.replace(eval(tmp),replace_text);
+        return tmp;
+    }else{ 
+        if(url.match('[\?]')){ 
+            return url+'&'+replace_text; 
+        }else{ 
+            return url+'?'+replace_text; 
+        } 
+    }
+}
+
+if($current_page<=0){
+	$current_page=1;
+}
+
+
+$paging_plugin = {
+	obj_box: '.page_ctrl',
+	total_item: $total_item,
+	per_num: $page_size,
+	current_page: $current_page,
+	change_content: function(per_num, page) {
+		//设置当前的分页位置
+		$("#page").val(page);
+		//如果页面变化就刷新页面
+		if($current_page!=page && page!=0){
+			$("#user_from").submit();//刷新页面
+		}
+	}
+};
+//启动分页插件 评论分页
+page_ctrl($paging_plugin);
+{literal}
+$(function(){
+	$select_class=new select_class();
+	$select_class.init();//调用选择框初始化方法
+	
+	//美化select显示
+	$select_class.bind("#new_product");
+	//$select_class.bind("#task_type");
+	
+	//$time=new calendar_class();
+	//$time.init();//事件初始化
+	//$time.bind("#add_start_time","Y-m-d",false);//绑定元素
+	//$time.bind("#add_end_time","Y-m-d",false);//绑定元素
+	
+	//用户选择类目
+	$(".category li .catalog_name").click(function(){
+		$(".category li .catalog_name").removeClass("select");//移除以前选择的样式
+		$(this).addClass("select");//设置当前的选择
+		var product_catalog_id=$(this).parent().data('id');//获取目录id
+		$("#product_catalog_id").val(product_catalog_id);//设置目录id
+		$("#user_from").submit();//提交
+	})
+	
+	//如果有设置值
+	if($("#product_catalog_id").val()){
+		var product_catalog_id=$("#product_catalog_id").val();
+		$('.category li[data-id="'+product_catalog_id+'"] >.catalog_name').addClass("select");
+	}
+	
+
+
+});
+</script>
+{/literal}
+</html>

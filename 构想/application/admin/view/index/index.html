@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Purple Admin</title>
+	<link rel="stylesheet" href="/public/admin/css/style.css">
+	<link rel="shortcut icon" href="/public/admin/images/favicon.png"/>
+	<script type="text/javascript" src="/public/admin/js/jquery.min.js"></script>
+</head>
+<style>
+</style>
+<body>
+	<!--页面框架-->
+	<div class="container">
+		<!--导航栏-->
+		<div class="navbar">
+			<!--导航条品牌-->
+			<div class="brand_wrapper">
+				<a class="brand_logo" href="/admin/index/index"><img src="/public/admin/images/logo.png" alt="logo"></a>
+			</div>
+			<!--导航条包装-->
+			<div class="menu_wrapper">
+				<!--搜索功能-->
+				<div class="search_box">
+					<form class="h-100" action="#">
+						<!--搜索框-->
+						<div class="input_group">
+							<div class="input_group_icon">
+								<div class="icon"></div>
+							</div>
+							<input type="text" class="input_content" placeholder="Search projects">
+						</div>
+					</form>
+				</div>
+				<!--用户功能区域-->
+				<div class="navbar_nav">
+					<!--用户信息-->
+					<div class="user_info">
+						<!--用户头像-->
+						<div class="profile_img">
+							<img src="/public/admin/images/faces/face1.jpg" alt="image">
+							<span class="availability-status online"></span>             
+						</div>
+						<!--用户名称-->
+						<div class="user_name">
+							<p class="mb-1 text-black">root</p>
+						</div>
+					</div>
+					<!--操作图标-->
+					<div class="nav_item">
+						<a class="nav_link fullscreen"></a>
+					</div>
+					<!--邮件信息-->
+					<div class="nav_item">
+						<a class="nav_link message"></a>
+					</div>
+					<!--通知图标-->
+					<div class="nav_item">
+						<a class="nav_link notification"></a>
+					</div>
+					<!--关闭图标-->
+					<div class="nav_item">
+						<a class="nav_link close"></a>
+					</div>
+					<!--菜单图标-->
+					<div class="nav_item">
+						<a class="nav_link menu"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--页面内容-->
+		<div class="page_body_wrapper">
+			<div class="sidebar">
+				<ul class="nav">
+					<li class="nav_item">
+						<div class="nav_link">
+							<div class="profile_img">
+								<img src="/public/admin/images/faces/face1.jpg" alt="profile">
+								<span class="login-status online"></span>
+							</div>
+							<div class="nav_profile_text">
+								<div class="font-weight-bold mb-2">root</div>
+								<div class="text-secondary text-small">管理员</div>
+							</div>
+						</div>
+					</li>
+					<li class="nav_item item_list">
+						<div class="nav_link">
+							<span class="menu_title">网站配置</span>
+							<i class="menu_arrow show"></i>
+							<i class="menu_icon"></i>
+						</div>
+						<div class="collapse show" id="ui-basic" style="">
+							<ul class="nav sub_menu">
+								<li class="item">
+									<a href="/admin/index/poster/">海报配置</a>
+								</li>
+							</ul>
+						</div>
+					</li>
+					<li class="nav_item item_list">
+						<div class="nav_link">
+							<span class="menu_title">用户列表</span>
+							<i class="menu_arrow show"></i>
+							<i class="menu_icon"></i>
+						</div>
+						<div class="collapse show" id="ui-basic" style="">
+							<ul class="nav sub_menu">
+								<li class="item "> <a href="/admin/user/index/">用户列表</a></li>
+								<li class="item "> <a href="/admin/user/add_user/">添加用户</a></li>
+							</ul>
+						</div>
+					</li>
+					<li class="nav_item item_list">
+						<div class="nav_link">
+							<span class="menu_title">产品列表</span>
+							<i class="menu_arrow show"></i>
+							<i class="menu_icon"></i>
+						</div>
+						<div class="collapse show" id="ui-basic" style="">
+							<ul class="nav sub_menu">
+								<li class="item "> <a href="/admin/product_catalog/index/">产品类目</a></li>
+								<li class="item "> <a href="/admin/product/index">产品信息</a></li>
+							</ul>
+						</div>
+					</li>
+					<li class="nav_item item_list">
+						<div class="nav_link">
+							<span class="menu_title">维基百科(wiki)</span>
+							<i class="menu_arrow show"></i>
+							<i class="menu_icon"></i>
+						</div>
+						<div class="collapse show" id="ui-basic" style="">
+							<ul class="nav sub_menu">
+								<li class="item "> <a href="/admin/wiki_catalog/index/">维基类目</a></li>
+								<li class="item "> <a href="/admin/wiki/index/">维基列表</a></li>
+							</ul>
+						</div>
+					</li>
+					<li class="nav_item item_list">
+						<div class="nav_link">
+							<span class="menu_title">用户论坛(BBS)</span>
+							<i class="menu_arrow show"></i>
+							<i class="menu_icon"></i>
+						</div>
+						<div class="collapse show" id="ui-basic" style="">
+							<ul class="nav sub_menu">
+								<li class="item "> <a href="/admin/bbs_catalog/index/">论坛类目</a></li>
+								<li class="item "> <a href="/admin/bbs/index/">帖子列表</a></li>
+							</ul>
+						</div>
+					</li>
+					
+					<li class="nav_item item_list">
+						<div class="nav_link">
+							<span class="menu_title">订单管理</span>
+							<i class="menu_arrow show"></i>
+							<i class="menu_icon"></i>
+						</div>
+						<div class="collapse show" id="ui-basic" style="">
+							<ul class="nav sub_menu">
+								<li class="item"> <a href="#">订单</a></li>
+								<li class="item"> <a href="#">等待发货</a></li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="content_wrapper">
+				<iframe id="content" frameborder="0" src="/admin/index/show" data-default_src="/admin/index/show" width="100%" height="100%"></iframe>
+			</div>
+		</div>
+		
+	</div>
+</body>
+<script src="/public/admin/js/basic/basic.js"></script>
+</html>

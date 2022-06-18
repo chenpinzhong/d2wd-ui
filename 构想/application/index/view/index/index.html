@@ -1,0 +1,410 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="meta description">
+	<title>Home</title>
+	<!--=== Favicon ===-->
+	<link rel="shortcut icon" href="{ui_template}/img/favicon.ico" type="image/x-icon" />
+	<link href="{ui_template}/css/style.css" rel="stylesheet">
+	<script src="{ui_template}/js/jquery.min.js"></script>
+	<script src="{ui_template}/js/main.js"></script>
+</head>
+<style type="text/css">
+/*去除不必要的东西 外边框 内边距*/
+body, img {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+}
+/*滑动框架*/
+.slide_frame {
+	width: 1200px;
+	height: 500px;
+	margin: auto;
+	position: relative;/*启动相对定位 让子集元素能相对与 父级元素定位*/
+	overflow: hidden;
+}
+/*滑动元素*/
+.slide_frame .slide_element {
+	position: absolute;/*开启绝对定位  相对于父级元素定位*/
+	left: 0;
+	top: 0;
+	width:100%;
+}
+.slide_frame .slide_element img{
+	width:100%;
+	min-width: 1200px;
+	height: auto;
+}
+.slide_frame .slide_element .element_name{
+	position: absolute;/*开启绝对定位  相对于父级元素定位*/
+	bottom:0;
+	height:50px;
+	background-color: rgba(55, 55, 55,0.5);
+	line-height:50px;
+	color:#FFF;
+	font-size:16px;
+	padding:0 20px;
+	width:100%;
+}
+
+.slide_frame .prev {
+	width: 82px;
+	height: 82px;
+	border-radius: 50%;
+	background: url({ui_template}/img/slider/icon-row.png) no-repeat 0 0;
+	position: absolute;
+	left: 40px;
+	top: 209px;
+	cursor: pointer;
+	z-index: 99;
+}
+.slide_frame .next {
+	width: 82px;
+	height: 82px;
+	border-radius: 50%;
+	background: url({ui_template}/img/slider/icon-row.png) no-repeat 0 0;
+	position: absolute;
+	z-index: 99;
+	left: 0;
+	top: 209px;
+	cursor: pointer;
+	right: 40px;
+	left: auto;
+	background-position: -116px 0;
+}
+</style>
+<body>
+	<!--Header区域开始-->
+	{include file="{template_dir}index/view/index/top.html"}
+	<!--Header区域结束-->
+	
+	<!-- 主包装器开始 -->
+	<main>
+		<!-- 滑块区域开始 -->
+		<section class="slider-area">
+			<div class="slide_frame" data-current="0">
+				{foreach item=home_poster from=$home_poster_array}
+					<div class="slide_element" style="z-index: 1; left: 0px; top: 0px;">
+						<a href="{$home_poster.poster_url}"><img src="{$home_poster.poster_img}" width="1200" ></a>
+						<div class="element_name">{$home_poster.poster_name}</div>
+					</div>
+				{/foreach}
+				<a href="javascript:void(0)" class="prev"></a>
+				<a href="javascript:void(0)" class="next"></a>
+			</div>
+		</section>
+		<!-- 滑块区域结束 -->
+		<!---->
+		<section class="section_space">
+			<div class="container">
+				<div class="row">
+					<div class="col_12">
+						<div class="section_title">
+							<h2>{$label.new_products}</h2>
+							<p>{$label.new_products_greetings}</p>
+						</div>
+					</div>
+				</div>
+				{foreach item=product_array from=$product_show_array}
+					<!--一行产品-->
+					<div class="row mtn-40">
+					{foreach item=product_info from=$product_array}
+						<!-- 产品单项开始 -->
+						<div class="product_display">
+							<div class="product_item mt_40">
+								<figure class="product_thumb">
+									<a href="/shop/product/show/id/{$product_info.id}">
+										<img class="pri-img" src="{$product_info.product_image_show}" width="270" height="270" alt="product">
+										<!--{$product_info.product_image_show}{ui_template}/img/product/product-1.jpg-->
+									</a>
+									<div class="product_badge">
+										<!--判断产品是否为新产品-->
+										{if $product_info.new_product==true}
+										<div class="product_label new">
+											<span>{$label.new}</span>
+										</div>
+										{/if}
+										<div class="product_label discount">
+											<span>{$product_info.price_reduction*100}%</span>
+										</div>
+									</div>
+									<div class="button_group">
+										<!--加入商品收藏夹-->
+										<a href="javacript:void(0);"title="{$label.add_to_wishlist}">
+											<i class="lnr lnr_heart"></i>
+										</a>
+										<!--快速查看-->
+										<a href="javacript:void(0);" title="{$label.quick_view}">
+											<i class="lnr lnr_magnifier"></i>
+										</a>
+										<!--加入购物车-->
+										<a href="javacript:void(0);" title="{$label.add_to_cart}">
+											<i class="lnr lnr_cart"></i>
+										</a>
+									</div>
+								</figure>
+								<div class="product_caption">
+									<p class="product_name">
+										<!--产品名称-->
+										<a href="/shop/product/show/id/{$product_info.id}">{$product_info.product_name}</a>
+									</p>
+									<div class="price_box">
+										<span class="price_regular">{$label.symbol}{sprintf("%.2f",$product_info.sku_price)}</span>
+										<span class="price_old"><del>{$label.symbol}{sprintf("%.2f",$product_info.sku_old_price)}</del></span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- 产品单项结束 -->
+					{/foreach}
+					</div>
+				{/foreach}
+			</div>
+		</section>
+	</main>
+	<!--主包装器结束 -->
+	{include file="{template_dir}index/view/index/bottom.html"}
+	<div id="tooltip"  style="position: absolute; will-change: transform; top: 0px; left: 0px;">
+		<div class="arrow" style="top: 7px;"></div>
+		<div class="tooltip_inner">Add to Cart</div>
+	</div>
+</body>
+
+
+{literal}
+<script>
+	//首页产品展示
+	$(".product_display").hover(function(){
+		$(this).find(".product_item .button_group").show(0)
+	},function(){
+		$(this).find(".product_item .button_group").hide(0);
+	})
+	
+	//幻灯片ui
+	slide=function(fps=120){
+		this.fps=fps;
+		this.slide_element=new Array();//当前已有的滑动任务
+		//添加滑动元素
+		this.add_slide=function(slide_element){
+			
+			//最大执行进度=动画时间/动画帧时间=(1000/fps)
+			max_frame=slide_element.time/(1000/this.fps);
+			slide_element['max_frame']=max_frame;
+			this.slide_element[this.slide_element.length]=slide_element;
+		}
+		this.run=function(){
+			//循环开始
+			var start_x=0;
+			var start_y=0;
+			var end_x=start_x;
+			var end_y=start_y+800;
+			var ps = [{ 'x': start_x, 'y': start_y }, { 'x': 500+start_x, 'y': 400 },{ 'x': end_x, 'y': end_y }];
+			
+			for(var i=0;i<this.slide_element.length;i++){
+				//得到当前的滑动对象
+				var current_slide=this.slide_element[i];
+				//得到当前进度
+				var current_frame=this.slide_element[i]['current_frame'];
+				var max_frame=this.slide_element[i]['max_frame'];
+				var start_x=this.slide_element[i]['start_x'];
+				var end_x=this.slide_element[i]['end_x'];
+				var end_y=this.slide_element[i]['end_y'];
+				current_frame+=1;
+				
+				schedule=this.relative_schedule(ps,current_frame/max_frame);
+				//总共的长度 X坐标
+				total_mov_left=(current_slide.end_x-current_slide.start_x);
+				//总共的长度 Y坐标
+				total_mov_top=(current_slide.end_y-current_slide.start_y);
+				//当前的位置
+				current_mov_left=total_mov_left*schedule;
+				current_mov_top=total_mov_top*schedule;
+				
+				current_slide.dom.css('left',current_mov_left+start_x).css('top',current_mov_top);
+				
+				//更新当前进度
+				this.slide_element[i]['current_frame']=current_frame;
+				if(current_frame>=max_frame){
+					current_slide.dom.css({'left':end_x,'top':end_y})
+					this.slide_element.splice(i,1);
+				}
+			}
+		}
+		//bezier曲线 坐标点计算
+		this.point_bezier=function(points, t) {
+			var len = points.length;
+			var x = 0, y = 0;
+			var erxiangshi = function (start, end) {
+				var cs = 1, bcs = 1;
+				while (end > 0) {
+					cs *= start;
+					bcs *= end;
+					start--;
+					end--;
+				}
+				return (cs / bcs);
+			};
+			for (var i = 0; i < len; i++) {
+				var point = points[i];
+				x += point.x * Math.pow((1 - t), (len - 1 - i)) * Math.pow(t, i) * (erxiangshi(len - 1, i));
+				y += point.y * Math.pow((1 - t), (len - 1 - i)) * Math.pow(t, i) * (erxiangshi(len - 1, i));
+			}
+			return { x: x, y: y };
+		}
+		
+		//计算位置
+		this.relative_schedule=function(points,t){
+			
+			//得到点信息
+			var point=this.point_bezier(points,t);
+			var highest_point=this.point_bezier(points,0.5);
+			/*
+			//得到最高点信息
+			
+			
+			//起始点信息
+			spx=points[0]['x'];//起始点坐标x
+			spy=points[0]['y'];//起始点坐标y
+			xdy=Math.abs(point.y-spy);
+			xdmy=Math.abs(highest_point.y-spy);
+			
+			//
+			if(point.x<=highest_point.x){//一半内的进度
+				schedule=xdy/xdmy/2;//得到进度
+			}else{//另一半的进度
+				schedule=1-xdy/xdmy/2;//得到进度
+			}
+			*/
+			//return point.x/points[2].x;
+			return point.y/(highest_point.y*2);
+		}
+
+	}
+	$slide_obj=new slide(220);
+	
+	//元素移动任务
+	setInterval("$slide_obj.run()",1000/$slide_obj.fps);
+	window['slide']={};
+	
+	window['slide']['slide_frame']={'dom':$(".slide_frame .next"),'current':0,'time':8000}
+	$(".slide_frame .prev,.slide_frame .next").click(function(){
+		
+		//阻止动画
+		window['slide']['slide_frame']['current']=0;
+		
+		var $slide_frame=$(this).parents('.slide_frame');
+		var $current=$slide_frame.data('current');
+		var $element_length=$slide_frame.find('.slide_element').length;
+		//得到元素宽度
+		var $width=$slide_frame.width();
+		var slide_current_element={};
+		var slide_follow_element={};
+		var $current_element=$slide_frame.find('.slide_element').eq($current);
+		var $time=1500;
+		if($(this).is('.prev')){
+			//如果点击上一个
+			if($current==$element_length-1){
+				//如果当前元素=0 则上个元素为最后一个元素
+				//跟随元素 为第一个元素
+				$current=0;
+			}else{
+				//跟随元素 为下一个
+				$current+=1;
+			}
+			$follow_element=$slide_frame.find('.slide_element').eq($current);
+			//修改css
+			$slide_frame.find('.slide_element').css('z-index',0);
+			$current_element.css('z-index',1);
+			$follow_element.css('z-index',1);
+			//增加滑动动作
+			slide_current_element={
+				"dom":$current_element,//控制的元素
+				"start_x":0,//开始位置x
+				"start_y":0,//开始位置y
+				"end_x":-$width,//结束位置x
+				"end_y":0,//结束位置y
+				"current_frame":0,//当前帧
+				"max_frame":0,//总帧数
+				"time":$time,//执行的时间
+			};
+			
+			slide_follow_element={
+				"dom":$follow_element,//控制的元素
+				"start_x":$width,//开始位置x
+				"start_y":0,//开始位置y
+				"end_x":0,//结束位置x
+				"end_y":0,//结束位置y
+				"current_frame":0,//当前帧
+				"max_frame":0,//总帧数
+				"time":$time,//执行的时间
+			};
+			
+		}else{
+			//如果点击下一个
+			if($current==0){
+				//如果当前元素=0 则上个元素为最后一个元素
+				//跟随元素 为最后一个
+				$current=$element_length-1;
+			}else{
+				//跟随元素 为下一个
+				$current-=1;
+			}
+			$follow_element=$slide_frame.find('.slide_element').eq($current);
+			//修改css
+			$slide_frame.find('.slide_element').css('z-index',0);
+			$current_element.css('z-index',1);
+			$follow_element.css('z-index',1);
+			slide_current_element={
+				"dom":$current_element,//控制的元素
+				"start_x":0,//开始位置x
+				"start_y":0,//开始位置y
+				"end_x":$width,//结束位置x
+				"end_y":0,//结束位置y
+				"current_frame":0,//当前帧
+				"max_frame":0,//总帧数
+				"time":$time,//执行的时间
+			};
+			slide_follow_element={
+				"dom":$follow_element,//控制的元素
+				"start_x":-$width,//开始位置x
+				"start_y":0,//开始位置y
+				"end_x":0,//结束位置x
+				"end_y":0,//结束位置y
+				"current_frame":0,//当前帧
+				"max_frame":0,//总帧数
+				"time":$time,//执行的时间
+			};
+			
+			
+		}
+		
+		$slide_obj.add_slide(slide_current_element);//当前元素滑动
+		$slide_obj.add_slide(slide_follow_element);//跟随元素滑动
+		$slide_frame.data('current',$current);
+		
+	})
+	
+	//setInterval('$slide_obj.run()',1000/1)//自己启动自己//最后执行
+	//启动引擎  FPS 刷新率  刷新率越高一般看起来越流畅 但是也要看电脑的性能！一般游戏是60FPS 射击类游戏 120FPS以上
+	
+	setInterval(function(check_time=100){
+		for(k in window['slide']){
+			var current=window['slide'][k]['current']+=check_time;
+			var time=window['slide'][k]['time'];
+			var dom=window['slide'][k]['dom'];
+			if(current>=time){
+				window['slide'][k]['current']=0;
+				dom.click();
+			}
+		}
+		
+	},100)//自己启动自己//最后执行
+	
+</script>
+{/literal}
+</html>

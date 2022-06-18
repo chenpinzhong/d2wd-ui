@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="zxx">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="meta description">
+	<title>Home</title>
+	<link rel="shortcut icon" href="{ui_template}/img/favicon.ico" type="image/x-icon" />
+	<link href="{ui_template}/css/style.css" rel="stylesheet">
+	<script src="{ui_template}/js/jquery.min.js"></script>
+	<script src="{ui_template}/js/main.js"></script>
+</head>
+<style type="text/css">
+/*去除不必要的东西 外边框 内边距*/
+body, img {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+}
+/*滑动框架*/
+.slide_frame {
+	width: 1200px;
+	height: 500px;
+	margin: auto;
+	position: relative;/*启动相对定位 让子集元素能相对与 父级元素定位*/
+	overflow: hidden;
+}
+/*滑动元素*/
+.slide_frame .slide_element {
+	position: absolute;/*开启绝对定位  相对于父级元素定位*/
+	left: 0;
+	top: 0;
+	width:100%;
+}
+.slide_frame .slide_element img{
+	width:100%;
+	min-width: 1200px;
+	height: auto;
+}
+.slide_frame .prev {
+	width: 82px;
+	height: 82px;
+	border-radius: 50%;
+	background: url({ui_template}/img/slider/icon-row.png) no-repeat 0 0;
+	position: absolute;
+	left: 40px;
+	top: 209px;
+	cursor: pointer;
+	z-index: 99;
+}
+.slide_frame .next {
+	width: 82px;
+	height: 82px;
+	border-radius: 50%;
+	background: url({ui_template}/img/slider/icon-row.png) no-repeat 0 0;
+	position: absolute;
+	z-index: 99;
+	left: 0;
+	top: 209px;
+	cursor: pointer;
+	right: 40px;
+	left: auto;
+	background-position: -116px 0;
+}
+.main{
+    width: 1200px;
+    margin: auto;
+}
+
+</style>
+<body>
+	<!--Header区域开始-->
+	{include file="{template_dir}index/view/index/top.html"}
+	<!--Header区域结束-->
+	<main class="main">
+		用户信息:{$user_data.email}<br/>
+		注册时间:{$user_data.add_time}<br/>
+		最后登录时间:{$user_data.update_time}
+	</main>
+	{include file="{template_dir}index/view/index/bottom.html"}
+	<div id="tooltip"  style="position: absolute; will-change: transform; top: 0px; left: 0px;">
+		<div class="arrow" style="top: 7px;"></div>
+		<div class="tooltip_inner">Add to Cart</div>
+	</div>
+</body>
+
+{literal}
+<script>
+	
+</script>
+{/literal}
+</html>

@@ -1,0 +1,693 @@
+ <html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<script charset="utf-8" src="/public/admin/js/jquery.min.js" data-async=""></script>
+<link href="/public/admin/editor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="/public/admin/css/wiki.css">
+<link rel="stylesheet" href="/public/admin/css/style.css">
+<link rel="stylesheet" href="/public/admin/css/category_tree.css">
+<!--<script type="text/javascript" src="third-party/jquery.min.js"></script>-->
+<script type="text/javascript" charset="utf-8" src="/public/admin/editor/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/public/admin/editor/umeditor.min.js"></script>
+<script type="text/javascript" src="/public/admin/editor/lang/zh-cn/zh-cn.js"></script>
+<link rel="stylesheet" href="/public/admin/css/fun.css">
+<script type="text/javascript" charset="utf-8" src="/public/admin/js/fun.js"></script>
+{literal}
+<style>
+.wiki_category_box{
+	width:100%;
+	height:auto;
+	display: flex;
+}
+.wiki_category_box a{
+	color:#000;
+	text-decoration:none;
+}
+
+.wiki_category{
+	min-width:500px;
+	float:left;
+	height:500px;
+}
+.category_edit{
+	min-width: auto;
+	float:left;
+	flex-grow: 1;
+}
+.category_edit .next_btn {
+	float: left;
+	height: 32px;
+	padding: 0 20px;
+	font-size: 12px;
+	line-height: 30px;
+	border-width: 1px;
+	display: inline-block;
+	margin: 8px 0;
+	border-radius: 3px;
+	background-color: #e4f0fd;
+	border: #0085d7 1px solid;
+	cursor: pointer;
+}
+
+input{
+	margin-bottom:5px;
+}
+.button {
+	background-color: #4CAF50; /* Green */
+	border: none;
+	color: white;
+	padding: 5px 10px;
+	text-align: center;
+	text-decoration: none;
+	width: 80px;
+	margin: 5px;
+	border-radius:3px;
+	cursor:pointer;
+	font-size: 12px;
+}
+
+.sku_table {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+	width:100%;
+}
+.sku_table th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #6e70ff;
+	background-color: #cae0ff;
+}
+.sku_table td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #6e70ff;
+	background-color: #ffffff;
+	text-align:center;
+}
+.sku_table td img{
+	width:40px;
+	height:auto;
+}
+
+
+.sku_table td .input_wrap{
+	width: 50px;
+}
+
+#keyword .bottom_row:after  {
+	display:block;
+	clear:both;
+	content:"";
+	visibility:hidden;
+	height:0
+}
+
+
+</style>
+{/literal}
+
+</head>
+	<body>
+		<br/>
+		<br/>
+		<!--编辑信息的导航栏 开始-->
+		<div tabindex="0" class="next_nav_menu">
+			<ul class="next_menu_content">
+				<li class="next_nav_item selected">
+					<div class="item_top"></div>
+					<span data-id="current_category">类目信息</span>
+				</li>
+				<li class="next_nav_item">
+					<div class="item_top" style="display:none;"></div>
+					<span  data-id="base_info">基础信息</span>
+				</li>
+				<li class="next_nav_item">
+					<div class="item_top" style="display:none;"></div>
+					<span  data-id="keyword">关键词</span>
+				</li>
+				<li class="next_nav_item">
+					<div class="item_top" style="display:none;"></div>
+					<span  data-id="upload">资料上传</span>
+				</li>
+				<li class="next_nav_item">
+					<div class="item_top" style="display:none;"></div>
+					<span  data-id="base_description">图文描述</span>
+				</li>
+			</ul>
+		</div>
+		<!--编辑信息的导航栏 -->
+		
+		<!--当前类目  开始-->
+		<div class="sell_card" id="current_category">
+			<h2 id="text-catpath" class="sell_card_title" style="float: left;">当前类目：</h2>
+			<h2 id="category_name" class="sell_card_title" style="float: left;">
+				<a href="javascript:void(0);">主板</a>&gt;&gt;
+				<a href="javascript:void(0);">自制主板</a>
+			</h2>
+			<input id="wiki_catalog_id" name="wiki_catalog_id" type="hidden" value="116">
+			<button id="button_catpath" type="button" class="next_btn">选择类目</button>
+			<div style="clear:both;"></div>
+		</div>
+		<!--当前类目  结束-->
+		
+		<!--基础信息编辑 开始-->
+		<div class="sell_card" id="base_info">
+			<h2 class="sell_card_title">基础信息</h2>
+			<!--产品标题 开始-->
+			<div class="com_struct" id="struct-title">
+				<div class="next_col">
+					<label class="sell_addon_label required">中文标题</label>
+				</div>
+				<div class="input_wrap_box">
+					<input class="input_wrap" type="text" id="wiki_name_zh" name="title" placeholder="建议输入30个汉字（60字符）" value="【下单立减190元】Apple/苹果 iPhone 8 64G 移动联通电信全网通4G手机 官方正品苹果iPhone8" maxlength="120" height="100%" />
+				</div>
+			</div>
+			<!--产品标题结束-->
+			<!--产品标题 开始-->
+			<div class="com_struct" id="struct-title">
+				<div class="next_col">
+					<label class="sell_addon_label required">英文标题</label>
+				</div>
+				<div class="input_wrap_box">
+					<input class="input_wrap" type="text" id="wiki_name_en" name="title" placeholder="建议输入30个（60字符）" value="Apple/Apple iPhone 8 64G Mobile Unicom Telecom Netcom 4G Mob" maxlength="120" height="100%" />
+				</div>
+			</div>
+			<!--产品标题结束-->
+			
+		</div>
+		<!--基础信息编辑 结束-->
+		
+		<!--关键词-->
+		<div class="sell_card" id="keyword">
+			<h2 class="sell_card_title">关键词</h2>
+			<div class="promo_row bottom_row">
+				<div class="name">关键词</div>
+				<div class="keyword" data-edit_name_zh="正品保证" data-edit_name_en="Authentic guarantee">正品保证</div>
+				<div class="keyword" data-edit_name_zh="极速退款" data-edit_name_en="Speed refund">极速退款</div>
+				<div class="keyword" data-edit_name_zh="七天无理由退换" data-edit_name_en="Seven days no reason to return">七天无理由退换</div>
+			</div>
+			<!--产品标题 开始-->
+			<div class="com_struct">
+				<button id="keyword_add" type="button" class="next_btn">添加关键词</button>
+				<button id="keyword_del" type="button" class="next_btn">删除关键词</button>
+			</div>
+			<!--产品标题结束-->
+		</div>
+		<!--服务承诺 结束-->
+		
+		<!--资料上传 开始-->
+		<div class="sell_card" id="upload">
+			<h2 class="sell_card_title">资料上传</h2>
+			<!--产品标题 开始-->
+			<div class="com_struct" id="struct-title">
+				<div class="next_col">
+					<button id="upload_file" type="button" class="next_btn">上传资料</button>
+					<input type="file" id="file_input" multiple="multiple" style="width:0;height:0;opacity:0.01;" /> <!--用input标签并选择type=file，记得带上multiple，不然就只能单选图片了-->
+				</div>
+			</div>
+			<span>最大上传文件大小为100MB</span>
+			<div id="struct_file">
+				<div class="file"><a href="/upload/edit/20190908/15679579793891.jpg">15679579793891.jpg</a></div>
+			</div>
+		</div>
+		<!--图片上传 结束-->
+		
+		
+		<!--图文描述 开始-->
+		<div class="sell_card" id="base_description">
+			<h2 class="sell_card_title">图文描述</h2>
+			<!--style给定宽度可以影响编辑器的最终宽度-->
+			<div class="desc_text">中文描述:</div>
+			<script type="text/plain" id="my_editor_zh" style="width:988px;max-height:800px;">
+				中文描述<p><br></p><img src="/upload/edit/20190908/15679579793891.jpg" _src="/upload/edit/20190908/15679579793891.jpg" style=""></p><p>
+			</script>
+			<div class="desc_text">英文描述:</div>
+			<script type="text/plain" id="my_editor_en" style="width:988px;max-height:800px;">
+				英文描述<p><br></p><img src="/upload/edit/20190908/15679579793891.jpg" _src="/upload/edit/20190908/15679579793891.jpg" style=""></p><p>
+			</script>
+		</div>
+		<!--图文描述 结束-->
+		
+		<!--维基 结束-->
+		<div class="wiki_action">
+			<h2 class="sell_card_title">维基</h2>
+			<div class="upload_data">
+				<button id="upload_data" type="button" class="next_btn">提交</button>
+			</div>
+		</div>
+		<br/>
+		<br/>
+		<br/>
+		<!--类目选择-->
+		<div id="catalog_select" style="display:none;" ondragstart="return false;">
+			<!--透明背景层-->
+			<div class="backdrop"></div>
+			<div id="catalog_json" style="display:none;">{$catalog_json}</div>
+			<div class="next_dialog" style="width:660px;">
+				<!--属性标题-->
+				<div class="next_dialog_header">选择类目<div class="close"></div></div>
+				<div class="wiki_category_box">
+					<div class="category_tree wiki_category" style="width:500px;">
+						<ul>
+							<li class="folder open">
+								<a href="#" ref="xtgl">产品类目</a>
+							</li>
+						</ul>
+					</div>
+					<div class="category_edit">
+						<button id="confirm_select" type="button" class="next_btn">确认选择</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--关键词 编辑模块-->
+		<div id="keyword_box_add" style="display:none;">
+			<!--透明背景层-->
+			<div class="backdrop" ondragstart="return false;"></div>
+			<div class="next_dialog" style="left: 520px; top: 227px;">
+				<!--属性标题-->
+				<div class="next_dialog_header">
+					关键词编辑
+					<div class="close"></div>
+				</div>
+				<!--新增属性框-->
+				<div class="next_dialog_body">
+					<!--属性标题信息-->
+					<div class="edit_box">
+						<div class="edit_title">关键词中文：</div>
+						<input class="edit_name" placeholder="关键词" name="edit_name_zh" value="">
+					</div>
+					<!--属性名称中文-->
+					<div class="edit_box">
+						<div class="edit_title">关键词英文：</div>
+						<input class="edit_name" placeholder="keyword" name="edit_name_en" value="">
+					</div>
+					<!--属性值变更-->
+					<div class="edit_action_box">
+						<div class="edit_action">增加关键词</div>
+					</div>
+				</div>
+				<!--新增属性框 结束-->
+			</div>
+		</div>
+		
+		<!--弹出框-->
+		<div id="message_box" style="display:none;">
+			<!--透明背景层-->
+			<div class="backdrop" ondragstart="return false;"></div>
+			<div class="next_dialog">
+				<!--属性标题-->
+				<div class="next_dialog_header">
+					<span class="title">警告信息</span>
+					<div class="close"></div>
+				</div>
+				<div class="message">12123123213122212112</div>
+				<!--新增属性框-->
+				<div class="action">
+					<button type="button" class="next_btn" data-name="confirm">确定</button>
+					<button type="button" class="next_btn" data-name="cancel">取消</button>
+				</div>
+			</div>
+		</div>
+		
+		<!--图片展示框架-->
+		<div id="image_show">
+			<div class="img_box">
+				<img src="/public/admin/images/timg.jpg" style="height: auto; width: 100px;" ondragstart="return false;">
+				<div class="close"></div>
+			</div>
+		</div>
+	</body>
+	<!--产品编辑-->
+	{literal}
+	<script>
+		<!--目录-->
+		$catalog_json=JSON.parse($("#catalog_json").text());
+		//将catalog_json 显示为html代码
+		function catalog_show(catalog_array){
+			$temp_string='';
+			for(index in catalog_array){
+				$temp_string+='<li class="folder open">';
+				$temp_string+='<a href="javascript:void(0);" ref="xtgl" data-id="'+catalog_array[index]['id']+'" data-catalog_number="'+catalog_array[index]['catalog_number']+'" >'+catalog_array[index]['catalog_name']+'</a>';
+				//如果项目有子集
+				if(catalog_array[index]['child'].length>0){
+					$temp_string+='<ul>'+catalog_show(catalog_array[index]['child'])+'</ul>';
+				}
+				$temp_string+='</li>';//字符串拼接
+			}
+			
+			return $temp_string;
+		}
+		//调用类型显示
+		$catalog_html=catalog_show($catalog_json);
+		$(".category_tree").html('<ul>'+$catalog_html+'</ul>');
+		
+		//类方法定义
+		function category_tree($category){
+			this.category=$category;//类目对象
+			this.id=0;//当前目录的id
+			this.dom = null;//当前的选择元素
+			this.category_level=new Array();
+			//添加类目
+			this.set_element=function($dom){
+				//设置选中的颜色
+				this.category.find('a').css("color",'#000');
+				this.dom=$($dom);
+				this.dom.css("color","#F00");
+				//显示必要的选择新
+				this.id=this.dom.data('id');//设置pid
+				var $catalog_name=this.dom.text()
+				var $wiki_catalog_id=this.dom.data('id');
+				
+				//获取父级名称
+				//nodeName
+				$parent_dom=this.dom;
+				
+				var $category_level=new Array();
+				$category_level[$category_level.length]={'catalog_name':$catalog_name,'wiki_catalog_id':$wiki_catalog_id};
+				$i=0;
+				while (1==1) {
+					$parent_dom=$parent_dom.parent().parent();
+					$node_name=$parent_dom[0].nodeName;
+					$catalog_name=$parent_dom.parent().find('>a').text();
+					$wiki_catalog_id=$parent_dom.parent().find('>a').data('id');
+					
+					$i++;//防止死循环
+					if($node_name!='UL' || $catalog_name=="" || $i>100){
+						break;
+					}
+					$category_level[$category_level.length]={'catalog_name':$catalog_name,'wiki_catalog_id':$wiki_catalog_id};
+				}
+				$category_level=$category_level.reverse();
+				this.category_level=$category_level;
+			}
+			
+		}
+		$category_tree=new category_tree($('.category_tree'));
+		
+		//类目树
+		$(document).on('click','.category_tree a',function(event){
+			var $this_category_name=$(this).text();
+			var $temp_li=$(this).parent()
+			if($temp_li.is('.open')){
+				$temp_li.removeClass("open");
+				$temp_li.find('>ul').hide(200);
+			}else{
+				$temp_li.addClass("open")
+				$temp_li.find('>ul').show(200);
+			}
+			$category_tree.set_element(this);
+			
+			
+			event.stopPropagation()
+		});
+		
+		//类目关闭
+		$("#catalog_select .next_dialog .next_dialog_header .close").click(function(){
+			$("#catalog_select").hide(200);
+		})
+		//类目显示
+		$("#current_category #button_catpath").click(function(){
+			$("#catalog_select").show(200);
+		})
+		
+		//类目确认选择
+		$("#catalog_select #confirm_select").click(function(){
+			$("#catalog_select").hide(200);
+			var $category_level=$category_tree.category_level;
+			//var $catalog_select_html="";
+			var $wiki_catalog_id=0;
+			$html_str_arr=new Array();
+			for($key in $category_level){
+				$catalog_name=$category_level[$key]['catalog_name'];
+				$wiki_catalog_id=$category_level[$key]['wiki_catalog_id'];//最后一个值给表单
+				$html_str_arr[$html_str_arr.length]='<a href="javascript:void(0);">'+$catalog_name+'</a>';
+			}
+			$("#category_name").html($html_str_arr.join('>>'));
+			$("#wiki_catalog_id").val($wiki_catalog_id);
+		})
+		
+		/*
+		用ajax发送fd参数时要告诉jQuery不要去处理发送的数据，
+		不要去设置Content-Type请求头才可以发送成功，否则会报“Illegal invocation”的错误，
+		也就是非法调用，所以要加上“processData: false,contentType: false,”
+		*/
+		//$arr={"status":"200","file_name":["/upload/temp/201908121251311583.jpg","/upload/temp/201908121251315853.jpg","/upload/temp/201908121251314931.png"],"msg":"图片上传成功"};
+		
+		var um_zh = UM.getEditor('my_editor_zh','');//百度编辑器
+		var um_en = UM.getEditor('my_editor_en','');//百度编辑器
+		//$("html,body").animate({scrollTop:$("#content").offset().top},1000);
+		
+		//添加属性时注册的事件
+		
+		//编辑信息的导航栏 被点击时 特效代码
+		$(".next_nav_menu .next_nav_item").click(function(){
+			//用户选择了新的选项
+			if($(this).is('.selected')==false){
+				//打开新菜单动画
+				$(this).find('.item_top').css({"width":'0%',"left":'50%','display':'block'});//设置初始状态
+				$(this).find('.item_top').animate({"width":'100%',"left":'0%'},300,'swing');//设置终止状态
+				
+				//关闭 老的菜单的动画
+				var $temp_dom=$(".next_nav_menu .next_nav_item.selected");
+				$temp_dom.find('.item_top').css({"width":'100%',"left":'0%','display':'block'})
+				$temp_dom.find('.item_top').animate({"width":'0%',"left":'50%'},300,'swing');//设置终止状态
+				
+				//移除老的class 样式 新的 则增加样式
+				$temp_dom.removeClass('selected');
+				$(this).addClass('selected');
+				var $anchor_id=$(this).find('span').data('id');
+				var $nav_height=$(".next_nav_menu").height()+10;
+
+				//自动滚动到对应位置
+				$("html,body").animate({scrollTop:$('#'+$anchor_id).offset().top-$nav_height},200);
+				
+			}
+		});
+		
+		
+		//////////////////////////////////
+		//上传图片触发函数
+		$("#upload_file").click(function(){
+			$("#file_input").trigger("click");
+		});
+		
+		var input = document.getElementById("file_input");
+		if(typeof FileReader==='undefined'){
+			alert("抱歉，你的浏览器不支持 FileReader");
+		}else{
+			input.addEventListener('change',function(){
+				
+				var fd = new FormData();
+				var file_len = this.files.length;
+				
+				//用户选择的所有图片文件
+				for(var i=0;i<file_len;i++){
+					//判断上传文件格式
+					if (!this.files[i].name.match(/.jpg|.gif|.png|.bmp|.zip|.rar|.doc|.txt|.ppt|.pdf/i)){
+						return alert("上传的图片格式不正确，请重新选择");
+					}
+					
+					var reader = new FileReader();
+					fd.append('upload_file[]',this.files[i]);//上传文件数组
+					reader.readAsDataURL(this.files[i]);//转成base64
+					var file_name = this.files[i].name;
+					reader.onload = function(e){
+					}//文件读入结束
+				}//循环结束
+				if(file_len>=1){
+					upload_file(fd);//上传文件
+				}
+			},false);
+		}//handler
+		
+		//POST 上传文件
+		function upload_file(fd){
+			$.ajax({
+				url : './upload_file',
+				type : 'post',
+				data : fd,
+				dataType: 'json',
+				processData: false,//用FormData传fd时需有这两项	
+				contentType: false,
+				success : function(data){
+					if(data['status']=="200"){
+						for($i=0;$i<data['file_name'].length;$i++){
+							$("#struct_file").append('<div class="file"><a href="'+data['file_name'][$i]['file']+'">'+data['file_name'][$i]['name']+'</a></div>')
+						}
+					}
+				}
+			})
+		}
+		
+		//上传图片展示
+		image_show('.upload_img_box .img_box');
+		
+		//类目
+		drag_dom($("#catalog_select .next_dialog"),$("#catalog_select .next_dialog .next_dialog_header"));
+		
+		//图片展示
+		//image_show(".upload_img_box .img_box");//上传的图片 放大展示方法
+		
+		/////////////////////////////////////
+		//关键词编辑
+		function keyword(){
+			this.init=function(){
+				//关键词 添加
+				$("#keyword_add").click(function(){
+					$("#keyword_box_add").show();
+				});
+				
+				//关闭事件
+				$("#keyword_box_add .next_dialog .next_dialog_header .close").click(function(){
+					$("#keyword_box_add").hide();
+				});
+				
+				//添加承诺
+				$("#keyword_box_add .edit_action_box .edit_action").click(function(){
+					var $edit_name_zh=$("#keyword_box_add .next_dialog .next_dialog_body .edit_box").find("input[name='edit_name_zh']").val();
+					var $edit_name_en=$("#keyword_box_add .next_dialog .next_dialog_body .edit_box").find("input[name='edit_name_en']").val();
+					
+					if($edit_name_zh==""){
+						message_box("信息填写错误","关键词 中文名称填写不正确!");
+						return false;
+					}
+					if($edit_name_en==""){
+						message_box("信息填写错误","关键词 英文名称填写不正确!");
+						return false;
+					}
+					
+					var $promise_html='<div class="keyword" data-edit_name_zh="'+$edit_name_zh+'" data-edit_name_en="'+$edit_name_en+'">'+$edit_name_zh+'</div>'
+					$("#keyword .promo_row").append($promise_html);
+					//清空填写信息
+					$("#keyword_box_add .next_dialog .next_dialog_body .edit_box").find("input[name='edit_name_zh']").val('');
+					$("#keyword_box_add .next_dialog .next_dialog_body .edit_box").find("input[name='edit_name_en']").val('');
+					
+					$("#keyword_box_add").hide();
+				});
+				//承诺编辑
+				$(document).on("click","#keyword .promo_row .keyword",function(){
+					$("#keyword .promo_row .keyword").removeClass('selected');
+					$(this).addClass('selected')
+				});
+				//删除属性
+				$("#keyword_del").click(function(){
+					//查找是否选择 属性
+					var $temp_dom=$("#keyword .promo_row .keyword.selected");
+					
+					//当前选择的不是属性图 并且 被选择
+					if($temp_dom.length==1){
+						$temp_dom.remove();//删除当前节点
+					}else{
+						message_box("选择错误","未选择 关键词！")
+					}
+				})
+				//拖动模块
+				drag_dom($("#keyword_box_add .next_dialog"),$("#keyword_box_add .next_dialog .next_dialog_header"));
+			}
+		}
+		
+		//关键词类 操作
+		$keyword=new keyword();
+		$keyword.init();//初始化
+		
+		
+		
+		//信息提交
+		$("#upload_data").click(function(){
+			
+			$error_array={};
+			//////////////////////
+			//组织数据
+			//类目id
+			var $wiki_catalog_id=$("#wiki_catalog_id").val();
+			if($wiki_catalog_id==""){
+				$error_array['wiki_catalog_id']="未选择目录!";
+			}
+			
+			
+			//wiki产品名称
+			var $title_name_zh=$("#wiki_name_zh").val();//wiki中文名称
+			var $title_name_en=$("#wiki_name_en").val();//wiki英文名称
+			
+			if($title_name_zh==""){
+				$error_array['wiki_name_zh']="未填写wiki中文名称!";
+			}
+			
+			if($title_name_en==""){
+				$error_array['wiki_name_en']="未填写wiki英文名称!";
+			}
+			
+			
+			//关键词 获取
+			var $keyword_array=new Array();
+			$("#keyword .promo_row .keyword").each(function(){
+				$keyword_array[$keyword_array.length]={
+					'name_zh':$(this).data('edit_name_zh'),
+					'name_en':$(this).data('edit_name_en'),
+				};;
+			});
+			
+			//用户上传文件
+			var $upload_file_array=new Array();//文件组
+			$("#upload #struct_file .file").each(function(){
+				$upload_file_array[$upload_file_array.length]={
+					'src':$(this).find("a").attr("href"),
+					'name':$(this).find("a").text(),
+				};
+			});
+			
+			var $content_zh=um_zh.getContent();//中文描述
+			var $content_en=um_en.getContent();//英文描述
+			
+			if($content_zh==""){
+				$error_array['content_zh']="未填写中文描述!";
+			}
+			
+			if($content_en==""){
+				$error_array['content_en']="未填写英文描述!";
+			}
+			
+			//存在错误信息 提示用户
+			if(Object.keys($error_array).length>0){
+				var msg_array=new Array();
+				for(key in $error_array){
+					msg_array[msg_array.length]=(key+":"+$error_array[key]);
+				}
+				
+				
+				message_box("存在错误",msg_array.join("<br/>"));
+				return false;
+			}
+			
+			
+			
+			$post={};
+			$post['wiki_catalog_id']=$wiki_catalog_id;//目录id
+			$post['title_name_zh']=$title_name_zh;//标题中文名称
+			$post['title_name_en']=$title_name_en;//标题英文名称
+			$post['keyword_array']=$keyword_array;//关键词信息
+			$post['upload_file_array']=$upload_file_array;//文件资料信息
+			$post['content_zh']=$content_zh;//内容中文
+			$post['content_en']=$content_en;//内容英文
+			
+			$.post('./wiki_add', $post,function(data){
+				if(data['status']=="200"){
+					message_box("添加成功",data['msg']);
+				}else{
+					message_box("添加失败",data['msg']);
+				}
+			}, "json");
+		});
+	</script>
+	{/literal}
+
+	
+</html>

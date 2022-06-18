@@ -1,0 +1,188 @@
+﻿<html class="no-js" lang="zxx">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="meta description">
+	<title>Home</title>
+	<!--=== Favicon ===-->
+	<link rel="shortcut icon" href="{ui_template}/img/favicon.ico" type="image/x-icon" />
+	<!-- Main Style CSS -->
+	<link href="{ui_template}/css/style.css" rel="stylesheet" type="text/css">
+	<link href="{ui_template}/css/page.css"  rel="stylesheet" type="text/css">
+	<link href="{ui_template}/css/show_product.css" rel="stylesheet" type="text/css">
+	<link href="{ui_template}/css/report.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="{ui_template}/js/jquery.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{ui_template}/js/fun.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{ui_template}/js/page.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{ui_template}/js/report.js" charset="utf-8"></script>
+</head>
+
+<style>
+table.show_table {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+	margin-top:5px;
+}
+table.show_table th { 
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #7a3882;
+	background-color: #86d5ff;
+}
+table.show_table td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+
+.bbs_area{
+	width:1200px;
+	margin:auto;
+	padding-top: 20px;
+	display: flex;
+}
+.bbs_area::after{
+	content:"."; 
+	display:block; 
+	height:0; 
+	visibility:hidden; 
+	clear:both; 
+}
+/*产品类目*/
+.bbs_area .category{
+	flex:1;
+	margin:auto;
+	border:1px solid #ccc;
+	margin:0 5px;
+}
+.bbs_area .category:first-child{
+	margin-left:0;
+}
+.bbs_area .category:last-child{
+	margin-right:0;
+}
+
+.bbs_area .category .category_title{
+	line-height: 40px;
+	height:40px;
+	font-size: 16px;
+	cursor: pointer;
+	padding-left:10px;
+	border-bottom:1px solid #ccc;
+}
+.bbs_area .category .category_title a:hover{
+	text-decoration: underline;
+}
+.bbs_area .category .category_description{
+	padding:5px;
+	max-height:200px;
+}
+
+</style>
+<body>
+	<!-- 开始 Header 区域 -->
+	{include file="{template_dir}index/view/index/top.html"}
+	<!-- 结束 Header 区域 -->
+	<!-- main wrapper 开始 -->
+	<main>
+		<!-- breadcrumb 区域开始 -->
+		<div class="breadcrumb_area common_bg">
+			<div class="container">
+				<div class="row">
+					<div class="col_12">
+						<div class="breadcrumb_wrap">
+							<nav aria-label="breadcrumb">
+								<h1>{$label.forum}</h1>
+								<ul class="breadcrumb">
+									<li class="breadcrumb_item"><a href="index.html"><i class="fa fa_home"></i></a></li>
+									<li class="breadcrumb_item active" aria-current="page">{$label.forum_notes}</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--论坛板块区域-->
+		{foreach item=bbs_catalog_line from=$bbs_catalog_array}
+		<div class="bbs_area">
+			{foreach item=catalog_info from=$bbs_catalog_line}
+			<div class="category">
+				<div class="category_title"><a href="/bbs/bbs_list?type={$catalog_info.id}"><font color="red">{$catalog_info.bbs_name}</font></a></div>
+				<div class="category_description">
+					<p class="num"><span class="mr10">{$label.theme}:{$catalog_info.theme_number}</span>&nbsp;&nbsp;{$label.post}:{$catalog_info.post_number}</p>
+					<p class="num"><a href="/bbs/bbs_list?type={$catalog_info.id}">{$label.last_reply_time}:{$catalog_info.last_reply_time}</a></p>
+				</div>
+			</div>
+			{/foreach}
+		</div>
+		{/foreach}
+	</main>
+	<!-- main wrapper 结束 -->
+	<!-- 开始 Footer 区域 -->
+	{include file="{template_dir}index/view/index/bottom.html"}
+	<!-- 结束 Footer 区域 -->
+	<!-- Scroll to top start -->
+	<div class="scroll-top not-visible">
+		<i class="fa fa-angle-up"></i>
+	</div>
+	<!-- Scroll to Top End -->
+	
+</body>
+
+<script>
+
+//修改url参数
+function change_url_val(url,arg_name,arg_val){
+    var pattern=arg_name+'=([^&]*)';
+    var replace_text=arg_name+'='+arg_val; 
+    if(url.match(pattern)){
+        var tmp='/('+ arg_name+'=)([^&]*)/gi';
+        tmp=url.replace(eval(tmp),replace_text);
+        return tmp;
+    }else{ 
+        if(url.match('[\?]')){ 
+            return url+'&'+replace_text; 
+        }else{ 
+            return url+'?'+replace_text; 
+        } 
+    }
+}
+
+{literal}
+$(function(){
+	$select_class=new select_class();
+	$select_class.init();//调用选择框初始化方法
+	
+	//美化select显示
+	//$select_class.bind("#new_product");
+	
+	//用户选择类目
+	$(".category li .catalog_name").click(function(){
+		$(".category li .catalog_name").removeClass("select");//移除以前选择的样式
+		$(this).addClass("select");//设置当前的选择
+		var wiki_catalog_id=$(this).parent().data('id');//获取目录id
+		$("#wiki_catalog_id").val(wiki_catalog_id);//设置目录id
+		$("#user_from").submit();//提交
+	})
+	
+	//如果有设置值
+	if($("#wiki_catalog_id").val()){
+		var wiki_catalog_id=$("#wiki_catalog_id").val();
+		$('.category li[data-id="'+wiki_catalog_id+'"] >.catalog_name').addClass("select");
+	}
+	
+
+
+});
+</script>
+{/literal}
+</html>

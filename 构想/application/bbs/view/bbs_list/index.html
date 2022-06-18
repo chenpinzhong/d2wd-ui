@@ -1,0 +1,297 @@
+﻿<html class="no-js" lang="zxx">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="meta description">
+	<title>Home</title>
+	<!--=== Favicon ===-->
+	<link rel="shortcut icon" href="{ui_template}/img/favicon.ico" type="image/x-icon" />
+	<!-- Main Style CSS -->
+	
+	<link href="{ui_template}/css/style.css" rel="stylesheet" type="text/css">
+	<link href="{ui_template}/css/page.css"  rel="stylesheet" type="text/css">
+	<link href="{ui_template}/css/show_product.css" rel="stylesheet" type="text/css">
+	<link href="{ui_template}/css/report.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="{ui_template}/js/jquery.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{ui_template}/js/fun.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{ui_template}/js/page.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{ui_template}/js/report.js" charset="utf-8"></script>
+</head>
+
+<style>
+table.show_table {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+	margin-top:5px;
+}
+table.show_table th { 
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #ccc;
+	background-color: #f6f6f6;
+}
+table.show_table td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #ccc;
+	background-color: #ffffff;
+}
+
+.bbs_area{
+	width:1200px;
+	margin:auto;
+	padding-top: 20px;
+	display: flex;
+}
+.bbs_area::after{
+	content:"."; 
+	display:block; 
+	height:0; 
+	visibility:hidden; 
+	clear:both; 
+}
+
+/*论坛 bbs*/
+.bbs_area .bbs_box{
+	width: 870px;
+	float: right;
+}
+.bbs_list{
+	margin: auto;
+	width: 1200px;
+	margin-bottom: 20px;
+}
+.bbs_list::after{
+	content:"."; 
+	display:block; 
+	height:0; 
+	visibility:hidden; 
+	clear:both; 
+}
+.bbs_list .product_display{
+	width: 212px;
+	float: left;
+	margin: 0 0 5px 5px;
+}
+.bbs_list .product_display .product_thumb{
+	position: relative;
+    border: 1px solid #dfdede;
+}
+.bbs_list .product_display .product_caption .product_name{
+	padding-bottom: 6px;
+}
+.bbs_list .product_display .product_caption .product_name a{
+    font-size: 16px;
+    color: #111;
+    line-height: 1.6;
+    font-family: "Roboto", sans-serif;
+    text-align: left;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+	min-height: 50px;
+}
+
+</style>
+<body>
+	<!-- 开始 Header 区域 -->
+	{include file="{template_dir}index/view/index/top.html"}
+	<!-- 结束 Header 区域 -->
+	<!-- main wrapper 开始 -->
+	<main>
+		<!-- breadcrumb 区域开始 -->
+		<div class="breadcrumb_area common_bg">
+			<div class="container">
+				<div class="row">
+					<div class="col_12">
+						<div class="breadcrumb_wrap">
+							<nav aria-label="breadcrumb">
+								<h1>{$label.bbs}</h1>
+								<ul class="breadcrumb">
+									<li class="breadcrumb_item"><a href="index.html"><i class="fa fa_home"></i></a></li>
+									<li class="breadcrumb_item active" aria-current="page">{$param.catalog_name}</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--展示商品区域-->
+		<div class="bbs_area">
+			<!--展示产品-->
+			<div class="bbs_box">
+				<div class="search_bar" style="border:0;">
+					<form method="get" id="user_from">
+						<input id="page" type="hidden" name="page" label="page" value="{$param.page}"  height="100%">
+						<input id="page_size" type="hidden" name="page_size" label="page_size" value="{$param.page_size}"  height="100%">
+						<div class="search_box">
+							<div class="items">
+								<!--帖子名称-->
+								<div class="lable">{$label.post_name}</div>
+								<div class="input_val"><input type="text" name="q" label="wiki名称" value="{$param.q}" style="width: 320px;" height="100%"></div>
+							</div>
+						</div>
+						
+						<div class="action">
+							<!--搜索-->
+							<input type="submit" class="next_btn" value="{$label.search}">
+						</div>
+					</form>
+				</div>
+				<!--
+					$this->language['en']['post_name']="post name";//帖子名称
+					$this->language['en']['search']="search";//搜索
+					$this->language['en']['serial_number']="serial number";//序号
+					$this->language['en']['title']="title";//标题
+					$this->language['en']['user_name']="user name";//用户名称
+					$this->language['en']['released_time']="released time";//发表时间
+					$this->language['en']['browse_number']="browse number";//浏览数量
+					$this->language['en']['praise_quantity']="praise quantity";//赞赏数量
+				-->
+				
+				
+				<div class="bbs_list">
+					<table class="show_table" width="100%;">
+						<tr>
+							<!--序号-->
+							<th width="60">{$label.serial_number}</th>
+							<!--标题-->
+							<th>{$label.title}</th>
+							<!--用户名称<br/>发表时间-->
+							<th width="140" align="center">
+								{$label.user_name}
+								<br/>
+								{$label.released_time}
+							</th>
+							<!--浏览次数<br/>赞赏次数-->
+							<th width="140" align="center">
+								{$label.browse_number}
+								<br/>
+								{$label.praise_quantity}
+							</th>
+						</tr>
+						{foreach item=bbs_content from=$param.bbs_content_array}
+						<tr>
+							<!--序号-->
+							<td>{$bbs_content.id}</td>
+							<!--标题-->
+							<td>
+								<a href="/bbs/show/index/id/{$bbs_content.id}">{$bbs_content.title}</a>
+							</td>
+							<!--用户名称 发表时间-->
+							<td align="center">
+								{$bbs_content.user_name}<br/>
+								{$bbs_content.add_time}
+							</td>
+							<td width="140" align="center">
+								{$bbs_content.read_count}
+								<br/>
+								{$bbs_content.praise_count}
+							</td>
+						</tr>
+						{/foreach}
+						
+					</table>
+				</div>
+				<!--分页模块-->
+				<div class="page_box">
+					<div class="page_ctrl"></div>
+				</div>
+				<!--发表帖子-->
+				<div class="release"><a href="/bbs/bbs_list/release_post?type={$param.type}">{$label.post}</a></div>
+				
+			</div>
+		</div>
+	</main>
+	<!-- main wrapper 结束 -->
+	<!-- 开始 Footer 区域 -->
+	{include file="{template_dir}index/view/index/bottom.html"}
+	<!-- 结束 Footer 区域 -->
+	<!-- Scroll to top start -->
+	<div class="scroll-top not-visible">
+		<i class="fa fa-angle-up"></i>
+	</div>
+	<!-- Scroll to Top End -->
+</body>
+
+<script>
+$current_page="{$param.page}";//当前位置
+$page_size="{$param.page_size}";//分页位置
+$total_item="{$param.record_count}";
+
+//修改url参数
+function change_url_val(url,arg_name,arg_val){
+    var pattern=arg_name+'=([^&]*)';
+    var replace_text=arg_name+'='+arg_val; 
+    if(url.match(pattern)){
+        var tmp='/('+ arg_name+'=)([^&]*)/gi';
+        tmp=url.replace(eval(tmp),replace_text);
+        return tmp;
+    }else{ 
+        if(url.match('[\?]')){ 
+            return url+'&'+replace_text; 
+        }else{ 
+            return url+'?'+replace_text; 
+        } 
+    }
+}
+
+if($current_page<=0){
+	$current_page=1;
+}
+
+$paging_plugin = {
+	obj_box: '.page_ctrl',
+	total_item: $total_item,
+	per_num: $page_size,
+	current_page: $current_page,
+	change_content: function(per_num, page) {
+		//设置当前的分页位置
+		$("#page").val(page);
+		//如果页面变化就刷新页面
+		if($current_page!=page && page!=0){
+			$("#user_from").submit();//刷新页面
+		}
+	}
+};
+//启动分页插件 评论分页
+page_ctrl($paging_plugin);
+{literal}
+$(function(){
+	$select_class=new select_class();
+	$select_class.init();//调用选择框初始化方法
+	
+	//美化select显示
+	//$select_class.bind("#new_product");
+	
+	//用户选择类目
+	$(".category li .catalog_name").click(function(){
+		$(".category li .catalog_name").removeClass("select");//移除以前选择的样式
+		$(this).addClass("select");//设置当前的选择
+		var wiki_catalog_id=$(this).parent().data('id');//获取目录id
+		$("#wiki_catalog_id").val(wiki_catalog_id);//设置目录id
+		$("#user_from").submit();//提交
+	})
+	
+	//如果有设置值
+	if($("#wiki_catalog_id").val()){
+		var wiki_catalog_id=$("#wiki_catalog_id").val();
+		$('.category li[data-id="'+wiki_catalog_id+'"] >.catalog_name').addClass("select");
+	}
+	
+
+
+});
+</script>
+{/literal}
+</html>

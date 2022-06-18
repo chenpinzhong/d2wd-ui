@@ -1,0 +1,1517 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<script charset="utf-8" src="/public/admin/js/jquery.min.js" data-async=""></script>
+<link href="/public/admin/editor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="/public/admin/css/product.css">
+<link rel="stylesheet" href="/public/admin/css/style.css">
+<link rel="stylesheet" href="/public/admin/css/category_tree.css">
+<!--<script type="text/javascript" src="third-party/jquery.min.js"></script>-->
+<script type="text/javascript" charset="utf-8" src="/public/admin/editor/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/public/admin/editor/umeditor.min.js"></script>
+<script type="text/javascript" src="/public/admin/editor/lang/zh-cn/zh-cn.js"></script>
+<link rel="stylesheet" href="/public/admin/css/fun.css">
+<script type="text/javascript" charset="utf-8" src="/public/admin/js/fun.js"></script>
+{literal}
+<style>
+.product_category_box{
+	width:100%;
+	height:auto;
+	display: flex;
+}
+.product_category_box a{
+	color:#000;
+	text-decoration:none;
+}
+
+.product_category{
+	min-width:500px;
+	float:left;
+	height:500px;
+}
+.category_edit{
+	min-width: auto;
+	float:left;
+	flex-grow: 1;
+}
+.category_edit .next_btn {
+	float: left;
+	height: 32px;
+	padding: 0 20px;
+	font-size: 12px;
+	line-height: 30px;
+	border-width: 1px;
+	display: inline-block;
+	margin: 8px 0;
+	border-radius: 3px;
+	background-color: #e4f0fd;
+	border: #0085d7 1px solid;
+	cursor: pointer;
+}
+
+input{
+	margin-bottom:5px;
+}
+.button {
+	background-color: #4CAF50; /* Green */
+	border: none;
+	color: white;
+	padding: 5px 10px;
+	text-align: center;
+	text-decoration: none;
+	width: 80px;
+	margin: 5px;
+	border-radius:3px;
+	cursor:pointer;
+	font-size: 12px;
+}
+
+.sku_table {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+	width:100%;
+}
+.sku_table th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #6e70ff;
+	background-color: #cae0ff;
+}
+.sku_table td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #6e70ff;
+	background-color: #ffffff;
+	text-align:center;
+}
+.sku_table td img{
+	width:40px;
+	height:auto;
+}
+
+
+.sku_table td .input_wrap{
+	width: 50px;
+}
+
+
+
+</style>
+{/literal}
+
+</head>
+	<body>
+		<br/>
+		<br/>
+		<!--编辑信息的导航栏 开始-->
+		<div tabindex="0" class="next_nav_menu">
+			<ul class="next_menu_content">
+				<li class="next_nav_item selected">
+					<div class="item_top"></div>
+					<span data-id="current_category">类目信息</span>
+				</li>
+				<li class="next_nav_item">
+					<div class="item_top" style="display:none;"></div>
+					<span  data-id="base_info">基础信息</span>
+				</li>
+				<li class="next_nav_item">
+					<div class="item_top" style="display:none;"></div>
+					<span  data-id="product_parameters">产品参数</span>
+				</li>
+				<li class="next_nav_item">
+					<div class="item_top" style="display:none;"></div>
+					<span  data-id="pledge">服务承诺</span>
+				</li>
+				<li class="next_nav_item">
+					<div class="item_top" style="display:none;"></div>
+					<span data-id="upload_images">图片上传</span>
+				</li>
+				<li  class="next_nav_item">
+					<div class="item_top" style="display:none;"></div>
+					<span data-id="sales_attribute">销售信息</span>
+				</li>
+				<li class="next_nav_item">
+					<div class="item_top" style="display:none;"></div>
+					<span data-id="base_description">图文描述</span>
+				</li>
+				<li class="next_nav_item">
+					<div class="item_top" style="display:none;"></div>
+					<span data-id="payment_info">支付信息</span>
+				</li>
+			</ul>
+		</div>
+		<!--编辑信息的导航栏 -->
+		
+		<!--当前类目  开始-->
+		<div class="sell_card" id="current_category">
+			<h2 id="text-catpath" class="sell_card_title" style="float: left;">当前类目：</h2>
+			<h2 id="category_name" class="sell_card_title" style="float: left;"></h2>
+			<input id="product_catalog_id" name="product_catalog_id" type="hidden" value="116">
+			<button id="button_catpath" type="button" class="next_btn">选择类目</button>
+			<div style="clear:both;"></div>
+		</div>
+		<!--当前类目  结束-->
+		
+		<!--基础信息编辑 开始-->
+		<div class="sell_card" id="base_info">
+			<h2 id="base_card_title" class="sell_card_title">基础信息</h2>
+			<!--产品标题 开始-->
+			<div class="com_struct" id="struct-title">
+				<div class="next_col">
+					<label class="sell_addon_label required">中文标题</label>
+				</div>
+				<div class="input_wrap_box">
+					<input class="input_wrap" type="text" id="product_name_zh" name="title"  value="" placeholder="建议输入30个汉字（60字符）" maxlength="120" height="100%" />
+				</div>
+			</div>
+			<!--产品标题结束-->
+			<!--产品标题 开始-->
+			<div class="com_struct" id="struct-title">
+				<div class="next_col">
+					<label class="sell_addon_label required">英文标题</label>
+				</div>
+				<div class="input_wrap_box">
+					<input class="input_wrap" type="text" id="product_name_en" name="title" value="" placeholder="建议输入30个（60字符）"  maxlength="120" height="100%" />
+				</div>
+			</div>
+			<!--产品标题结束-->
+			
+			<!--品牌 中文名称 开始-->
+			<div class="com_struct" id="struct-title">
+				<div class="next_col">
+					<label class="sell_addon_label required">品牌 中文名称</label>
+				</div>
+				<div class="input_wrap_box">
+					<input class="input_wrap" type="text" id="brand_zh" name="title" value=""  placeholder="建议输入30个（60字符）" maxlength="60" height="100%" />
+				</div>
+			</div>
+			<!--品牌 中文名称 结束-->
+			<!--品牌 英文名称 开始-->
+			<div class="com_struct" id="struct-title">
+				<div class="next_col">
+					<label class="sell_addon_label required">品牌 英文名称</label>
+				</div>
+				<div class="input_wrap_box">
+					<input class="input_wrap" type="text" id="brand_en" name="title"  value="" placeholder="建议输入30个（60字符）" maxlength="60" height="100%" />
+				</div>
+			</div>
+			<!--品牌 英文名称 结束-->
+			
+		</div>
+		<!--基础信息编辑 结束-->
+		
+		<!--产品参数-->
+		<div class="sell_card" id="product_parameters">
+			<h2 id="base_card_title" class="sell_card_title">产品参数</h2>
+			<div class="attr_box">
+				<ul id="attr_ul">
+					<!--
+						<li title="证书编号" data-parameters_name_zh="证书编号" data-parameters_value_zh="2017011606002401" data-parameters_name_en="证书编号"  data-parameters_value_en="2017011606002401">证书编号 : 2017011606002401<div class="close"></div></li>
+					-->
+				</ul>
+			</div>
+			<!--产品标题 开始-->
+			<div class="com_struct">
+				<button id="button_catpath" type="button" class="next_btn">添加参数</button>
+			</div>
+			<!--产品标题结束-->
+		</div>
+		<!--产品参数 结束-->
+		
+		<!--服务承诺-->
+		<div class="sell_card" id="pledge">
+			<h2 id="base_card_title" class="sell_card_title">服务承诺</h2>
+			<div class="promo_row bottom_row">
+				<div class="name">服务承诺</div>
+				<!--
+					<div class="promise" data-pledge_name_zh="正品保证" data-pledge_name_en="Authentic guarantee">正品保证</div>
+				-->
+			</div>
+			<!--产品标题 开始-->
+			<div class="com_struct">
+				<button id="pledge_add" type="button" class="next_btn">添加承诺</button>
+				<button id="pledge_del" type="button" class="next_btn">删除承诺</button>
+			</div>
+			<!--产品标题结束-->
+		</div>
+		<!--服务承诺 结束-->
+		
+		<!--图片上传 开始-->
+		<div class="sell_card" id="upload_images">
+			<h2 id="base_card_title" class="sell_card_title">图片上传</h2>
+			<!--产品标题 开始-->
+			<div class="com_struct" id="struct-title">
+				<div class="next_col">
+					<button id="upload_image" type="button" class="next_btn">上传图片</button>
+					<input type="file" id="file_input" multiple="multiple" style="width:0;height:0;opacity:0.01;" /> <!--用input标签并选择type=file，记得带上multiple，不然就只能单选图片了-->
+				</div>
+			</div>
+			<!--显示上传图片-->
+			<div class="upload_img_box">
+				<!--上传图片展示-->
+				<!---
+				<div class="img_box">
+					<img src="/upload/temp/201909081621305031.jpg" style="height: auto; width: 100px; margin-top: 0px;">
+				</div>
+				-->
+			<!--图片操作 操作开始-->
+			<div class="com_struct">
+				<button id="product_imsges_select" type="button" class="next_btn">选择</button>
+				<button id="product_imsges_delete" type="button" class="next_btn">删除</button>
+			</div>
+			<!--图片操作 操作结束-->
+			</div>
+			
+		</div>
+		<!--图片上传 结束-->
+		
+		<!--销售信息 开始-->
+		<div class="sell_card" id="sales_attribute">
+			<h2 id="base_card_title" class="sell_card_title">销售信息</h2>
+			<!---测试信息颜色--->
+			<!--
+			<div class="attributes">
+				<div class="attributes_name" data-attribute_name_en="body color" data-attribute_name_zh="机身颜色">机身颜色:</div>
+				<div style="color:#F00;" class="attributes_value attribute_img" data-attribute_value_en="Gold" data-attribute_value_zh="金色" data-img_src="/upload/temp/201909081621305031.jpg">
+					<a title="金色"><img src="/upload/temp/201909081621305031.jpg" style="height: 30px; width: auto; margin-left: 0px;"></a>
+				</div>
+			</div>
+			<div class="attributes">
+				<div class="attributes_name" data-attribute_name_en="Package Type" data-attribute_name_zh="套餐类型">套餐类型:</div>
+				<div class="attributes_value" data-attribute_value_en="Official standard" data-attribute_value_zh="官方标配" data-img_src="">官方标配</div>
+				<div class="attributes_value" data-attribute_value_en="Package A" data-attribute_value_zh="套餐一" data-img_src="">套餐一</div>
+			</div>
+			-->
+			
+			
+			<!--新增属性 开始-->
+			<div class="com_struct" id="struct-title">
+				<div class="next_col">
+					<button id="attributes_add" type="button" class="next_btn">增加属性</button>
+					<button id="attributes_del" type="button" class="next_btn">删除属性</button>
+				</div>
+			</div>
+			<!--sku信息--->
+			<div class="sku_info">
+				<table class="sku_table">
+					<tr>
+						<th>颜色</th>
+						<th>尺码</th>
+						<th>套装</th>
+						<th>库存</th>
+						<th>原价</th>
+						<th>售价</th>
+						<th>上架状态</th>
+					</tr>
+					<tr>
+						<td>黄色</td>
+						<td>S</td>
+						<td>
+							<img src="/upload/temp/201909012130122426.jpg" style="height: 30px; width: auto; margin-left: 5px;">
+						</td>
+						<td><input class="input_wrap" type="text" name="product_qty" placeholder="产品库存 " value="0" maxlength="10"></td>
+						<td><input class="input_wrap" type="text" name="product_old_price" placeholder="产品原价" value="0" maxlength="10"></td>
+						<td><input class="input_wrap" type="text" name="product_price" placeholder="产品售价 " value="0" maxlength="10"></td>
+						<td>
+							<select class="product_status">
+								<option value ="1" selected="selected">上架</option>
+								<option value ="0">下架</option>
+								<option value ="2">清仓</option>
+								<option value ="3">违禁</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+			
+			
+			<!--产品标题结束-->
+		</div>
+		<!--销售信息 结束-->
+		
+		<!--图文描述 开始-->
+		<div class="sell_card" id="base_description">
+			<h2 id="base_card_title" class="sell_card_title">图文描述</h2>
+			
+			<!--style给定宽度可以影响编辑器的最终宽度-->
+			<div class="desc_text">中文描述:</div>
+			<script type="text/plain" id="my_editor_zh" style="width:988px;max-height:800px;">中文描述</script>
+			
+			<div class="desc_text">英文描述:</div>
+			<script type="text/plain" id="my_editor_en" style="width:988px;max-height:800px;">英文描述</script>
+			
+		</div>
+		<!--图文描述 结束-->
+		
+		<!--支付信息 开始-->
+		<div class="sell_card" id="payment_info">
+			<h2 id="base_card_title" class="sell_card_title">支付信息</h2>
+			<!--产品标题 开始-->
+			<div class="com_struct" id="struct-title">
+				<div class="next_col">
+					<label class="sell_addon_label required">购买地址</label>
+				</div>
+				<div class="input_wrap_box">
+					<input class="input_wrap" type="text" id="payment_address" name="payment_address" placeholder="购买地址" value="" maxlength="1200" height="100%" />
+				</div>
+			</div>
+		</div>
+		<!--产品上架 结束-->
+		<div class="product_action">
+			<h2 id="base_card_title" class="sell_card_title">产品上架</h2>
+			<div class="upload_product">
+				<button id="upload_product" type="button" class="next_btn">产品上架</button>
+			</div>
+		</div>
+		<br/>
+		<br/>
+		<br/>
+		<!--类目选择-->
+		<div id="catalog_select" style="display:none;" ondragstart="return false;">
+			<!--透明背景层-->
+			<div class="backdrop"></div>
+			<div id="catalog_json" style="display:none;">{$catalog_json}</div>
+			<div class="next_dialog" style="width:660px;">
+				<!--属性标题-->
+				<div class="next_dialog_header">选择类目<div class="close"></div></div>
+				<div class="product_category_box">
+					<div class="category_tree product_category" style="width:500px;">
+						<ul>
+							<li class="folder open">
+								<a href="#" ref="xtgl">产品类目</a>
+							</li>
+						</ul>
+					</div>
+					<div class="category_edit">
+						<button id="confirm_select" type="button" class="next_btn">确认选择</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--添加产品属性的页面代码-->
+		<div id="attribute_add" style="display:none;">
+			<!--透明背景层-->
+			<div class="backdrop" ondragstart="return false;"></div>
+			<div class="next_dialog">
+				<!--属性标题-->
+				<div class="next_dialog_header">
+					新增属性
+					<div class="close">
+					</div>
+				</div>
+				<!--新增属性框-->
+				<div class="attribute_info_box">
+					<div class="next_dialog_body">
+						<!--属性标题信息-->
+						<div class="attribute_name_box">
+							<div class="attribute_title">属性中文：</div>
+							<input class="attribute_name" name="attribute_name_zh" value=""/>
+						</div>
+						<!--属性名称中文-->
+						<div class="attribute_name_box">
+							<div class="attribute_title">属性英文：</div>
+							<input class="attribute_name" name="attribute_name_en" value=""/>
+						</div>
+						<!--属性值信息-->
+						<div class="attribute_set">
+							<div class="attribute_set_name">属&nbsp;&nbsp;性&nbsp;&nbsp;值：</div>
+							<div class="attribute_value" data-attribute_value_en="White">白色</div>
+							<div class="attribute_value" data-attribute_value_en="White">蓝色</div>
+						</div>
+						<!--属性值变更-->
+						<div class="attribute_action_box">
+							<div class="attribute_action">增加属性</div>
+						</div>
+					</div>
+					<!--当前的属性信息 开始-->
+					<div class="attribute_info">
+						<!--属性标题信息-->
+						<div class="attribute_name_box">
+							<div class="attribute_title">当前属性值：</div>
+							<input class="attribute_input" name="attribute_value_zh" value="黑色"/>
+						</div>
+						<div class="attribute_name_box">
+							<div class="attribute_title">English name：</div>
+							<input class="attribute_input" name="attribute_value_en" value="Black"/>
+						</div>
+						<div class="attribute_name_box">
+							<div class="attribute_title">属性图：</div>
+							<div class="attribute_img_box">
+								<!--
+								<div class="attribute_img"><img src="/upload/temp/201909081621305031.jpg" style="height: 30px; width: auto; margin-left: 0px;"></div>
+								-->
+							</div>
+						</div>
+						<!--属性值变更-->
+						<div class="attribute_action_box">
+							<div class="attribute_action">添加</div>
+							<div class="attribute_action">修改</div>
+							<div class="attribute_action">删除</div>
+						</div>
+					</div>
+					<!--当前属性信息 结束-->
+				</div>
+				<!--新增属性框 结束-->
+			</div>
+		</div>
+		
+		<!--产品参数 编辑模块-->
+		<div id="parameters_add" style="display:none;">
+			<!--透明背景层-->
+			<div class="backdrop" ondragstart="return false;"></div>
+			<div class="next_dialog" style="left: 520px; top: 227px;">
+				<!--属性标题-->
+				<div class="next_dialog_header">
+					新增参数
+					<div class="close">
+					</div>
+				</div>
+				<!--新增属性框-->
+				<div class="next_dialog_body">
+					<!--属性标题信息-->
+					<div class="parameters_box">
+						<div class="parameters_title">参数中文：</div>
+						<input class="parameters_name" placeholder="参数名称" name="parameters_name_zh" value="">
+						<input class="parameters_value" placeholder="参数值" name="parameters_value_zh" value="">
+					</div>
+					<!--属性名称中文-->
+					<div class="parameters_box">
+						<div class="parameters_title">参数英文：</div>
+						<input class="parameters_name" placeholder="parameters_name" name="parameters_name_en" value="">
+						<input class="parameters_value" placeholder="parameters_value" name="parameters_value_en" value="">
+					</div>
+					<!--属性值变更-->
+					<div class="parameters_action_box">
+						<div class="parameters_action">增加参数</div>
+					</div>
+				</div>
+				<!--新增属性框 结束-->
+			</div>
+		</div>
+		
+		<!--服务承诺 编辑模块-->
+		<div id="pledge_box_add" style="display:none;">
+			<!--透明背景层-->
+			<div class="backdrop" ondragstart="return false;"></div>
+			<div class="next_dialog" style="left: 520px; top: 227px;">
+				<!--属性标题-->
+				<div class="next_dialog_header">
+					新增承诺
+					<div class="close"></div>
+				</div>
+				<!--新增属性框-->
+				<div class="next_dialog_body">
+					<!--属性标题信息-->
+					<div class="pledge_box">
+						<div class="pledge_title">承诺中文：</div>
+						<input class="pledge_name" placeholder="承诺" name="pledge_name_zh" value="">
+					</div>
+					<!--属性名称中文-->
+					<div class="pledge_box">
+						<div class="pledge_title">承诺英文：</div>
+						<input class="pledge_name" placeholder="pledge" name="pledge_name_en" value="">
+					</div>
+					<!--属性值变更-->
+					<div class="pledge_action_box">
+						<div class="pledge_action">增加承诺</div>
+					</div>
+				</div>
+				<!--新增属性框 结束-->
+			</div>
+		</div>
+		
+		<!--弹出框-->
+		<div id="message_box" style="display:none;">
+			<!--透明背景层-->
+			<div class="backdrop" ondragstart="return false;"></div>
+			<div class="next_dialog">
+				<!--属性标题-->
+				<div class="next_dialog_header">
+					<span class="title">警告信息</span>
+					<div class="close"></div>
+				</div>
+				<div class="message"></div>
+				<!--新增属性框-->
+				<div class="action">
+					<button type="button" class="next_btn" data-name="confirm">确定</button>
+					<button type="button" class="next_btn" data-name="cancel">取消</button>
+				</div>
+			</div>
+		</div>
+		
+		<!--图片展示框架-->
+		<div id="image_show">
+			<div class="img_box">
+				<img src="/public/admin/images/timg.jpg" style="height: auto; width: 100px;" ondragstart="return false;">
+				<div class="close"></div>
+			</div>
+		</div>
+		
+	</body>
+	
+	<script>
+		//当前语言
+		$language={$current_language};
+	</script>
+	
+	<!--产品编辑-->
+	{literal}
+	<script>
+		<!--目录-->
+		$catalog_json=JSON.parse($("#catalog_json").text());
+		//将catalog_json 显示为html代码
+		function catalog_show(catalog_array){
+			$temp_string='';
+			for(index in catalog_array){
+				$temp_string+='<li class="folder open">';
+				$temp_string+='<a href="javascript:void(0);" ref="xtgl" data-id="'+catalog_array[index]['id']+'" data-catalog_number="'+catalog_array[index]['catalog_number']+'" >'+catalog_array[index]['catalog_name']+'</a>';
+				//如果项目有子集
+				if(catalog_array[index]['child'].length>0){
+					$temp_string+='<ul>'+catalog_show(catalog_array[index]['child'])+'</ul>';
+				}
+				$temp_string+='</li>';//字符串拼接
+			}
+			
+			return $temp_string;
+		}
+		//调用类型显示
+		$catalog_html=catalog_show($catalog_json);
+		$(".category_tree").html('<ul>'+$catalog_html+'</ul>');
+		
+		//类方法定义
+		function category_tree($category){
+			this.category=$category;//类目对象
+			this.id=0;//当前目录的id
+			this.dom = null;//当前的选择元素
+			this.category_level=new Array();
+			//添加类目
+			this.set_element=function($dom){
+				//设置选中的颜色
+				this.category.find('a').css("color",'#000');
+				this.dom=$($dom);
+				this.dom.css("color","#F00");
+				//显示必要的选择新
+				this.id=this.dom.data('id');//设置pid
+				var $catalog_name=this.dom.text()
+				var $catalog_id=this.dom.data('id');
+				
+				//获取父级名称
+				//nodeName
+				$parent_dom=this.dom;
+				
+				var $category_level=new Array();
+				$category_level[$category_level.length]={'catalog_name':$catalog_name,'catalog_id':$catalog_id};
+				$i=0;
+				while (1==1) {
+					$parent_dom=$parent_dom.parent().parent();
+					$node_name=$parent_dom[0].nodeName;
+					$catalog_name=$parent_dom.parent().find('>a').text();
+					$catalog_id=$parent_dom.parent().find('>a').data('id');
+					
+					$i++;//防止死循环
+					if($node_name!='UL' || $catalog_name=="" || $i>100){
+						break;
+					}
+					$category_level[$category_level.length]={'catalog_name':$catalog_name,'catalog_id':$catalog_id};
+				}
+				$category_level=$category_level.reverse();
+				this.category_level=$category_level;
+			}
+			
+		}
+		$category_tree=new category_tree($('.category_tree'));
+		
+		//类目树
+		$(document).on('click','.category_tree a',function(event){
+			var $this_category_name=$(this).text();
+			var $temp_li=$(this).parent()
+			if($temp_li.is('.open')){
+				$temp_li.removeClass("open");
+				$temp_li.find('>ul').hide(200);
+			}else{
+				$temp_li.addClass("open")
+				$temp_li.find('>ul').show(200);
+			}
+			$category_tree.set_element(this);
+			
+			
+			event.stopPropagation()
+		});
+		
+		//类目关闭
+		$("#catalog_select .next_dialog .next_dialog_header .close").click(function(){
+			$("#catalog_select").hide(200);
+		})
+		//类目显示
+		$("#current_category #button_catpath").click(function(){
+			$("#catalog_select").show(200);
+		})
+		
+		//类目确认选择
+		$("#catalog_select #confirm_select").click(function(){
+			$("#catalog_select").hide(200);
+			var $category_level=$category_tree.category_level;
+			//var $catalog_select_html="";
+			var $catalog_id=0;
+			$html_str_arr=new Array();
+			for($key in $category_level){
+				$catalog_name=$category_level[$key]['catalog_name'];
+				$catalog_id=$category_level[$key]['catalog_id'];//最后一个值给表单
+				$html_str_arr[$html_str_arr.length]='<a href="javascript:void(0);">'+$catalog_name+'</a>';
+			}
+			$("#category_name").html($html_str_arr.join('>>'));
+			$("#product_catalog_id").val($catalog_id);
+		})
+		
+		
+		/*
+		用ajax发送fd参数时要告诉jQuery不要去处理发送的数据，
+		不要去设置Content-Type请求头才可以发送成功，否则会报“Illegal invocation”的错误，
+		也就是非法调用，所以要加上“processData: false,contentType: false,”
+		*/
+		//$arr={"status":"200","file_name":["/upload/temp/201908121251311583.jpg","/upload/temp/201908121251315853.jpg","/upload/temp/201908121251314931.png"],"msg":"图片上传成功"};
+		
+		var um_zh = UM.getEditor('my_editor_zh','');//百度编辑器
+		var um_en = UM.getEditor('my_editor_en','');//百度编辑器
+		//$("html,body").animate({scrollTop:$("#content").offset().top},1000);
+		
+		//产品属性操作类
+		function attribute_frame(){
+			this.init=function($attribute_object,add_function){
+				//清空信息
+				this.clear_data();//清空数据
+				//事件注册
+				this.add_function=add_function;
+				//可拖动元素 设置
+				drag_dom($("#attribute_add .next_dialog"),$("#attribute_add .next_dialog .next_dialog_header"));
+				
+				//属性值 选择事件
+				$(document).on("click",".attribute_set .attribute_value",function(){
+					var $attribute_value_zh=$(this).text();//属性的中文名称
+					var $attribute_value_en=$(this).attr('data-attribute_value_en');//属性的英文名称
+					var $img_src=$(this).attr('data-img_src');//图片地址
+					
+					var $attribute_info_box=$(this).parents('.attribute_info_box');
+					$attribute_info_box.find('input[name="attribute_value_zh"]').val($attribute_value_zh);//设置中文名称
+					$attribute_info_box.find('input[name="attribute_value_en"]').val($attribute_value_en);//设置英文名称
+					
+					//属性图的选择
+					$("#attribute_add .attribute_img_box .attribute_img").removeClass('selected');
+					$attribute_info_box.find('.attribute_img_box .attribute_img').each(function(){
+						var $this_img_src=$(this).find('img').attr('src');
+						//如果属性图路径相同 则自动选择图片
+						if($img_src==$this_img_src){
+							$(this).trigger('click');//触发事件
+						}
+					})
+					
+					//属性的选择
+					$("#attribute_add .attribute_set .attribute_value").removeClass('selected');
+					$(this).addClass("selected");
+					
+				});
+				
+				//新增属性 属性图 选择事件
+				$(document).on("click",".attribute_img_box .attribute_img",function(event){
+					event.stopPropagation();
+					$("#attribute_add .attribute_img_box .attribute_img").removeClass('selected');
+					$(this).addClass("selected");
+				});
+				//属性图取消选择
+				$(document).on("click",".attribute_img_box",function(event){
+					$("#attribute_add .attribute_img_box .attribute_img.selected").removeClass('selected');
+				});
+				
+				//属性操作
+				$(".attribute_action_box .attribute_action").click(function(){
+					$action_name=$(this).text();//要执行的动作名称
+					var $attribute_value_zh='';
+					var $attribute_value_en='';
+					var $img_src='';
+					//添加属性操作
+					if($action_name=="添加"){
+						$attribute_info_box=$(this).parents('.attribute_info_box');
+						$attribute_value_zh=$attribute_info_box.find('input[name="attribute_value_zh"]').val();//设置中文名称
+						$attribute_value_en=$attribute_info_box.find('input[name="attribute_value_en"]').val();//设置英文名称
+						if($attribute_value_zh=='')return;//如果未设置名称 不允许添加
+						
+						
+						$img_src='';
+						if($("#attribute_add .attribute_img_box .attribute_img.selected").length>=1){
+							$img_src=$("#attribute_add .attribute_img_box .attribute_img.selected").find('img').attr('src');
+						}
+						//新属性的html代码
+						if($img_src==""){
+							var $attribute_value_html='<div class="attribute_value" data-attribute_value_en="'+$attribute_value_en+'" data-img_src="'+$img_src+'">'+$attribute_value_zh+'</div>';
+						}else{
+							var $attribute_value_html='<div style="color:#F00;" class="attribute_value" data-attribute_value_en="'+$attribute_value_en+'" data-img_src="'+$img_src+'">'+$attribute_value_zh+'</div>';
+						}
+						
+						//判断属性值是否已经存在
+						$(".next_dialog_body .attribute_set .attribute_value").each(function(){
+							if($(this).text()==$attribute_value_zh){
+								//移除当前元素
+								$(this).remove();
+							}
+						})
+						$("#attribute_add .next_dialog_body .attribute_set").append($attribute_value_html);
+					}else if($action_name=="删除"){
+						$("#attribute_add .attribute_set .attribute_value.selected").remove();//移除属性
+					}else if($action_name=="修改"){
+						$attribute_info_box=$(this).parents('.attribute_info_box');
+						$attribute_value_zh=$attribute_info_box.find('input[name="attribute_value_zh"]').val();//设置中文名称
+						$attribute_value_en=$attribute_info_box.find('input[name="attribute_value_en"]').val();//设置英文名称
+						if($attribute_value_zh=='')return;//如果未设置名称 不允许修改
+						
+						$img_src=$("#attribute_add .attribute_img_box .attribute_img.selected").find('img').attr('src');
+						//判断属性值是否已经存在
+						$("#attribute_add .attribute_set .attribute_value.selected").attr('data-attribute_value_en',$attribute_value_en);//修改英文名称
+						$("#attribute_add .attribute_set .attribute_value.selected").attr('data-img_src',$img_src);//修改英文名称
+						$("#attribute_add .attribute_set .attribute_value.selected").text($attribute_value_zh).css("color","#F00");//修改中文名称
+					}else if($action_name=="增加属性"){
+						//获取编辑后的参数
+						$attribute_data=$attribute_object.get_attribute();
+						$attribute_object.close();//关闭菜单
+						//回调用户参数
+						$attribute_object.add_function($attribute_data);
+						$attribute_object.clear_data();//清空数据
+					}
+				});
+				
+				//关闭添加属性
+				$("#attribute_add .next_dialog_header .close").click(function(){
+					var $attribute_data=$attribute_object.close();
+				})
+				//调用增加属性的方法
+				$("#attributes_add").click(function(){
+					var img_array=new Array()
+					$("#upload_images .upload_img_box .img_box img").each(function(){
+						img_array[img_array.length]=$(this).attr('src');
+					})
+					
+					$attribute_object.set_attribute_img(img_array);
+					$attribute_object.add_show();//调用属性类的 新增属性方法
+				})
+				
+				//删除属性
+				$("#attributes_del").click(function(){
+					//查找是否选择 属性
+					var $temp_dom=$("#sales_attribute .attributes .attributes_name.selected");
+					
+					//当前选择的不是属性图 并且 被选择
+					if($temp_dom.text().indexOf('属性图')==-1 && $temp_dom.length==1){
+						$temp_dom.parents('.attributes').remove();//删除当前节点
+						$attribute_object.sku_table();//重新计算sku信息
+					}else{
+						message_box("选择错误","未选择 或合适的属性")
+					}
+					
+				})
+				
+				//属性编辑
+				$(document).on("click","#sales_attribute .attributes .attributes_name",function(){
+					$("#sales_attribute .attributes .attributes_name").removeClass('selected');
+					$(this).addClass('selected')
+				});
+				
+				//用户编辑第一行的时候 自动填写其他行
+				$(document).on('blur','.sku_table tr:eq(1) td input',function(){
+					var $input_name=$(this).attr('name');
+					var $sku_table =$(this).parents('.sku_table');
+					var $input_val=$(this).val();//输入
+					//未设置值的 批量设置
+					
+					$sku_table.find('input[name="'+$input_name+'"]').each(function(){
+						if($(this).val()=="" || $(this).val()=="0"){
+							$(this).val($input_val)
+						}
+					})
+				})
+			}
+			
+			//清除数据
+			this.clear_data=function(){
+				$("#attribute_add .next_dialog_body .attribute_name_box .attribute_name").val("");//属性名称
+				$("#attribute_add .next_dialog_body .attribute_set .attribute_value").remove();//移除属性值
+				$("#attribute_add .attribute_info .attribute_name_box input[name='attribute_value_zh']").val('');//中文名称
+				$("#attribute_add .attribute_info .attribute_name_box input[name='attribute_value_en']").val('');//英文名称
+			}
+			
+			//添加属性时显示的操作
+			this.add_show=function(){
+				var client_width=document.body.clientWidth;
+				$('#attribute_add').show();//先显示 才能计算宽高
+				var this_width=$('#attribute_add .next_dialog').width();
+				var this_height=$("#attribute_add .next_dialog").height();
+				//计算居中显示的位置
+				var left = (window.innerWidth-this_width)/2;
+				var top  = (window.innerHeight-this_height)/2;
+				$('#attribute_add .next_dialog').css({"left":left,"top":top});//显示元素并居中显示
+			}
+			//设置属性图
+			this.set_attribute_img=function($attribute_img_array){
+				//刷新属性图显示
+				$("#attribute_add .attribute_img_box").html("");
+				for(i in $attribute_img_array){
+					$html_attribute_img='<div class="attribute_img"><img src="'+$attribute_img_array[i]+'" onload="img_onload(this,30);"></div>';
+					$("#attribute_add .attribute_img_box").append($html_attribute_img);
+				}
+			}
+			//关闭事件
+			this.close=function(){
+				$("#attribute_add").hide('200');
+			}
+			this.get_attribute=function(){
+				var $attribute_data={};
+				//对添加信息进行整理
+				var $attribute_name_zh=$("#attribute_add input[name='attribute_name_zh']").val();
+				var $attribute_name_en=$("#attribute_add input[name='attribute_name_en']").val();
+				
+				$attribute_data['attribute_name_zh']=$attribute_name_zh;
+				$attribute_data['attribute_name_en']=$attribute_name_en;
+				$attribute_data['list']=new Array();
+				$("#attribute_add .attribute_info_box .attribute_set .attribute_value").each(function(){
+					//获取名称信息
+					var $attribute_value_en=$(this).attr('data-attribute_value_en');//英文名称
+					var $attribute_value_zh=$(this).text();//中文名称
+					var $img_src=$(this).attr('data-img_src');
+					$attribute_data['list'][$attribute_data['list'].length]={
+						'attribute_value_en':$attribute_value_en,
+						'attribute_value_zh':$attribute_value_zh,
+						'img_src':$img_src
+					}
+				})
+				return $attribute_data;
+			}
+			
+			//获取attributes组信息
+			this.get_attribute_array=function(){
+				$attribute_array=new Array();
+				//销售信息 属性遍历
+				$("#sales_attribute .attributes").each(function(){
+					var $attribute_data={};
+					var $attribute_name_zh=$(this).find('.attributes_name').data('attribute_name_zh');
+					var $attribute_name_en=$(this).find('.attributes_name').data('attribute_name_en');
+					$attribute_data['attribute_name_zh']=$attribute_name_zh;
+					$attribute_data['attribute_name_en']=$attribute_name_en;
+					$attribute_data['list']=new Array();
+					//如果不是属性图
+					if(typeof($attribute_name_zh)=="string" && $attribute_name_zh.indexOf('属性图')==-1){
+						$(this).find('.attributes_value').each(function(){
+							//获取属性值信息
+							$attribute_value_en=$(this).data('attribute_value_en');
+							$attribute_value_zh=$(this).data('attribute_value_zh');//
+							$img_src=$(this).data('img_src');//图片信息
+							
+							$attribute_data['list'][$attribute_data['list'].length]={
+								'attribute_value_en':$attribute_value_en,
+								'attribute_value_zh':$attribute_value_zh,
+								'img_src':$img_src
+							}
+						})
+						$attribute_array[$attribute_array.length]=$attribute_data;
+					}
+				});
+				return $attribute_array;
+			}
+			//数据
+			this.sku_table=function(){
+				//属性信息 第一行信息
+				var $attributes_info=this.get_attribute_array();
+				
+				//根据当前页面计算信息
+				$("#sales_attribute .sku_info").html("");//清空数据
+				var $table_html='<table class="sku_table"><tbody></tbody></table>';//表单
+				$table_dom=$($table_html);//table html
+				
+				//插入首行代码
+				var $tr_html=$('<tr><tr>/');
+				//////////////////////////////
+				//第一行 固定节点定义
+				$ths_html='	<th data-type="product_weight" data-attribute_name_en="product_weight" data-attribute_name_zh="产品重量">产品重量</th>\
+							<th data-type="product_qty" data-attribute_name_en="product_qty" data-attribute_name_zh="库存">库存</th>\
+							<th data-type="product_old_price" data-attribute_name_en="product_old_price" data-attribute_name_zh="产品原价">产品原价</th>\
+							<th data-type="product_price" data-attribute_name_en="product_price" data-attribute_name_zh="售价">售价</th>\
+							<th data-type="product_status" data-attribute_name_en="product_status" data-attribute_name_zh="上架状态">上架状态</th>'
+				window.sku_info=new Array();
+				for($i=0;$i<$attributes_info.length;$i++){
+					window.sku_info[window.sku_info.length]=$attributes_info[$i]['list'];
+					var attribute_name_en=$attributes_info[$i]['attribute_name_en'];
+					var attribute_name_zh=$attributes_info[$i]['attribute_name_zh'];
+					var $th_html='<th data-type="attribute" data-attribute_name_en="'+attribute_name_en+'" data-attribute_name_zh="'+attribute_name_zh+'">'+attribute_name_zh+'</th>';
+					$tr_html.append($th_html);
+				}
+				
+				$tr_html.append($ths_html);//th 组
+				$table_dom.find("tbody").append($tr_html.prop("outerHTML"));//插入首行代码
+				
+				
+				///////////////////////////////////////////////
+				//笛卡尔算法 
+				window.descartes_data=new Array();//结果保存到这个数组
+				descartes();//调用笛卡尔
+				var descartes_result=window.descartes_data;//更新数据
+				//////////////////////////////
+				//数据行 固定节点定义
+				var $tds_html='<td data-type="product_weight" data-attribute_value_en="product_weight" data-attribute_value_zh="产品重量">\
+									<input class="input_wrap" type="text" name="product_weight" placeholder="产品重量" value="0" maxlength="10">\
+								</td>\
+								<td data-type="product_qty" data-attribute_value_en="product_qty" data-attribute_value_zh="产品库存">\
+									<input class="input_wrap" type="text" name="product_qty" placeholder="产品库存" value="0" maxlength="10">\
+								</td>\
+								<td data-type="product_old_price" data-attribute_value_en="product_old_price" data-attribute_value_zh="产品原价">\
+									<input class="input_wrap" type="text" name="product_old_price" placeholder="产品原价" value="0" maxlength="10">\
+								</td>\
+								<td data-type="product_price" data-attribute_value_en="product_price" data-attribute_value_zh="产品售价">\
+									<input class="input_wrap" type="text" name="product_price" placeholder="产品售价 " value="0" maxlength="10">\
+								</td>\
+								<td data-type="product_status" data-attribute_value_en="product_status" data-attribute_value_zh="产品状态">\
+									<select class="product_status">\
+										<option value ="1" selected="selected">上架</option>\
+										<option value ="0">下架</option>\
+										<option value ="2">清仓</option>\
+										<option value ="3">违禁</option>\
+									</select>\
+								</td>';
+				
+				for($i=0;$i<descartes_result.length;$i++){
+					var li_info=descartes_result[$i];
+					var $tr_html=$('<tr><tr>/');//插入首行代码
+					for($c=0;$c<li_info.length;$c++){
+						var attribute_value_en=li_info[$c]['attribute_value_en'];
+						var attribute_value_zh=li_info[$c]['attribute_value_zh'];
+						var img_src=li_info[$c]['img_src'];
+						
+						if(img_src!=""){
+							var $th_html='<td data-type="attribute_value" data-attribute_value_en="'+attribute_value_en+'" data-attribute_value_zh="'+attribute_value_zh+'" data-img_src="'+img_src+'">'+
+							'<a target="_blank" href="'+img_src+'"><img src="'+img_src+'" title="'+attribute_value_en+'"/></a><br/>'+attribute_value_zh
+							+'</th>';
+						}else{
+							var $th_html='<td data-type="attribute_value"  data-attribute_value_en="'+attribute_value_en+'" data-attribute_value_zh="'+attribute_value_zh+'" data-img_src="'+img_src+'">'+attribute_value_zh+'</th>';
+						}
+						$tr_html.append($th_html);
+					}
+					$tr_html.append($tds_html);//追加行节点
+					$table_dom.append($tr_html.prop("outerHTML"));//生成新的tr节点
+					
+				};
+				
+				$table_dom_html=$table_dom.prop("outerHTML");
+				$(".sku_info").html($table_dom_html);
+				//笛卡尔算法
+			}
+			
+		}
+		
+		/////////////////////////////////////////////////////
+		//笛卡尔算法 计算sku信息
+		window.descartes_data=new Array();//结果保存到这个数组
+		function descartes(array_index=0,result){
+			
+			//如果没有成员就不处理
+			if(window.sku_info.length==0)return false;
+			
+			if(array_index>=window.sku_info.length) {
+				window.descartes_data.push(result);
+				return false;
+			};
+			var arr=window.sku_info[array_index];
+			if(!result)result=new Array();
+			for(var i=0;i<arr.length;i++){
+				var the_result=result.slice(0,result.length);
+				the_result.push(arr[i]);
+				descartes(array_index+1,the_result);
+			}
+		}
+		
+		
+		$attribute_object=new attribute_frame();
+		$attribute_object.init($attribute_object,function($attribute_data){
+			//设置添加属性时回调函数
+			var $attribute_name_zh=$attribute_data['attribute_name_zh'];
+			var $attribute_name_en=$attribute_data['attribute_name_en'];
+			$attributes_value_list=$attribute_data['list'];
+			
+			if($attribute_name_zh==""){
+				message_box($language['警告'],'产品中名称未填写',function(action){});
+				return false;
+			}
+			if($attribute_name_en==""){
+				message_box($language['警告'],'产品英文称未填写',function(action){});
+				return false;
+			}
+			if($attributes_value_list.length==0){
+				message_box($language['警告'],'属性未填写',function(action){});
+				return false;
+			}
+			
+			var attribute_value_en='';
+			var attribute_value_zh='';
+			var img_src="";
+			$append_html='<div class="attributes">';
+			$append_html+='<div class="attributes_name" data-attribute_name_en="'+$attribute_name_en+'"  data-attribute_name_zh="'+$attribute_name_zh+'">'+$attribute_name_zh+':</div>';
+			var $style='';//样式html
+			for($i=0;$i<$attributes_value_list.length;$i++){
+				attribute_value_en=$attributes_value_list[$i]['attribute_value_en'];
+				attribute_value_zh=$attributes_value_list[$i]['attribute_value_zh'];
+				img_src=$attributes_value_list[$i]['img_src'];
+				if(img_src!=""){
+					$append_html+='<div style="color:#F00;" class="attributes_value attribute_img" data-attribute_value_en="'+attribute_value_en+'" data-attribute_value_zh="'+attribute_value_zh+'"  data-img_src="'+img_src+'" >\
+					<a title="'+attribute_value_zh+'"><img src="'+img_src+'" style="height: 30px; width: auto; margin-left: 0px;"></a>\
+					</div>';
+				}else{
+					$append_html+='<div  class="attributes_value" data-attribute_value_en="'+attribute_value_en+'" data-attribute_value_zh="'+attribute_value_zh+'" data-img_src="" >'+attribute_value_zh+'</div>';
+				}
+			}
+			$append_html+='</div>';
+			$("#sales_attribute .com_struct").before($append_html);
+			
+			//调整显示图片
+			$("#sales_attribute .attributes .attribute_img").each(function(){
+				//获取最后一个图片 就是刚插入的图片
+				var img=$(this).find('img')[0];
+				img_onload(img,30);
+			});
+			$attribute_object.clear_data();//清空数据
+			//计算 需要填写的sku信息
+			$attribute_object.sku_table();//重新计算sku信息
+			
+		});//事件初始化
+		
+		$attribute_object.sku_table();
+		
+		//添加属性时注册的事件
+		
+		//编辑信息的导航栏 被点击时 特效代码
+		$(".next_nav_menu .next_nav_item").click(function(){
+			//用户选择了新的选项
+			if($(this).is('.selected')==false){
+				//打开新菜单动画
+				$(this).find('.item_top').css({"width":'0%',"left":'50%','display':'block'});//设置初始状态
+				$(this).find('.item_top').animate({"width":'100%',"left":'0%'},300,'swing');//设置终止状态
+				
+				//关闭 老的菜单的动画
+				var $temp_dom=$(".next_nav_menu .next_nav_item.selected");
+				$temp_dom.find('.item_top').css({"width":'100%',"left":'0%','display':'block'})
+				$temp_dom.find('.item_top').animate({"width":'0%',"left":'50%'},300,'swing');//设置终止状态
+				
+				//移除老的class 样式 新的 则增加样式
+				$temp_dom.removeClass('selected');
+				$(this).addClass('selected');
+				var $anchor_id=$(this).find('span').data('id');
+				var $nav_height=$(".next_nav_menu").height()+10;
+
+				//自动滚动到对应位置
+				$("html,body").animate({scrollTop:$('#'+$anchor_id).offset().top-$nav_height},200);
+				
+			}
+		});
+		//上传图片调整
+		function image_regulate(){
+			this.init=function($attribute_object,add_function){
+				//选择元素 当前焦点
+				$(document).on("click","#upload_images .upload_img_box .img_box",function(){
+					$("#upload_images .upload_img_box .img_box").removeClass('select');
+					$(this).addClass('select')
+				});
+				//键盘事件监听
+				$(document).keydown(function(event){
+					//如果你选择了一个图片
+					$temp_dom=$("#upload_images .upload_img_box .img_box.select");
+					$outer_html=$temp_dom.prop("outerHTML");//全部的html
+					if($temp_dom.length==1){
+						if(event.keyCode==37){
+							//左移动
+							$prev_dom=$temp_dom.prev();//找到上一个元素
+							//如果不是第一个元素就可以移动
+							if($prev_dom.length!=0){
+								$prev_dom.before($outer_html);
+								$temp_dom.remove();//移除当前节点
+							}
+						}else if(event.keyCode==39){
+							//右移动
+							$next_dom=$temp_dom.next();//找到上一个元素
+							//如果不是最后一个元素 就可以移动
+							if($next_dom.length!=0){
+								$next_dom.after($outer_html);
+								$temp_dom.remove();//移除当前节点
+							}
+							
+						}
+					}
+				});
+				
+				
+				//选择
+				$("#product_imsges_select").click(function(){
+					//选择第一个元素
+					$("#upload_images .upload_img_box .img_box").removeClass('select');
+					$("#upload_images .upload_img_box .img_box").eq(0).addClass('select');
+				})
+				
+				//选择
+				$("#product_imsges_delete").click(function(){
+					//删除节点
+					$("#upload_images .upload_img_box .img_box.select").remove();
+				})
+				
+			}//事件结束
+		}
+		//上传图片调整
+		$image_regulate=new image_regulate();
+		$image_regulate.init();
+		
+		//////////////////////////////////
+		//图片上传代码 //事件注册
+		//上传图片触发函数
+		$("#upload_image").click(function(){
+			$("#file_input").trigger("click");
+		});
+		
+		var input = document.getElementById("file_input");
+		if(typeof FileReader==='undefined'){
+			alert("抱歉，你的浏览器不支持 FileReader");
+		}else{
+			input.addEventListener('change',function(){
+				
+				var fd = new FormData();
+				var file_len = this.files.length;
+				
+				//用户选择的所有图片文件
+				for(var i=0;i<file_len;i++){
+					//判断上传文件格式
+					if (!this.files[i].name.match(/.jpg|.gif|.png|.bmp/i)){
+						return alert("上传的图片格式不正确，请重新选择");
+					}
+					
+					var reader = new FileReader();
+					fd.append('images[]',this.files[i]);//表单名称 images 后台接收文件并处理
+					reader.readAsDataURL(this.files[i]);//转成base64
+					var file_name = this.files[i].name;
+					
+					reader.onload = function(e){
+						//base64 : this.result//reader.readAsDataURL方法执行完后，base64数据储存在reader.result里
+						/*
+						add_html='<div class="img_box">\
+							<img src="'+this.result+'">\
+						</div>';
+						
+						$(".sell_card .upload_img_box").append(add_html);
+						var img=$(".sell_card .upload_img_box").find('img:last')[0];//获取最后一个图片 就是刚插入的图片
+						img_onload(img);
+						*/
+						
+					}//文件读入结束
+				}//循环结束
+				if(file_len>=1){
+					upload_image(fd);//上传图片
+				}
+			},false);
+		}//handler
+		
+		//POST 上传图片
+		function upload_image(fd){
+			$.ajax({
+				url : './upload_image',
+				type : 'post',
+				data : fd,
+				dataType: 'json',
+				processData: false,//用FormData传fd时需有这两项	
+				contentType: false,
+				success : function(data){
+					if(data['status']=="200"){
+						//如果上传多张图片
+						for(i=0;i<data['file_name'].length;i++){
+							//上传图片显示
+							add_html='<div class="img_box">\
+								<img src="'+data['file_name'][i]+'" onload="img_onload(this,100);">\
+							</div>';
+							$(".sell_card .upload_img_box").append(add_html);
+						}
+					}
+					//alert(data['msg']);//提示信息
+				}
+			})
+		}
+		
+		//上传图片展示
+		image_show('.upload_img_box .img_box','dblclick');//改成双击事件
+		
+		//类目
+		drag_dom($("#catalog_select .next_dialog"),$("#catalog_select .next_dialog .next_dialog_header"));
+		
+		//图片展示
+		//image_show(".upload_img_box .img_box");//上传的图片 放大展示方法
+		
+		////////////////////////////////////
+		//产品参数 类定义
+		function product_parameters(){
+			
+			//产品参数 初始化方法
+			this.init=function(){
+				
+				//产品参数->添加信息 被点击时 显示添加信息
+				$("#product_parameters .next_btn").click(function(){
+					$("#parameters_add").show();
+				});
+				
+				//关闭事件
+				$("#parameters_add .next_dialog .next_dialog_header .close").click(function(){
+					$("#parameters_add").hide();
+				});
+				
+				//添加产品属性
+				$("#parameters_add .parameters_action_box .parameters_action").click(function(){
+					var $parameters_name_zh=$("#parameters_add .parameters_box").find("input[name='parameters_name_zh']").val();
+					var $parameters_value_zh=$("#parameters_add .parameters_box").find("input[name='parameters_value_zh']").val();
+					
+					var $parameters_name_en=$("#parameters_add .parameters_box").find("input[name='parameters_name_en']").val();
+					var $parameters_value_en=$("#parameters_add .parameters_box").find("input[name='parameters_value_en']").val();
+					
+					if($parameters_name_zh==""){
+						message_box("信息填写错误","参数中文名称填写不正确!");
+						return false;
+					}
+					if($parameters_value_zh==""){
+						message_box("信息填写错误","参数中文值填写不正确!");
+						return false;
+					}
+					if($parameters_name_en==""){
+						message_box("信息填写错误","参数英文名称填写不正确!");
+						return false;
+					}
+					if($parameters_value_en==""){
+						message_box("信息填写错误","参数英文值填写不正确!");
+						return false;
+					}
+					var $li_html='<li title="'+$parameters_name_zh+'" \
+								data-parameters_name_zh='+$parameters_name_zh+' data-parameters_value_zh='+$parameters_value_zh+' \
+								data-parameters_name_en='+$parameters_name_en+' data-parameters_value_en='+$parameters_value_zh+' \
+								>'+$parameters_name_zh+' : '+$parameters_value_zh+'<div class="close"></div></li>';
+					$("#attr_ul").append($li_html);
+					
+					//清空数据
+					$("#parameters_add .parameters_box").find("input[name='parameters_name_zh']").val("");
+					$("#parameters_add .parameters_box").find("input[name='parameters_value_zh']").val("");
+					$("#parameters_add .parameters_box").find("input[name='parameters_name_en']").val("");
+					$("#parameters_add .parameters_box").find("input[name='parameters_value_en']").val("");
+					$("#parameters_add").hide();
+					
+				})
+				
+				//删除已有属性
+				$(document).on("click","#attr_ul li .close",function(){
+					$(this).parents('li').remove();
+				})
+				
+				
+				drag_dom($("#parameters_add .next_dialog"),$("#parameters_add .next_dialog .next_dialog_header"));
+				
+			}
+		}
+		var $parameters=new product_parameters();
+		$parameters.init($parameters);
+		
+		/////////////////////////////////////
+		//服务承诺
+		function pledge(){
+			this.init=function(){
+				//服务 添加
+				$("#pledge #pledge_add").click(function(){
+					$("#pledge_box_add").show();
+				});
+				
+				//关闭事件
+				$("#pledge_box_add .next_dialog .next_dialog_header .close").click(function(){
+					$("#pledge_box_add").hide();
+				});
+				
+				//添加承诺
+				$("#pledge_box_add .pledge_action_box .pledge_action").click(function(){
+					var $pledge_name_zh=$("#pledge_box_add .next_dialog .next_dialog_body .pledge_box").find("input[name='pledge_name_zh']").val();
+					var $pledge_name_en=$("#pledge_box_add .next_dialog .next_dialog_body .pledge_box").find("input[name='pledge_name_en']").val();
+					
+					if($pledge_name_zh==""){
+						message_box("信息填写错误","承诺中文名称填写不正确!");
+						return false;
+					}
+					if($pledge_name_en==""){
+						message_box("信息填写错误","承诺英文名称填写不正确!");
+						return false;
+					}
+					
+					var $promise_html='<div class="promise" data-pledge_name_zh="'+$pledge_name_zh+'" data-pledge_name_en="'+$pledge_name_en+'">'+$pledge_name_zh+'</div>'
+					$("#pledge .promo_row").append($promise_html);
+					//清空填写信息
+					$("#pledge_box_add .next_dialog .next_dialog_body .pledge_box").find("input[name='pledge_name_zh']").val('');
+					$("#pledge_box_add .next_dialog .next_dialog_body .pledge_box").find("input[name='pledge_name_en']").val('');
+					
+					$("#pledge_box_add").hide();
+				});
+				//承诺编辑
+				$(document).on("click","#pledge .promo_row  .promise",function(){
+					$("#pledge .promo_row  .promise").removeClass('selected');
+					$(this).addClass('selected')
+				});
+				//删除属性
+				$("#pledge_del").click(function(){
+					//查找是否选择 属性
+					var $temp_dom=$("#pledge .promo_row .promise.selected");
+					
+					//当前选择的不是属性图 并且 被选择
+					if($temp_dom.length==1){
+						$temp_dom.remove();//删除当前节点
+					}else{
+						message_box("选择错误","未选择 或服务承诺！")
+					}
+				})
+				//拖动模块
+				drag_dom($("#pledge_box_add .next_dialog"),$("#pledge_box_add .next_dialog .next_dialog_header"));
+			}
+		}
+		
+		var $pledge=new pledge();
+		$pledge.init();
+		
+		//自动选择类目
+		var $product_catalog_id=$("#product_catalog_id").val()
+		$select_category_flag=false;
+		$("#catalog_select .next_dialog a").each(function(){
+			if($(this).data('id')==$product_catalog_id){
+				$(this).trigger('click');
+				$select_category_flag=true;
+			}
+		});
+		
+		
+		
+		<!--信息提交-->
+		$("#upload_product").click(function(){
+			
+			//////////////////////
+			//组织数据
+			//类目id
+			var $product_catalog_id=$("#product_catalog_id").val();
+			
+			//产品名称
+			var $product_name_zh=$("#product_name_zh").val();//产品中文名称
+			var $product_name_en=$("#product_name_en").val();//产品英文名称
+			var $brand_zh=$("#brand_zh").val();//品牌 中文名称
+			var $brand_en=$("#brand_en").val();//品牌 英文名称
+			//产品参数 获取
+			var $product_parameters_array=new Array();
+			$("#product_parameters .attr_box #attr_ul li").each(function(){
+				var $product_parameters={};
+				$product_parameters['parameters_name_zh']=$(this).data('parameters_name_zh');
+				$product_parameters['parameters_value_zh']=$(this).data('parameters_value_zh');
+				$product_parameters['parameters_name_en']=$(this).data('parameters_name_en');
+				$product_parameters['parameters_value_en']=$(this).data('parameters_value_en');
+				$product_parameters_array[$product_parameters_array.length]=$product_parameters;
+			});
+			
+			//服务承诺 获取
+			var $pledge_array=new Array();
+			$("#pledge .promo_row .promise").each(function(){
+				var $pledge={};
+				$pledge['pledge_name_zh']=$(this).data('pledge_name_zh');
+				$pledge['pledge_name_en']=$(this).data('pledge_name_en');
+				$pledge_array[$pledge_array.length]=$pledge;
+			});
+			
+			//用户上传图片
+			var $upload_img_array=new Array();//属性图
+			$(".upload_img_box .img_box").each(function(){
+				$upload_img_array[$upload_img_array.length]=$(this).find("img").attr("src");
+			});
+			
+			//sku 列信息
+			var $column_info_array=new Array();
+			$(".sku_table tr").eq(0).find('th').each(function(){
+				var $column_info={}
+				$column_info['type']=$(this).data('type');
+				$column_info['attribute_name_zh']=$(this).data('attribute_name_zh');
+				$column_info['attribute_name_en']=$(this).data('attribute_name_en');
+				$column_info_array[$column_info_array.length]=$column_info;
+			})
+			var $sku_info_table=new Array();
+			var $sku_info=new Array();
+			var $info={};
+			//排除掉第一个元素
+			$(".sku_table tr:not(:eq(0))").each(function(){
+				$sku_info=new Array();
+				$(this).find('td').each(function(index){
+					$info={};
+					$info['type']=$(this).data('type');
+					$info['attribute_value_en']=$(this).data('attribute_value_en');
+					$info['attribute_value_zh']=$(this).data('attribute_value_zh');
+					
+					//产品重量
+					if($info['type']=="product_weight"){
+						$info['product_weight']=$(this).find('input.input_wrap').val();
+					}
+					//库存数量
+					if($info['type']=="product_qty"){
+						$info['product_qty']=$(this).find('input.input_wrap').val();
+					}
+					
+					//产品原价
+					if($info['type']=="product_old_price"){
+						$info['product_old_price']=$(this).find('input.input_wrap').val();
+					}
+					//产品价格
+					if($info['type']=="product_price"){
+						$info['product_price']=$(this).find('input.input_wrap').val();
+					}
+					//上架状态 
+					if($info['type']=="product_status"){
+						$info['product_status']=$(this).find('select.product_status').val();
+					}
+					$info['img_src']=$(this).data('img_src');
+					$sku_info[$sku_info.length]=$info;
+				})
+				$sku_info_table[$sku_info_table.length]=$sku_info;
+			})
+			var $content_zh=um_zh.getContent();//中文描述
+			var $content_en=um_en.getContent();//英文描述
+			var $payment_address=$("#payment_address").val();//付款地址
+			
+			$post={};
+			$post['product_catalog_id']=$product_catalog_id;//目录id
+			$post['brand_zh']=$brand_zh;//品牌中文名称
+			$post['brand_en']=$brand_en;//品牌英文名称
+			$post['product_name_zh']=$product_name_zh;//产品中文名称
+			$post['product_name_en']=$product_name_en;//产品英文名称
+			$post['product_parameters_array']=$product_parameters_array;//产品参数
+			$post['pledge_array']=$pledge_array;//服务承诺
+			$post['upload_img_array']=$upload_img_array;//用户上传图片
+			$post['column_info_array']=$column_info_array;//用户上传列信息
+			$post['sku_info_table']=$sku_info_table;//sku_info信息
+			
+			$post['content_zh']=$content_zh;
+			$post['content_en']=$content_en;
+			$post['payment_address']=$payment_address;
+			
+			$.post('./product_add', $post,function(data){
+				if(data['status']=="200"){
+					message_box("添加成功",data['msg']);
+				}else{
+					message_box("添加失败",data['msg']);
+				}
+				
+				console.log(data)
+			}, "json");
+			
+		});
+		
+	</script>
+	{/literal}
+
+	
+</html>

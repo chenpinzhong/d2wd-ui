@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Purple Admin</title>
+	<link rel="stylesheet" href="/public/admin/css/style.css">
+	<link rel="stylesheet" href="/public/admin/css/report.css">
+	<link rel="stylesheet" href="/public/admin/css/page.css">
+	<link rel="shortcut icon" href="/public/admin/images/favicon.png" />
+	<script type="text/javascript" src="/public/admin/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/public/admin/js/fun.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/public/admin/js/page.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/public/admin/js/report.js" charset="utf-8"></script>
+</head>
+<style>
+table.show_table {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+	margin-top:5px;
+}
+table.show_table th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table.show_table td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+</style>
+<body>
+	<div class="product_select">
+		<div class="search_bar">
+			<form method="get" id="user_from">
+				<input id="catalog_id_val" type="hidden" label="目录id" value="{$param.product_catalog_id}"  height="100%">
+				<input id="page" type="hidden" name="page" label="分页" value="{$param.page}"  height="100%">
+				<input id="page_size" type="hidden" name="分页大小" label="page_size" value="{$param.page_size}"  height="100%">
+				<div class="search_box">
+					<div class="items">
+						<div class="lable">产品类目</div>
+						<div class="input_select">
+							<select id="product_catalog_id" name="product_catalog_id">
+								<option value="" >全部</option>
+								{$catalog_tree_html}
+							</select>
+						</div>
+					</div>
+					<div class="items">
+						<div class="lable">产品id</div>
+						<div class="input_val"><input type="text" name="product_id" label="产品名称" value="{$param.product_id}" style="width: 80px;"  height="100%"></div>
+					</div>
+
+					<div class="items">
+						<div class="lable">产品名称</div>
+						<div class="input_val"><input type="text" name="product_name" label="产品名称" value="{$param.product_name}" style="width: 320px;" height="100%"></div>
+					</div>
+
+					<div class="items">
+						<div class="lable">产品状态</div>
+						<div class="input_select">
+							<select id="product_status" name="product_status">
+								<option value="" >全部</option>
+								<option value="0" {if $param.product_status==0 && is_numeric($param.product_status)}selected="selected"{/if}>下架</option>
+								<option value="1" {if $param.product_status==1 && is_numeric($param.product_status)}selected="selected"{/if}>正常</option>
+							</select>
+						</div>
+					</div>
+					<div class="items">
+						<div class="lable">价格区间</div>
+						<div class="input_val">
+							<input type="text" name="bottom_price" label="最低价格" value="{$param.bottom_price}" style="width: 60px;" height="100%">
+						</div>
+						<span style="line-height: 30px;">&nbsp;-&nbsp;</span>
+						<div class="input_val">
+							<input type="text" name="peak_price" label="最高价格" value="{$param.peak_price}" style="width: 60px;" height="100%">
+						</div>
+					</div>
+					
+				</div>
+				<div class="action">
+					<input type="submit" class="next_btn" value="查询">
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="product_data" >
+		
+		<table class="show_table" width="100%;">
+			<tr>
+				<th width="50">产品id</th>
+				<th>产品名称</th>
+				<th width="220">
+					添加时间<br/>
+					更新时间
+				</th>
+				<th width="50">产品状态</th>
+				<th width="50">
+					操作
+				</th>
+			</tr>
+			{foreach item=product_info from=$product_list_array}
+			<tr>
+				<!--产品id-->
+				<td>{$product_info.id}</td>
+				<!--产品名称-->
+				<td>
+					{$product_info.product_name}
+					<!--展示sku信息-->
+					<table class="show_table" width="100%;" >
+						<tr>
+							<th width="80">sku</th>
+							<!--属性信息展示-->
+							{foreach item=attribute_name from=$product_info['attribute_name_array']}
+								<th>{$attribute_name}</th>
+							{/foreach}
+							<!--产品重量-->
+							<th width="80">产品重量</th>
+							<!--原价-->
+							<th width="80">原价</th>
+							<!--售价-->
+							<th width="80">售价</th>
+							<!--库存数量-->
+							<th width="80">库存数量</th>
+							<!--产品状态-->
+							<th width="80">产品状态</th>
+							<th width="50">操作</th>
+						</tr>
+						
+						{foreach item=product_child key=sku from=$product_info['product_child']}
+						<tr date-id="{$product_child['product_sku_info']['id']}">
+							<td >{$sku}</td>
+							<!--属性信息展示-->
+							{foreach item=attribute_name key=attribute_id from=$product_info['attribute_name_array']}
+								{if !empty($product_child['attribute_info'][$attribute_id]['attribute_image'])}
+									<td width="60" align="center" >
+										<img src="{$product_child['attribute_info'][$attribute_id]['attribute_image']}" width="60"><br/>
+										{$product_child['attribute_info'][$attribute_id]['attribute_value']}
+									</td>
+								{else}
+									<td>{$product_child['attribute_info'][$attribute_id]['attribute_value']}</td>
+								{/if}
+							{/foreach}
+							<!--产品重量-->
+							<td>
+								{$product_child['product_sku_info']['sku_weight']}
+							</td>
+							<!--原价-->
+							<td>
+								{$product_child['product_sku_info']['sku_old_price']}
+							</td>
+							<!--售价-->
+							<td>
+								{$product_child['product_sku_info']['sku_price']}
+							</td>
+							<!--库存数量-->
+							<td>
+								{$product_child['product_sku_info']['sku_qty']}
+							</td>
+							<!--产品状态-->
+							<td>
+								{if $product_child['product_sku_info']['sku_status']==1}
+									<font color="#00F">正常</font>
+								{elseif $product_child['product_sku_info']['sku_status']==0}
+									<font color="#F00">下架</font>
+								{/if}
+							</td>
+							<td>
+								{if $product_child['product_sku_info']['sku_status']==1}
+									<a href="/admin/product/product_sku_status/id/{$product_child['product_sku_info']['id']}/sku_status/0"><font color="#F00">sku下架</font></a>
+								{elseif $product_child['product_sku_info']['sku_status']==0}
+									<a href="/admin/product/product_sku_status/id/{$product_child['product_sku_info']['id']}/sku_status/1"><font color="#00F">sku上架</font></a>
+								{/if}
+							</td>
+						</tr>
+						{/foreach}
+					</table>
+				</td>
+				
+				<!--添加时间 更新时间-->
+				<td>
+					{$product_info.add_time}
+					<br/>
+					{$product_info.update_time}
+				</td>
+				<!--产品状态-->
+				<td>
+					{if $product_info.product_status==1}
+						<font color="#00F">正常</font>
+					{elseif $product_info.product_status==0}
+						<font color="#F00">下架</font>
+					{/if}
+				</td>
+				<td>
+					<a href="/admin/product/product_edit?id={$product_info.id}"><font color="#F00">编辑产品</font></a>
+					{if $product_info.product_status==1}
+						<a href="/admin/product/product_status/id/{$product_info.id}/product_status/0"><font color="#F00">产品下架</font></a>
+					{elseif $product_info.product_status==0}
+						<a href="/admin/product/product_status/id/{$product_info.id}/product_status/1"><font color="#00F">产品上架</font></a>
+					{/if}
+				</td>
+			</tr>
+			{/foreach}
+		</table>
+		<!--分页模块-->
+		<div class="page_box">
+			<div class="page_ctrl"></div>
+		</div>
+	</div>
+	
+	<!--产品的方法-->
+	<div class="product_function">
+		<div class="button"><a class="link" href="/admin/product/product_add">新增产品</a></div>
+	</div>
+	
+	
+</body>
+<script>
+$current_page="{$param.page}";//当前位置
+$page_size="{$param.page_size}";//分页位置
+$total_item="{$param.count_record}";
+
+//修改url参数
+function change_url_val(url,arg_name,arg_val){
+	var pattern=arg_name+'=([^&]*)';
+	var replace_text=arg_name+'='+arg_val; 
+	if(url.match(pattern)){
+		var tmp='/('+ arg_name+'=)([^&]*)/gi';
+		tmp=url.replace(eval(tmp),replace_text);
+		return tmp;
+	}else{ 
+		if(url.match('[\?]')){ 
+			return url+'&'+replace_text; 
+		}else{ 
+			return url+'?'+replace_text; 
+		} 
+	}
+}
+
+if($current_page<=0){
+	$current_page=1;
+}
+
+
+$paging_plugin = {
+	obj_box: '.page_ctrl',
+	total_item: $total_item,
+	per_num: $page_size,
+	current_page: $current_page,
+	change_content: function(per_num, page) {
+		//设置当前的分页位置
+		$("#page").val(page);
+		//如果页面变化就刷新页面
+		if($current_page!=page && page!=0){
+			$("#user_from").submit();//刷新页面
+		}
+	}
+};
+//启动分页插件 评论分页
+page_ctrl($paging_plugin);
+{literal}
+	
+	$select_class=new select_class();
+	$select_class.init();//调用选择框初始化方法
+	//美化select显示
+	$select_class.bind("#product_catalog_id");
+	$select_class.bind("#product_status");
+	
+	$(".product_function .button").click(function(){
+		//$(this).text()
+	})
+	
+</script>
+{/literal}
+</html>

@@ -1,0 +1,196 @@
+ <html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<script charset="utf-8" src="/public/admin/js/jquery.min.js" data-async=""></script>
+<link href="/public/admin/editor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="/public/admin/css/wiki.css">
+<link rel="stylesheet" href="/public/admin/css/style.css">
+<link rel="stylesheet" href="/public/admin/css/category_tree.css">
+<link rel="stylesheet" href="/public/admin/css/fun.css">
+<script type="text/javascript" charset="utf-8" src="/public/admin/js/fun.js"></script>
+{literal}
+<style>
+#poster_box{
+
+}
+#poster_box .poster_image{
+	padding:20px;
+}
+</style>
+{/literal}
+</head>
+	<body>
+		<form action="/admin/index/poster" id="poster" method="post">
+			<!--海报管理 开始-->
+			<div class="sell_card" id="upload">
+				<h2 class="sell_card_title">海报管理</h2>
+				<div id="poster_box">
+					<!--
+					<div class="poster_image">
+						<div class="image_src_child">
+							<a href="/public/default_ui/img/slider/t3.jpg" >
+								<img src="/public/default_ui/img/slider/t3.jpg" style="width:auto;height:200px;">
+							</a>
+							<input name="image_src_array[]" type="hidden" value="/public/default_ui/img/slider/t3.jpg">
+						</div>
+						<div class="image_url_child">
+							跳转地址:
+							<input name="image_url_array[]" type="text" value="url" size="2000" style="width:400px;">
+						</div>
+					</div>
+					-->
+					{foreach item=home_poster from=$home_poster_array}
+						<div class="poster_image">
+							<div class="image_src_child">
+								<a href="{$home_poster.poster_img}" >
+									<img src="{$home_poster.poster_img}" style="width:auto;height:200px;">
+								</a>
+								<input name="image_src_array[]" type="hidden" value="{$home_poster.poster_img}">
+							</div>
+							<div class="image_url_child">
+								跳转地址:<input name="image_url_array[]" type="text" value="{$home_poster.poster_url}" size="2000" style="width:400px;">
+								<br/>
+								海报中文名称：<input name="poster_name_zh_array[]" type="text" value="{$home_poster.poster_name_zh}" size="2000" style="width:400px;">
+								<br/>
+								海报英文名称：<input name="poster_name_en_array[]" type="text" value="{$home_poster.poster_name_en}" size="2000" style="width:400px;">
+								<!--删除海报-->
+								<br/>
+								<span class="poster_del" style="color:#F00;cursor:pointer;">删除</span>
+							</div>
+						</div>
+					{/foreach}
+					
+					
+					
+					
+				</div>
+				
+				<!--产品标题 开始-->
+				<div class="com_struct" id="struct-title">
+					<div class="next_col">
+						<button id="upload_file" type="button" class="next_btn">上传图片</button>
+						<input type="file" id="file_input" multiple="multiple" style="width:0;height:0;opacity:0.01;" /> <!--用input标签并选择type=file，记得带上multiple，不然就只能单选图片了-->
+					</div>
+				</div>
+				<span>图像大小推荐1200*500 建议上传3-5张</span>
+				
+				<!--提交信息 开始-->
+				<div class="com_struct" id="struct-title">
+					<div class="next_col">
+						<button id="submit" type="button" class="next_btn">确认更新</button>
+					</div>
+				</div>
+			</div>
+		</form>
+		
+		<!--图片上传 结束-->
+		<!--图片展示框架-->
+		<div id="image_show">
+			<div class="img_box">
+				<img src="/public/admin/images/timg.jpg" style="height: auto; width: 100px;" ondragstart="return false;">
+				<div class="close"></div>
+			</div>
+		</div>
+	</body>
+	<!--产品编辑-->
+	{literal}
+	<script>
+		//////////////////////////////////
+		//上传图片触发函数
+		$("#upload_file").click(function(){
+			$("#file_input").trigger("click");
+		});
+		
+		var input = document.getElementById("file_input");
+		if(typeof FileReader==='undefined'){
+			alert("抱歉，你的浏览器不支持 FileReader");
+		}else{
+			input.addEventListener('change',function(){
+				
+				var fd = new FormData();
+				var file_len = this.files.length;
+				
+				//用户选择的所有图片文件
+				for(var i=0;i<file_len;i++){
+					//判断上传文件格式
+					if (!this.files[i].name.match(/.jpeg|.jpg|.gif|.png|.bmp|.zip|.rar|.doc|.txt|.ppt|.pdf/i)){
+						return alert("上传的图片格式不正确，请重新选择");
+					}
+					
+					var reader = new FileReader();
+					fd.append('upload_images[]',this.files[i]);//上传文件数组
+					reader.readAsDataURL(this.files[i]);//转成base64
+					var file_name = this.files[i].name;
+					reader.onload = function(e){
+					}//文件读入结束
+				}//循环结束
+				if(file_len>=1){
+					upload_file(fd);//上传文件
+				}
+			},false);
+		}//handler
+		
+		//POST 上传文件
+		function upload_file(fd){
+			$.ajax({
+				url : '/admin/index/upload_file',
+				type : 'post',
+				data : fd,
+				dataType: 'json',
+				processData: false,//用FormData传fd时需有这两项
+				contentType: false,
+				success : function(data){
+					if(data['status']=="200"){
+						for($i=0;$i<data['file_name'].length;$i++){
+							$html='<div class="poster_image">\
+									<div class="image_src_child">\
+										<a href="'+data['file_name'][$i]['images']+'" >\
+											<img src="'+data['file_name'][$i]['images']+'" style="width:auto;height:200px;">\
+										</a>\
+										<input name="image_src_array[]" type="hidden" value="'+data['file_name'][$i]['images']+'">\
+									</div>\
+									<div class="image_url_child">\
+										跳转地址:\
+										<input name="image_url_array[]" type="text" value="" size="2000" style="width:400px;">\
+										<br/>\
+										海报中文名称：<input name="poster_name_zh_array[]" type="text" value="" size="2000" style="width:400px;">\
+										<br/>\
+										海报英文名称：<input name="poster_name_en_array[]" type="text" value="" size="2000" style="width:400px;">\
+										<br/>\
+										<span class="poster_del" style="color:#F00;cursor:pointer;">删除</span>\
+									</div>\
+								</div>';
+							$("#poster_box").append($html)
+						}
+					}
+				}
+			})
+		}
+		
+		//上传图片展示
+		image_show('.upload_img_box .img_box');
+		
+		//信息提交
+		$("#submit").click(function(){
+			var $json_data = $("#poster").serializeArray();
+			$.post('/admin/index/poster', $json_data,function(data){
+				if(data['status']=="200"){
+					message_box("更新成功",data['msg']);
+				}else{
+					message_box("更新失败",data['msg']);
+				}
+			}, "json");
+		});
+		
+		//删除海报
+		$(".poster_del").click(function(){
+			$(this).parents('.poster_image').remove();//删除这个节点
+		})
+		
+		
+		
+		
+	</script>
+	{/literal}
+	
+</html>

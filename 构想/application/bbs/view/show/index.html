@@ -1,0 +1,227 @@
+﻿<html class="no-js" lang="zxx">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="meta description">
+	<title>Home</title>
+	<!--=== Favicon ===-->
+	<link rel="shortcut icon" href="{ui_template}/img/favicon.ico" type="image/x-icon" />
+	<!-- Main Style CSS -->
+	<link href="{ui_template}/css/style.css" rel="stylesheet">
+	<link href="{ui_template}/css/page.css"  rel="stylesheet">
+	<link href="{ui_template}/css/show_product.css" rel="stylesheet">
+	<link href="{ui_template}/css/fun.css" rel="stylesheet" >
+	<script type="text/javascript" src="{ui_template}/js/jquery.min.js"></script>
+	<link href="{ui_template}/css/wiki.css" rel="stylesheet" >
+	<script type="text/javascript" charset="utf-8" src="{ui_template}/js/fun.js"></script>
+	<script type="text/javascript" src="{ui_template}/js/page.js"></script>
+	<link type="text/css" href="{ui_template}/editor/themes/default/css/umeditor.css"  rel="stylesheet">
+	<script type="text/javascript" charset="utf-8" src="{ui_template}/editor/umeditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="{ui_template}/editor/umeditor.js"></script>
+	<script type="text/javascript" src="{ui_template}/editor/lang/zh-cn/zh-cn.js"></script>
+	<style>
+		.main_bg {
+			border-top: 1px solid #c4d6ec;
+			border-bottom: 1px solid #c4d6ec;
+			padding: 0 1px;
+			background: url(//static.ws.126.net/life/2015/3/4/201503041849478a9c5.png) repeat-y;
+		}
+		#base_review{
+			
+		}
+		#base_review .review_info{
+			margin:20px 0;
+		}
+		.button {
+			background-color: #0085d7;
+			border: none;
+			color: white;
+			padding: 5px 10px;
+			text-align: center;
+			text-decoration: none;
+			width: 80px;
+			height: 24px;
+			line-height:24px;
+			margin: 5px;
+			border-radius: 3px;
+			cursor: pointer;
+			font-size: 12px;
+		}
+		#base_comment .comment{
+			border-top:0;
+			margin: 0 auto;
+		}
+		#base_comment .comment:first-child{
+			border-top:solid 1px #ccc;
+			margin: 0 auto;
+		}
+		.user_content{
+			padding-top:20px;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- 开始 Header 区域 -->
+	{include file="{template_dir}index/view/index/top.html"}
+	<!-- 结束 Header 区域 -->
+	<!-- main wrapper 开始 -->
+	<main>
+		<!-- breadcrumb 区域开始 -->
+		<div class="breadcrumb_area common_bg">
+			<div class="container">
+				<div class="row">
+					<div class="col_12">
+						<div class="breadcrumb_wrap">
+							<nav aria-label="breadcrumb">
+								<h1>{$label.bbs}</h1>
+								<ul class="breadcrumb">
+									<li class="breadcrumb_item"><a href="index.html"><i class="fa fa_home"></i></a></li>
+									<li class="breadcrumb_item active" aria-current="page">{$param.bbs_content.title}</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--breadcrumb 区域结束 -->
+		<div id="detail">
+			<input type="hidden" value="{$param.id}" name="bbs_id" id="bbs_id"/>
+			<!--基础信息编辑 开始-->
+			<div class="sell_card" id="base_info">
+				<h2 class="sell_card_title"><font color="#00F" style="font-size:18px">{$param.bbs_content.title}</font></h2>
+				<h2 class="sell_card_title" style="height:auto;line-height:28px;">
+					{$label.posted_by}:{$param.bbs_content.user_name}<br/>
+					{$label.post_time}:{$param.bbs_content.add_time}<br/>
+					{$label.view_count}:{$param.bbs_content.read_count}<br/>
+				</h2>
+				
+				<!--产品标题 开始-->
+				<div class="com_struct" id="struct-title">
+					
+					<!--维基标题-->
+					<div class="bbs_title" style="line-height:32px;">
+						{$param.bbs_content.title}
+					</div>
+				</div>
+				<!--帖子内容-->
+				<div class="content">
+					{$param.bbs_content.content}
+				</div>
+			</div>
+			
+			<!--评论信息-->
+			<div id="base_comment">
+				{foreach $param.bcc_array as $bcc}
+				<div class="sell_card comment">
+					<h2 class="sell_card_title">{$bcc.comment_floor}{$label.floor}:{$bcc.user_name}|{$bcc.update_time}</h2>
+					<!--帖子内容-->
+					<div class="user_content">
+						{$bcc.user_content}
+					</div>
+				</div>
+				{/foreach}
+				<!--隐藏表单方便分页跳转-->
+				<form method="get" id="user_from">
+					<input id="page" type="hidden" name="page" label="page" value="{$param.page}"  height="100%">
+					<input id="page_size" type="hidden" name="page_size" label="page_size" value="{$param.page_size}"  height="100%">
+				</form>
+				<!--分页模块-->
+				<div class="page_box">
+					<div class="page_ctrl"></div>
+				</div>
+			</div>
+			
+			<!--用户评论-->
+			<div class="sell_card" id="base_review">
+				<h2 class="sell_card_title">{$label.comment}</h2>
+				<div class="review_info">
+					<script type="text/plain" id="my_editor_zh" style="width:100%;height:200px;">
+						{$label.comment_info}
+					</script>
+				</div>
+				<div class="button">
+					{$label.release_post}
+				</div>
+			</div>
+		</div>
+	</main>
+	<!-- main wrapper 结束 -->
+	<!-- 开始 Footer 区域 -->
+	{include file="{template_dir}index/view/index/bottom.html"}
+	<!-- 结束 Footer 区域 -->
+	<!-- Scroll to top start -->
+	<div class="scroll-top not-visible">
+		<i class="fa fa-angle-up"></i>
+	</div>
+	<!-- Scroll to Top End -->
+</body>
+<script>
+	$current_page="{$param.page}";//当前位置
+	$page_size="{$param.page_size}";//分页位置
+	$total_item="{$param.record_count}";
+	
+	//修改url参数
+	function change_url_val(url,arg_name,arg_val){
+		var pattern=arg_name+'=([^&]*)';
+		var replace_text=arg_name+'='+arg_val;
+		if(url.match(pattern)){
+			var tmp='/('+ arg_name+'=)([^&]*)/gi';
+			tmp=url.replace(eval(tmp),replace_text);
+			return tmp;
+		}else{
+			if(url.match('[\?]')){
+				return url+'&'+replace_text;
+			}else{
+				return url+'?'+replace_text;
+			}
+		}
+	}
+	
+	if($current_page<=0){
+		$current_page=1;
+	}
+	
+	$paging_plugin = {
+		obj_box: '.page_ctrl',
+		total_item: $total_item,
+		per_num: $page_size,
+		current_page: $current_page,
+		change_content: function(per_num, page) {
+			//设置当前的分页位置
+			$("#page").val(page);
+			console.log(page)
+			//如果页面变化就刷新页面
+			if($current_page!=page && page!=0){
+				$("#user_from").submit();//刷新页面
+			}
+		}
+	};
+	//启动分页插件 评论分页
+	page_ctrl($paging_plugin);
+	
+	var um_content = UM.getEditor('my_editor_zh','');//百度编辑器
+	$("#base_review .button").click(function(){
+		var $review_content=um_content.getContent();//英文描述
+		$post_date={};
+		$post_date['id']=$("#bbs_id").val();//贴子id
+		$post_date['review_content']=$review_content;//发布内容
+		
+		
+		$.post('/bbs/show/post_review/', $post_date,function(data){
+			if(data['status']=="200"){
+				message_box("添加成功",data['msg'],function(e){
+					if(e)window.location.href=window.location.href;//刷新页面
+				});
+			}else{
+				message_box("添加失败",data['msg'],function(e){
+					//用户点击确定
+					if(e)window.location.href=data['goto_url'];//设置跳转的url
+				});
+			}
+		}, "json");
+	})
+</script>
+</html>

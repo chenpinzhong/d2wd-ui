@@ -1,0 +1,104 @@
+﻿<html class="no-js" lang="zxx">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="meta description">
+	<title>Home</title>
+	<!--=== Favicon ===-->
+	<link rel="shortcut icon" href="{ui_template}/img/favicon.ico" type="image/x-icon" />
+	<!-- Main Style CSS -->
+	<link href="{ui_template}/css/style.css" rel="stylesheet">
+	<link href="{ui_template}/css/page.css"  rel="stylesheet">
+	<link href="{ui_template}/css/show_product.css" rel="stylesheet">
+	<link href="{ui_template}/css/wiki.css" rel="stylesheet" >
+	<script type="text/javascript" src="{ui_template}/js/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="{ui_template}/js/fun.js"></script>
+	<script type="text/javascript" src="{ui_template}/js/page.js"></script>
+	<script type="text/javascript" src="{ui_template}/js/shop_product.js"></script>
+	
+</head>
+<body>
+	<!-- 开始 Header 区域 -->
+	{include file="{template_dir}index/view/index/top.html"}
+	<!-- 结束 Header 区域 -->
+	<!-- main wrapper 开始 -->
+	<main>
+		<!-- breadcrumb 区域开始 -->
+		<div class="breadcrumb_area common_bg">
+			<div class="container">
+				<div class="row">
+					<div class="col_12">
+						<div class="breadcrumb_wrap">
+							<nav aria-label="breadcrumb">
+								<h1>{$label.wiki_content}</h1>
+								<ul class="breadcrumb">
+									<li class="breadcrumb_item"><a href="index.html"><i class="fa fa_home"></i></a></li>
+									<li class="breadcrumb_item active" aria-current="page">{$label.wiki_content_note}</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--breadcrumb 区域结束 -->
+		<div id="detail">
+			
+			<!--基础信息编辑 开始-->
+			<div class="sell_card" id="base_info">
+				<h2 class="sell_card_title">{$label.wiki_title}</h2>
+				<!--产品标题 开始-->
+				<div class="com_struct" id="struct-title">
+					<!--维基标题-->
+					<div class="wiki_title" style="line-height:32px;">
+						{$wiki_info.wiki_name}
+					</div>
+				</div>
+				<!--产品标题结束-->
+				
+			</div>
+			<!--基础信息编辑 结束-->
+			
+			<!--关键词-->
+			<div class="sell_card" id="keyword">
+				<h2 class="sell_card_title">{$label.wiki_keywords}</h2>
+				<div class="promo_row bottom_row">
+					{foreach item=wiki_keyword from=$wiki_info.wiki_keyword_array}
+						<div class="keyword" >{$wiki_keyword.keyword_name}</div>
+					{/foreach}
+				</div>
+			</div>
+			<!--资料上传 开始-->
+			<div class="sell_card" id="upload">
+				<h2 class="sell_card_title">{$label.wiki_ddownload}</h2>
+				<div id="struct_file">
+					{foreach item=wiki_upload_file from=$wiki_info.wiki_upload_file_array}
+						<div class="file"><a href="{$wiki_upload_file.file_src}">{$wiki_upload_file.file_name}</a></div>
+					{/foreach}
+				</div>
+			</div>
+			<!--图片上传 结束-->
+			
+			
+			<!--图文描述 开始-->
+			<div class="sell_card" id="base_description">
+				<h2 class="sell_card_title">{$label.wiki_description}</h2>
+				<div>
+					{$wiki_info.wiki_description}
+				</div>
+			</div>
+			<!--图文描述 结束-->
+		</div>
+	</main>
+	<!-- main wrapper 结束 -->
+	<!-- 开始 Footer 区域 -->
+	{include file="{template_dir}index/view/index/bottom.html"}
+	<!-- 结束 Footer 区域 -->
+	<!-- Scroll to top start -->
+	<div class="scroll-top not-visible">
+		<i class="fa fa-angle-up"></i>
+	</div>
+	<!-- Scroll to Top End -->
+</body>
+</html>

@@ -1,0 +1,308 @@
+﻿<html class="no-js" lang="zxx">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="meta description">
+	<title>Home</title>
+	<!--=== Favicon ===-->
+	<link rel="shortcut icon" href="{ui_template}/img/favicon.ico" type="image/x-icon" />
+	<!-- Main Style CSS -->
+	<script>
+		//当前语言
+		$current_language="{$label.current_language}";
+	</script>
+	<link href="{ui_template}/css/style.css" rel="stylesheet" type="text/css">
+	<link href="{ui_template}/css/page.css"  rel="stylesheet" type="text/css">
+	<link href="{ui_template}/css/show_product.css" rel="stylesheet" type="text/css">
+	<link href="{ui_template}/css/report.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="{ui_template}/js/jquery.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{ui_template}/js/fun.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{ui_template}/js/page.js" charset="utf-8"></script>
+	<script type="text/javascript" src="{ui_template}/js/report.js" charset="utf-8"></script>
+</head>
+<style>
+table.show_table {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+	margin-top:5px;
+}
+table.show_table th { 
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #7a3882;
+	background-color: #86d5ff;
+}
+table.show_table td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+/*产品展示区域*/
+.goods_area{
+	width:1200px;
+	margin:auto;
+	/*display:flex;*/
+	padding-top: 20px;
+}
+.goods_area::after{
+	content:"."; 
+	display:block; 
+	height:0; 
+	visibility:hidden; 
+	clear:both; 
+}
+/*产品类目*/
+.goods_area .category{
+	float:left;
+	width:330px;
+	margin:auto;
+}
+
+.goods_area .category .category_title{
+	line-height: 30px;
+	font-size: 16px;
+	cursor: pointer;
+}
+.goods_area .category ul{
+	list-style: none;
+}
+.goods_area .category ul li{
+	list-style: none;
+	padding-left: 20px;
+	line-height: 30px;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+.goods_area .category ul li.child {
+	background-image: url({ui_template}/img/product/down.png);
+	background-repeat: no-repeat;
+    background-position: 0px 7px;
+    background-size: 16px 16px;
+}
+.goods_area .category ul li .select {
+	color: #F00;
+}
+
+/*产品 product*/
+.goods_area .product_box{
+	width: 870px;
+	float: right;
+}
+.product_list{
+	margin: auto;
+	width: 870px;
+	margin-bottom: 20px;
+}
+.product_list::after{
+	content:"."; 
+	display:block; 
+	height:0; 
+	visibility:hidden; 
+	clear:both; 
+}
+.product_list .product_display{
+	width: 212px;
+	float: left;
+	margin: 0 0 5px 5px;
+}
+.product_list .product_display .product_thumb{
+	position: relative;
+    border: 1px solid #dfdede;
+}
+.product_list .product_display .product_caption .product_name{
+	padding-bottom: 6px;
+}
+.product_list .product_display .product_caption .product_name a{
+    font-size: 16px;
+    color: #111;
+    line-height: 1.6;
+    font-family: "Roboto", sans-serif;
+    text-align: left;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+	min-height: 50px;
+}
+</style>
+<body>
+	<!-- 开始 Header 区域 -->
+	{include file="{template_dir}index/view/index/top.html"}
+	<!-- 结束 Header 区域 -->
+	<!-- main wrapper 开始 -->
+	<main>
+		<!-- breadcrumb 区域开始 -->
+		<div class="breadcrumb_area common_bg">
+			<div class="container">
+				<div class="row">
+					<div class="col_12">
+						<div class="breadcrumb_wrap">
+							<nav aria-label="breadcrumb">
+								<h1>{$label.wiki_list}</h1>
+								<ul class="breadcrumb">
+									<li class="breadcrumb_item"><a href="index.html"><i class="fa fa_home"></i></a></li>
+									<li class="breadcrumb_item active" aria-current="page">{$label.wiki_list_note}</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--展示商品区域-->
+		<div class="goods_area">
+			<!--产品类目-->
+			<div class="category">
+				<div class="category_title">{$label.wiki_list}</div>
+				{$catalog_tree_html}
+			</div>
+			<!--展示产品-->
+			<div class="product_box">
+				<div class="search_bar" style="border:0;">
+					<form method="get" id="user_from">
+						<input id="wiki_catalog_id" type="hidden" name="wiki_catalog_id" label="目录id" value="{$param.wiki_catalog_id}"  height="100%">
+						<input id="page" type="hidden" name="page" label="page" value="{$param.page}"  height="100%">
+						<input id="page_size" type="hidden" name="page_size" label="page_size" value="{$param.page_size}"  height="100%">
+						<div class="items">
+							<!--wiki_id-->
+							<div class="lable">{$label.wiki_id}</div>
+							<div class="input_val"><input type="text" name="wiki_id" label="wiki_id" value="{$param.wiki_id}" style="width: 80px;"  height="100%"></div>
+						</div>
+						<div class="search_box">
+							<div class="items">
+								<!--wiki名称-->
+								<div class="lable">{$label.wiki_name}</div>
+								<div class="input_val"><input type="text" name="wiki_name" label="wiki名称" value="{$param.wiki_name}" style="width: 320px;" height="100%"></div>
+							</div>
+						</div>
+						<div class="action">
+							<input type="submit" class="next_btn" value="{$label.query}">
+						</div>
+					</form>
+				</div>
+				<div class="product_list">
+					<table class="show_table" width="100%;">
+						<tr>
+							<!--序号-->
+							<th>{$label.serial_number}</th>
+							<!--标题-->
+							<th>{$label.wiki_title}</th>
+							<!--更新时间-->
+							<th width="140">{$label.update_time}</th>
+						</tr>
+						{foreach item=wiki_info from=$wiki_list_array}
+						<tr>
+							<td>{$wiki_info.id}</td>
+							<!--标题-->
+							<td>
+								<a href="/wiki/show/index/id/{$wiki_info.id}">{$wiki_info.wiki_name}</a>
+							</td>
+							<!--添加时间 更新时间-->
+							<td>
+								{$wiki_info.update_time}
+							</td>
+						</tr>
+						{/foreach}
+						
+					</table>
+				</div>
+				<!--分页模块-->
+				<div class="page_box">
+					<div class="page_ctrl"></div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!-- main wrapper 结束 -->
+	<!-- 开始 Footer 区域 -->
+	{include file="{template_dir}index/view/index/bottom.html"}
+	<!-- 结束 Footer 区域 -->
+	<!-- Scroll to top start -->
+	<div class="scroll-top not-visible">
+		<i class="fa fa-angle-up"></i>
+	</div>
+	<!-- Scroll to Top End -->
+</body>
+
+<script>
+$current_page="{$param.page}";//当前位置
+$page_size="{$param.page_size}";//分页位置
+$total_item="{$param.count_record}";
+
+//修改url参数
+function change_url_val(url,arg_name,arg_val){
+    var pattern=arg_name+'=([^&]*)';
+    var replace_text=arg_name+'='+arg_val; 
+    if(url.match(pattern)){
+        var tmp='/('+ arg_name+'=)([^&]*)/gi';
+        tmp=url.replace(eval(tmp),replace_text);
+        return tmp;
+    }else{ 
+        if(url.match('[\?]')){ 
+            return url+'&'+replace_text; 
+        }else{ 
+            return url+'?'+replace_text; 
+        } 
+    }
+}
+
+if($current_page<=0){
+	$current_page=1;
+}
+
+
+$paging_plugin = {
+	obj_box: '.page_ctrl',
+	total_item: $total_item,
+	per_num: $page_size,
+	current_page: $current_page,
+	change_content: function(per_num, page) {
+		//设置当前的分页位置
+		$("#page").val(page);
+		//如果页面变化就刷新页面
+		if($current_page!=page && page!=0){
+			$("#user_from").submit();//刷新页面
+		}
+	}
+};
+//启动分页插件 评论分页
+page_ctrl($paging_plugin);
+{literal}
+$(function(){
+	$select_class=new select_class();
+	$select_class.init();//调用选择框初始化方法
+	
+	//美化select显示
+	//$select_class.bind("#new_product");
+	
+	//用户选择类目
+	$(".category li .catalog_name").click(function(){
+		$(".category li .catalog_name").removeClass("select");//移除以前选择的样式
+		$(this).addClass("select");//设置当前的选择
+		var wiki_catalog_id=$(this).parent().data('id');//获取目录id
+		$("#wiki_catalog_id").val(wiki_catalog_id);//设置目录id
+		$("#user_from").submit();//提交
+	})
+	
+	//如果有设置值
+	if($("#wiki_catalog_id").val()){
+		var wiki_catalog_id=$("#wiki_catalog_id").val();
+		$('.category li[data-id="'+wiki_catalog_id+'"] >.catalog_name').addClass("select");
+	}
+	
+
+
+});
+</script>
+{/literal}
+</html>

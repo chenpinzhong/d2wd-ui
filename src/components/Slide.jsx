@@ -21,12 +21,12 @@ class Slide extends React.Component{
   }
 
   render(){
-    const {slide_list} = this.props
+    const {height,slide_list} = this.props
     if(typeof(slide_list)!="undefined")this.slide_list=slide_list
 
     return(
       <>
-        <div className="slide">
+        <div className="slide" style={{'height':height+'px'}}>
           {/* 列表部分 */}
           <div className="slide_content">
             <this.slide_list/>

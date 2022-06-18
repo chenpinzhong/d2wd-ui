@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Purple Admin</title>
+	<link rel="stylesheet" href="/public/admin/css/style.css">
+	<link rel="stylesheet" href="/public/admin/css/report.css">
+	<link rel="stylesheet" href="/public/admin/css/page.css">
+	<link rel="shortcut icon" href="/public/admin/images/favicon.png" />
+	<script type="text/javascript" src="/public/admin/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/public/admin/js/fun.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/public/admin/js/page.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/public/admin/js/report.js" charset="utf-8"></script>
+</head>
+<style>
+table.show_table {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+	margin-top:5px;
+}
+table.show_table th { 
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedede;
+}
+table.show_table td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+</style>
+<body>
+	<div class="product_select">
+		<div class="search_bar">
+			<form method="get" id="user_from">
+				<input id="catalog_id_val" type="hidden" label="目录id" value="{$param.wiki_catalog_id}"  height="100%">
+				<input id="page" type="hidden" name="page" label="分页" value="{$param.page}"  height="100%">
+				<input id="page_size" type="hidden" name="分页大小" label="page_size" value="{$param.page_size}"  height="100%">
+				<div class="search_box">
+					<div class="items">
+						<div class="lable">维基类目</div>
+						<div class="input_select">
+							<select id="wiki_catalog_id" name="wiki_catalog_id">
+								<option value="" >全部</option>
+								{$catalog_tree_html}
+							</select>
+						</div>
+					</div>
+					<div class="items">
+						<div class="lable">wiki_id</div>
+						<div class="input_val"><input type="text" name="wiki_id" label="wiki_id" value="{$param.wiki_id}" style="width: 80px;"  height="100%"></div>
+					</div>
+					<div class="items">
+						<div class="lable">wiki名称</div>
+						<div class="input_val"><input type="text" name="wiki_name" label="wiki名称" value="{$param.wiki_name}" style="width: 320px;" height="100%"></div>
+					</div>
+					<div class="items">
+						<div class="lable">显示状态</div>
+						<div class="input_select">
+							<select id="wiki_status" name="wiki_status">
+								<option value="" >全部</option>
+								<option value="0" {if $param.wiki_status==0 && is_numeric($param.wiki_status)}selected="selected"{/if}>下线</option>
+								<option value="1" {if $param.wiki_status==1 && is_numeric($param.wiki_status)}selected="selected"{/if}>上线</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				
+				<div class="action">
+					<input type="submit" class="next_btn" value="查询">
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="product_data" >
+		
+		<table class="show_table" width="100%;">
+			<tr>
+				<th width="50">wiki_id</th>
+				<th>标题</th>
+				
+				<th width="220">
+					添加时间<br/>
+					更新时间
+				</th>
+				<th width="50">显示状态</th>
+				<th width="50">
+					操作
+				</th>
+			</tr>
+			{foreach item=wiki_info from=$wiki_list_array}
+			<tr>
+				<!--产品id-->
+				<td>{$wiki_info.id}</td>
+				<!--标题-->
+				<td>{$wiki_info.wiki_name}</td>
+				<!--添加时间 更新时间-->
+				<td>
+					{$wiki_info.add_time}
+					<br/>
+					{$wiki_info.update_time}
+				</td>
+				<!--添加时间 更新时间-->
+				<td>
+					{if $wiki_info.wiki_status==1}
+						<font color="#00F">正常</font>
+					{elseif $wiki_info.wiki_status==0}
+						<font color="#F00">下架</font>
+					{/if}
+				</td>
+				<td>
+					{if $wiki_info.wiki_status==1}
+						<a href="/admin/wiki/wiki_status/id/{$wiki_info.id}/wiki_status/0"><font color="#F00">下线</font></a>
+					{elseif $wiki_info.wiki_status==0}
+						<a href="/admin/wiki/wiki_status/id/{$wiki_info.id}/wiki_status/1"><font color="#00F">上线</font></a>
+					{/if}
+				</td>
+			</tr>
+			{/foreach}
+			
+		</table>
+		<!--分页模块-->
+		<div class="page_box">
+			<div class="page_ctrl"></div>
+		</div>
+	</div>
+	
+	<!--产品的方法-->
+	<div class="product_function">
+		<div class="button"><a class="link" href="/admin/wiki/wiki_add">新增维基</a></div>
+		<div class="button"><a class="link" href="/admin/wiki/wiki_add_test">新增维基测试</a></div>
+	</div>
+</body>
+<script>
+$current_page="{$param.page}";//当前位置
+$page_size="{$param.page_size}";//分页位置
+$total_item="{$param.count_record}";
+
+//修改url参数
+function change_url_val(url,arg_name,arg_val){
+	var pattern=arg_name+'=([^&]*)';
+	var replace_text=arg_name+'='+arg_val; 
+	if(url.match(pattern)){
+		var tmp='/('+ arg_name+'=)([^&]*)/gi';
+		tmp=url.replace(eval(tmp),replace_text);
+		return tmp;
+	}else{ 
+		if(url.match('[\?]')){ 
+			return url+'&'+replace_text; 
+		}else{ 
+			return url+'?'+replace_text; 
+		} 
+	}
+}
+
+if($current_page<=0){
+	$current_page=1;
+}
+
+
+$paging_plugin = {
+	obj_box: '.page_ctrl',
+	total_item: $total_item,
+	per_num: $page_size,
+	current_page: $current_page,
+	change_content: function(per_num, page) {
+		//设置当前的分页位置
+		$("#page").val(page);
+		//如果页面变化就刷新页面
+		if($current_page!=page && page!=0){
+			$("#user_from").submit();//刷新页面
+		}
+	}
+};
+//启动分页插件 评论分页
+page_ctrl($paging_plugin);
+{literal}
+	
+	$select_class=new select_class();
+	$select_class.init();//调用选择框初始化方法
+	//美化select显示
+	$select_class.bind("#wiki_catalog_id");
+	$select_class.bind("#wiki_status");
+	
+	$(".product_function .button").click(function(){
+		//$(this).text()
+	})
+	
+</script>
+{/literal}
+</html>

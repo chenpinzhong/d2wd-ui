@@ -1,0 +1,184 @@
+﻿<html class="no-js" lang="zxx">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="meta description">
+	<title>Home</title>
+	<!--=== Favicon ===-->
+	<link rel="shortcut icon" href="{ui_template}/img/favicon.ico" type="image/x-icon" />
+	<!-- Main Style CSS -->
+	<link href="{ui_template}/css/style.css" rel="stylesheet">
+	<link href="{ui_template}/css/page.css"  rel="stylesheet">
+	<link href="{ui_template}/css/show_product.css" rel="stylesheet">
+	<link href="{ui_template}/css/fun.css" rel="stylesheet" >
+	<script type="text/javascript" src="{ui_template}/js/jquery.min.js"></script>
+	<link href="{ui_template}/css/wiki.css" rel="stylesheet" >
+	<script type="text/javascript" charset="utf-8" src="{ui_template}/js/fun.js"></script>
+	<script type="text/javascript" src="{ui_template}/js/page.js"></script>
+	<link type="text/css" href="{ui_template}/editor/themes/default/css/umeditor.css"  rel="stylesheet">
+	<script type="text/javascript" charset="utf-8" src="{ui_template}/editor/umeditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="{ui_template}/editor/umeditor.js"></script>
+	
+	<script type="text/javascript" src="{ui_template}/editor/lang/zh-cn/zh-cn.js"></script>
+	<script type="text/javascript" src="{ui_template}/editor/lang/en/en.js"></script>
+	
+	<style>
+		.main_bg {
+			border-top: 1px solid #c4d6ec;
+			border-bottom: 1px solid #c4d6ec;
+			padding: 0 1px;
+			background: url(//static.ws.126.net/life/2015/3/4/201503041849478a9c5.png) repeat-y;
+		}
+		#base_review{
+			
+		}
+		#base_review .review_info{
+			margin:20px 0;
+		}
+		.button {
+			background-color: #0085d7;
+			border: none;
+			color: white;
+			padding: 5px 10px;
+			text-align: center;
+			text-decoration: none;
+			width: 80px;
+			height: 24px;
+			line-height:24px;
+			margin: 5px;
+			border-radius: 3px;
+			cursor: pointer;
+			font-size: 12px;
+		}
+		#base_comment .comment{
+			border-top:0;
+			margin: 0 auto;
+		}
+		#base_comment .comment:first-child{
+			border-top:solid 1px #ccc;
+			margin: 0 auto;
+		}
+		.user_content{
+			padding-top:20px;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- 开始 Header 区域 -->
+	{include file="{template_dir}index/view/index/top.html"}
+	<!-- 结束 Header 区域 -->
+	<!-- main wrapper 开始 -->
+	<main>
+		<!-- breadcrumb 区域开始 -->
+		<div class="breadcrumb_area common_bg">
+			<div class="container">
+				<div class="row">
+					<div class="col_12">
+						<div class="breadcrumb_wrap">
+							<nav aria-label="breadcrumb">
+								<h1>{$label.current_menu}</h1>
+								<ul class="breadcrumb">
+									<li class="breadcrumb_item"><a href="index.html"><i class="fa fa_home"></i></a></li>
+									<li class="breadcrumb_item active" aria-current="page">{$label.release_post}</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--breadcrumb 区域结束 -->
+		<div id="detail">
+			<!--发布帖子-->
+			<div class="sell_card" id="base_review">
+				<h2 class="sell_card_title">{$label.release_post}</h2>
+				<div class="com_struct" id="struct-title">
+					<div class="next_col">
+						<label class="sell_addon_label required">{$label['帖子类型']}</label>
+					</div>
+					<div class="input_wrap_box">
+						<input type="hidden" name="catalog_id" id="catalog_id" value="{$param.catalog_id}" height="100%">
+						<input class="input_wrap" type="text" id="catalog_name" name="catalog_name" placeholder="{$param.catalog_name}" value="{$param.catalog_name}" height="100%" disabled="disabled">
+					</div>
+				</div>
+				<div class="com_struct" id="struct-title">
+					<div class="next_col">
+						<label class="sell_addon_label required">{$label['帖子标题']}</label>
+					</div>
+					<div class="input_wrap_box">
+						<input class="input_wrap" type="text" id="title_name" name="title_name" placeholder="建议输入30个汉字（60字符）" value="{$label['发布帖子的名称']}" maxlength="120" height="100%">
+					</div>
+				</div>
+				<div class="review_info">
+					<script type="text/plain" id="my_editor_zh" style="width:100%;height:200px;">
+						评论信息
+					</script>
+				</div>
+				<div class="button">
+					{$label['发帖']}
+				</div>
+			</div>
+		</div>
+	</main>
+	<!-- main wrapper 结束 -->
+	<!-- 开始 Footer 区域 -->
+	{include file="{template_dir}index/view/index/bottom.html"}
+	<!-- 结束 Footer 区域 -->
+	<!-- Scroll to top start --> 
+	<div class="scroll-top not-visible">
+		<i class="fa fa-angle-up"></i>
+	</div>
+	<!-- Scroll to Top End -->
+</body>
+<script>
+	$current_language='{$param.current_language}';
+	$lang_info={
+		'zh':"zh-cn",
+		"en":"en"
+	}
+	{literal}
+		var um_content = UM.getEditor('my_editor_zh',{lang:$lang_info[$current_language]});//百度编辑器
+	{/literal}
+	//修改url参数
+	function change_url_val(url,arg_name,arg_val){
+		var pattern=arg_name+'=([^&]*)';
+		var replace_text=arg_name+'='+arg_val;
+		if(url.match(pattern)){
+			var tmp='/('+ arg_name+'=)([^&]*)/gi';
+			tmp=url.replace(eval(tmp),replace_text);
+			return tmp;
+		}else{
+			if(url.match('[\?]')){
+				return url+'&'+replace_text;
+			}else{
+				return url+'?'+replace_text;
+			}
+		}
+	}
+	
+	
+	$("#base_review .button").click(function(){
+		var $release_content=um_content.getContent();//英文描述
+		$post_date={};
+		$post_date['catalog_id']=$("#catalog_id").val();//类目id
+		$post_date['title_name']=$("#title_name").val();//贴子标题
+		$post_date['release_content']=$release_content;//发布内容
+		
+		//用户发帖
+		$.post('/bbs/bbs_list/release_post/', $post_date,function(data){
+			if(data['status']=="200"){
+				message_box("添加成功",data['msg'],function(e){
+					if(e)window.location.href=data['goto_url'];//设置跳转的url
+				});
+			}else{
+				message_box("添加失败",data['msg'],function(e){
+					//用户点击确定
+					if(e)window.location.href=data['goto_url'];//设置跳转的url
+				});
+			}
+		}, "json");
+	})
+</script>
+</html>
