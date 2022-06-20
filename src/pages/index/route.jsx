@@ -1,3 +1,8 @@
+/*
+    首页路由
+    作者:chenpinzhong
+    开发备注:主要实现页面路由功能
+*/
 import { useRoutes, } from "react-router-dom";
 import { lazy } from 'react';
 import IndexLayout from '../../layout/index/IndexLayout'

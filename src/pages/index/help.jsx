@@ -1,3 +1,8 @@
+/*
+    帮助页面
+    作者:chenpinzhong
+    开发备注:主要实现网站首页
+*/
 import './css/help.css'
 function Index() {
     return (

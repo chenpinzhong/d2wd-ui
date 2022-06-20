@@ -1,0 +1,33 @@
+/*产品显示*/
+.breadcrumb_area {
+	background-color: #f6f6f6;
+}
+.breadcrumb_area .container {
+	width: 1200px;
+	margin: auto;
+}
+.breadcrumb_area .container .breadcrumb_wrap {
+    padding: 65px 0;
+    text-align: center;
+}
+.breadcrumb_area .container .breadcrumb_wrap {
+    padding: 65px 0;
+    text-align: center;
+}
+.breadcrumb_area .container .breadcrumb_wrap .breadcrumb {
+    background: transparent;
+    margin-bottom: 0;
+    padding: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
