@@ -26,8 +26,8 @@
       "react-app",
       "react-app/jest"
     ],
-    "rules":{
-        "jsx-a11y/anchor-is-valid":"off"
+    "rules": {
+      "jsx-a11y/anchor-is-valid": "off"
     }
   },
   "browserslist": {
@@ -41,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-cookies": "^0.1.1"
   }
 }

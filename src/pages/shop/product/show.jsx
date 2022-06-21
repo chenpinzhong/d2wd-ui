@@ -5,7 +5,22 @@
 */
 //商店首页
 import '../css/index.css'
-function Index(){
+import cookie from 'react-cookies' //读取cookie
+import language from '../language' //多语言方案
+import '../js/shop_product' //展示产品
+
+
+function Index() {
+    let $language_label = language(cookie.load('language_type'));//语言标签
+    
+    let $product_info = {}
+    $product_info.product_name = 'iphone 13';
+    $product_info.min_old_price = '6999.99';
+    $product_info.monthly_sales = 200;//月销量
+    $product_info.total_sales = 400;//总销量
+    $product_info.total_evaluate = 100;//累计评价
+    $product_info.payment_address = '';//购买地址
+
     return (
         <>
             {/*<!-- breadcrumb 区域开始 -->*/}
@@ -26,10 +41,135 @@ function Index(){
                     </div>
                 </div>
             </div>
-
             {/*<!--产品头部信息 -->*/}
-		    <div id="detail">
-                1
+            <div id="detail">
+                <div className="detail_meta">
+                    <div className="detail_content">
+                        {/*<!--产品展示-->*/}
+                        <div className="product_showcase">
+                            <div className="main_image">
+                                <img id="attribute_image" alt="产品名称" src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                {/*<!--用户缩放层-->*/}
+                                <div className="zoom_black"></div>
+                            </div>
+                            <div className="product_image_group">
+                                {/*<!--用户缩放层-->*/}
+                                <div className="product_image selected">
+                                    <img src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                </div>
+                                <div className="product_image">
+                                    <img src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                </div>
+                                <div className="product_image">
+                                    <img src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                </div>
+                                <div className="product_image">
+                                    <img src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                </div>
+                            </div>
+                        </div>
+                        {/*<!--主图放大信息-->*/}
+                        <div id="hd_display" className="hd_display">
+                            <div className="overlay_content">
+                                <img src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} style={{ "position": "absolute", "top": "0px", "left": "0px" }} />
+                            </div>
+                        </div>
+                        {/*<!--购买信息-->*/}
+                        <div className="sales_info">
+                            {/*<!--产品标题-->*/}
+                            <div className="product_name">{$product_info.product_name}</div>
+                            {/*<!--促销信息-->*/}
+                            <div className="promo">
+                                {/*<!--原价-->*/}
+                                <div className="promo_row">
+                                    <div className="name">{$language_label.original_price}</div>
+                                    <div className="old_price">
+                                        <em className="{$language_label.currency_name}">{$language_label.symbol}</em><span className="price">{$product_info.min_old_price}</span>
+                                    </div>
+                                </div>
+                                {/*<!--促销价-->*/}
+                                <div className="promo_row">
+                                    <div className="name">{$language_label.promotion_price}</div>
+                                    <div className="new_price">
+                                        <em className="{$language_label.currency_name}">{$language_label.symbol}</em><span className="price">{$product_info.min_price}</span>
+                                    </div>
+                                </div>
+                                {/*<!--销量信息-->*/}
+                                <ul className="sales">
+                                    {/*<!--月销量-->*/}
+                                    <div className="sell_count">
+                                        <span className="label">{$language_label.monthly_sales}</span>
+                                        <span className="count">{$product_info.monthly_sales}</span>
+                                    </div>
+                                    {/*<!--总销量-->*/}
+                                    <div className="sell_count">
+                                        <span className="label">{$language_label.total_sales_volume}</span>
+                                        <span className="count">{$product_info.total_sales}</span>
+                                    </div>
+                                    {/*<!--累计评价-->*/}
+                                    <div className="sell_count">
+                                        <span className="label">{$language_label.evaluate_sum}</span>
+                                        <span className="count">{$product_info.total_evaluate}</span>
+                                    </div>
+                                </ul>
+
+                                {/*<!--属性信息区域 开始-->*/}
+                                {/*{foreach $product_info.product_attribute_array as $attribute}*/}
+                                <div className="promo_row">
+                                    {/*<div className="name" data-id="{$attribute.attribute_id}" data-name="{$attribute.attribute_name}">{$attribute.attribute_name}</div>*/}
+                                    {/*{foreach $attribute.attribute_value_list as $attribute_info}*/}
+                                    {/*    {if $attribute_info.attribute_image==""}*/}
+                                    {/*        <div className="attributes_value" data-id="{$attribute_info.id}" data-value="{$attribute_info.attribute_value}">{$attribute_info.attribute_value}</div>*/}
+                                    {/*    {else}*/}
+                                    {/*        <div style="color:#F00;" className="attributes_value attribute_img" data-id="{$attribute_info.id}" data-value="{$attribute_info.attribute_value}">*/}
+                                    {/*            <a title="{$attribute_info.attribute_value}" src="{$attribute_info.attribute_image}"><img src="{$attribute_info.attribute_image}" onload="img_onload(this,40);" style="width:40px;"></a>*/}
+                                    {/*        </div>*/}
+                                    {/*    {/if}*/}
+                                    {/*{/foreach}*/}
+                                </div>
+                                {/*{/foreach}*/}
+
+                                {/*<!--属性信息区域 结束-->*/}
+                                {/*<!--数量-->*/}
+                                <div className="promo_row">
+                                    <div className="name">{$language_label.quantity}</div>
+                                    <div className="tock" id="stock">
+                                        <a href="#!" title="减1" className="qty_action reduce">-</a>
+                                        <input id="sku_qty" type="text" className="qty_val" value="1" onChange={() => { }} title="请输入购买量" />
+                                        <a href="#!" className="qty_action increase" title="加1">+</a>
+                                        &nbsp;
+                                        {$language_label.quantity}({$language_label.inventory} <span className="inventory">11</span>{$language_label.unit})
+                                    </div>
+                                </div>
+                                {/*<!--购买产品-->*/}
+                                <div id="shopping_cart" className="action">
+                                    {/*<!--立即购买-->*/}
+                                    <div className="btn_buy">
+                                        <a href={$product_info.payment_address} title="点击此按钮，到下一步确认购买信息" className="J_LinkBuy" >立即购买</a>
+                                    </div>
+                                    {/*<!--添加购物车-->*/}
+                                    <div className="btn_add">
+                                        <a href="#!" title="{$language_label.add_to_cart}" className="J_LinkAdd" >
+                                            <i className="lnr lnr-cart"></i>{$language_label.add_to_cart}
+                                        </a>
+                                    </div>
+                                </div>
+                                {/*<!--服务承诺-->*/}
+                                <div className="promo_row bottom_row">
+                                    <div className="name">{$language_label.service_promise}</div>
+                                    {/*{foreach $product_info.product_pledge_array as $product_pledge}*/}
+                                    {/*<div className="promise">{$product_pledge}</div>*/}
+                                    {/*{/foreach}*/}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/*<!--评论信息导航栏-->*/}
+                <div className="tab_bar_box">
+                    <div className="tab selected" data-name="product_details" data-name_zh="商品详情">{$language_label.product_details}</div>
+                    <div className="tab" data-name="product_review" data-name_zh="评论信息" >{$language_label.review_information}</div>
+                </div>
             </div>
         </>
     )

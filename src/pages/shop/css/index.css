@@ -31,3 +31,419 @@
     -ms-flex-pack: center;
     justify-content: center;
 }
+#detail{
+	width:1200px;
+	margin:auto;
+	margin-top:20px;
+}
+.detail_meta {
+	width: 1200px;
+	position: relative;
+	z-index: 100;
+}
+.detail_meta .detail_content{
+	display:flex;
+	position:relative;
+}
+.detail_meta .detail_content .product_showcase{
+	width:420px;
+}
+.detail_meta .detail_content .product_showcase .main_image{
+	width:420px;
+	height:420px;
+	position:relative;
+}
+.detail_meta .detail_content .product_showcase .main_image img{
+	width:420px;
+	height:420px;
+}
+.detail_meta .detail_content .product_showcase .main_image .zoom_black{
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: url(//img-tmdetail.alicdn.com/tps/i4/T12pdtXaldXXXXXXXX-2-2.png) repeat scroll 0 0 transparent;
+	cursor: move;
+	z-index: 1;
+	font-size: 0;
+	display: none;
+}
+
+#hd_display{
+	position:absolute;
+	width: 400px;
+	height: 400px;
+	left: 425px;
+	top: 0px;
+	border: 1px solid #eee;
+	overflow: hidden;
+	text-align: center;
+	z-index: 199999998;
+	display:none;
+}
+#hd_display .overlay_content{
+	width: 400px;
+	height: 400px;
+}
+
+
+.detail_meta .detail_content .product_showcase .product_image_group{
+	width:420px;
+	margin-top: 20px;
+	height:60px;
+	overflow:hidden;
+}
+.detail_meta .detail_content .product_showcase .product_image_group .product_image{
+	width:60px;
+	float:left;
+	height:60px;
+	margin-right:5px;
+}
+.detail_meta .detail_content .product_showcase .product_image_group .product_image img{
+	width:60px;
+	height:60px;
+	transition: 0.2s;
+}
+.detail_meta .detail_content .product_showcase .product_image_group .selected{
+	
+}
+.detail_meta .detail_content .product_showcase .product_image_group .selected img{
+	width: 56px;
+	height: 56px;
+	border: 2px solid #F00;
+}
+
+.detail_meta .detail_content .sales_info{
+	flex-grow: 1;
+	margin-left:20px;
+	position: relative;
+}
+.detail_meta .detail_content .sales_info .product_name{
+	min-height: 21px;
+	font-size: 16px;
+	font-weight: 700;
+	line-height: 21px;
+	color: #3C3C3C;
+	margin-bottom: 20px;
+}
+.detail_meta .detail_content .sales_info .promo{
+	
+}
+.detail_meta .detail_content .sales_info .promo .promo_row{
+	line-height:26px;
+	height:auto;
+}
+.detail_meta .detail_content .sales_info .promo .bottom_row{
+	position:absolute;
+	bottom:0;
+}
+.detail_meta .detail_content .sales_info .promo .promo_row:after {
+	display:block;
+	clear:both;
+	content:"";
+	visibility:hidden;
+	height:0
+}
+.detail_meta .detail_content .sales_info .promo .promo_row .rmb{
+	font-style: normal;
+	font-weight: 400;
+	margin-right: 4px;
+}
+.detail_meta .detail_content .sales_info .promo .promo_row .name{
+	width: 120px;
+	color: #6c6c6c;
+	float: left;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.detail_meta .detail_content .sales_info .promo .promo_row .attributes_value{
+	display: block;
+	float:left;
+	white-space: nowrap;
+	text-decoration: none;
+	padding: 3px 10px;
+	line-height:22px;
+	min-width: 10px;
+	text-align: center;
+	border: 1px solid #DCDCDC;
+	background: #FFF;
+	margin-right:5px;
+	margin-bottom:5px;
+	cursor:pointer;
+	user-select: none;
+}
+
+.detail_meta .detail_content .sales_info .promo .promo_row .attribute_img{
+	display: block;
+	float:left;
+	padding:2px;
+	text-align: center;
+	border: 1px solid #DCDCDC;
+	background: #FFF;
+	margin-right:5px;
+	margin-bottom:5px;
+	cursor:pointer;
+}
+.detail_meta .detail_content .sales_info .promo .promo_row .selected{
+	border: 1px solid #F00;
+}
+.detail_meta .detail_content .sales_info .promo .promo_row .of_stock{
+	/*cursor: not-allowed;*/
+	color: #DEDEDE;
+	border: 1px dashed #DEDEDE;
+	background: #FFF;
+}
+
+
+.detail_meta .detail_content .sales_info .promo .promo_row .attributes_image a{
+	width: 38px!important;
+	height: 38px;
+	padding: 0;
+	line-height: 38px;
+	background-repeat: no-repeat;
+	outline: 0;
+	background-position: center center;
+}
+.detail_meta .detail_content .sales_info .promo .promo_row .old_price{
+	text-decoration: line-through;
+	float: left;
+	margin-bottom: 5px;
+}
+.detail_meta .detail_content .sales_info .promo .promo_row .new_price{
+	float: left;
+	font-size: 26px;
+	font-weight: 700;
+	color: #F40;
+	margin-bottom: 5px;
+}
+.detail_meta .detail_content .sales_info .promo .promo_row .qty_action{
+	font-size: 20px;
+	display: block;
+	font-family:"arial";
+	float: left;
+	width: 26px;
+	height: 26px;
+	border: 1px solid #ccc;
+	line-height: 26px;
+	padding: 0;
+	vertical-align: top;
+	overflow: hidden;
+	text-align: center;
+	background-color: #ededed;
+	overflow: hidden;
+}
+.detail_meta .detail_content .sales_info .promo .promo_row .qty_val{
+	float: left;
+	margin: 0;
+	padding: 0;
+	width: 48px;
+	height: 28px;
+	font-size: 16px;
+	line-height: 26px;
+	text-align: center;
+	color: #666;
+	border: 1px solid #CCC;
+	outline: 0;
+	background: #FFF;
+	border-left:0;
+	border-right:0;
+}
+
+.detail_meta .detail_content .sales_info .promo .promo_row .promise{
+	display: inline-block;
+	padding: 0 2px 0 0;
+	margin: 0 10px 0 0;
+	color: #666;
+	white-space: nowrap;
+}
+
+.detail_meta .detail_content .sales_info .promo .sales{
+	border: 1px solid #c9c9c9;
+	border-width: 1px 0;
+	margin: 10px 20px 10px 0;
+	padding: 10px 0;
+	position: relative;
+	overflow: hidden;
+	clear: both;
+	display: flex;
+}
+.detail_meta .detail_content .sales_info .promo .sales .sell_count{
+	float: left;
+	width: 33%;
+	text-align: center;
+	position: relative;
+	left: -1px;
+	border-left: 1px solid #e5dfda;
+	flex: 1;
+	line-height: 16px;
+	font-size: 12px;
+}
+.detail_meta .detail_content .sales_info .promo .sales .sell_count .label{
+	display: inline-block;
+	line-height: 16px;
+	height: 16px;
+	color: #999;
+}
+.detail_meta .detail_content .sales_info .promo .sales .sell_count .count{
+	display: inline-block;
+	line-height: 16px;
+	height: 16px;
+	color: #FF0036;
+	font-weight: 700;
+	margin-left: 3px;
+}
+
+#shopping_cart{
+	clear: both;
+	padding: 10px 0 0 66px;
+	margin: 10px 0;
+}
+#shopping_cart:after {
+	display:block;
+	clear:both;
+	content:"";
+	visibility:hidden;
+	height:0
+}
+#shopping_cart .btn_buy{
+	margin-right: 0;
+	float: left;
+	overflow: hidden;
+	position: relative;
+	width: 178px;
+	background-color: #ffeded;
+	border: 1px solid #FF0036;
+	color: #FF0036;
+	font-family: 'Microsoft Yahei';
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
+	font-size: 16px;
+	margin-right: 10px;
+}
+#shopping_cart .btn_buy a{
+	color: #FF0036;
+}
+
+#shopping_cart .btn_add{
+	margin-right: 0;
+	float: left;
+	overflow: hidden;
+	position: relative;
+	width: 178px;
+	background-color: #ffeded;
+	border: 1px solid #ff0036;
+	color: #FF0036;
+	font-family: 'Microsoft Yahei';
+	text-decoration: none;
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
+	font-size: 16px;
+	background-color: #ff0036;
+}
+#shopping_cart .btn_add a{
+	color: #fff;
+}
+#detail .tab_bar_box{
+	width: 100%;
+	position: relative;
+	height: 48px;
+	margin-top:20px;
+	border: 1px solid #dfdfdf;
+	cursor: pointer;
+}
+#detail .tab_bar_box .tab{
+	position: relative;
+	border-right: 1px solid #dfdfdf;
+	border-bottom:0;
+	height: 47px;
+	line-height: 46px;
+	z-index: 1;
+	padding: 0;
+	float: left;
+	padding: 0 20px;
+}
+
+
+#detail .tab_bar_box .selected {
+	position: relative;
+	border-top: 2px solid #FF0036;
+	height: 47px;
+	margin: -1px 0 0 -1px;
+	z-index: 1;
+	border-left: 1px solid #cfbfb1;
+	border-right: 1px solid #cfbfb1;
+}
+#attributes{
+	
+}
+#attributes .attributes_list {
+	clear: both;
+	border: 1px solid #e6e6e6;
+	border-top: none;
+	margin-bottom: 10px;
+}
+#attributes .attributes_list .brand_name{
+	padding: 8px 20px 10px;
+	height: auto;
+	line-height: 40px;
+}
+#attributes .attributes_list .attr_list_hd{
+	padding: 5px 20px;
+	line-height: 22px;
+	color: #999;
+}
+
+#attributes .attributes_list #attr_ul {
+	padding: 0 20px 18px;
+	text-indent: 0;
+	border-top: 1px solid #fff;
+}
+#attributes .attributes_list #attr_ul:after {
+	display: block;
+	visibility: hidden;
+	clear: both;
+	height: 0;
+	content: "\0020";
+}
+#attributes .attributes_list #attr_ul li {
+	display: inline;
+	float: left;
+	width: 371px;
+	height: 18px;
+	overflow: hidden;
+	margin: 10px 15px 0 0;
+	line-height: 18px;
+	vertical-align: top;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: #666;
+}
+#desc_content{
+	text-align:center;
+}
+
+#review table {
+	width: 100%;
+	table-layout: fixed;
+	font-family: arial,sans-serif;
+	font-size: 12px;
+}
+#review table tr{
+	border-bottom: 1px solid rgb(227, 227, 227);
+}
+#review table .master{
+	padding: 16px 7px;
+}
+#review table .meta{
+	width:220px;
+	padding: 16px 7px;
+}
+#review table .author{
+	width: 95px;
+	padding: 16px 7px;
+	padding-right:0;
+}
