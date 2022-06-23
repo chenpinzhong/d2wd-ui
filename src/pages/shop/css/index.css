@@ -52,6 +52,10 @@
 	width:420px;
 	height:420px;
 	position:relative;
+    background: #ccc;
+}
+.detail_meta .detail_content .product_showcase .main_image:hover{
+	cursor:pointer;
 }
 .detail_meta .detail_content .product_showcase .main_image img{
 	width:420px;
@@ -63,7 +67,7 @@
 	position: absolute;
 	left: 0;
 	top: 0;
-	background: url(//img-tmdetail.alicdn.com/tps/i4/T12pdtXaldXXXXXXXX-2-2.png) repeat scroll 0 0 transparent;
+	background: url(../images/mask.png) repeat scroll 0 0 transparent;
 	cursor: move;
 	z-index: 1;
 	font-size: 0;
