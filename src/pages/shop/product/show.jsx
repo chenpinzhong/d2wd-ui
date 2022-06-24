@@ -9,7 +9,6 @@ import cookie from 'react-cookies' //读取cookie
 import language from '../language' //多语言方案
 import '../js/shop_product' //展示产品
 
-
 function Index() {
     let $language_label = language(cookie.load('language_type'));//语言标签
     
@@ -48,30 +47,45 @@ function Index() {
                         {/*<!--产品展示-->*/}
                         <div className="product_showcase">
                             <div className="main_image">
-                                <img id="attribute_image" alt="产品名称" src={process.env.PUBLIC_URL + '/images/product/bpic23597_mini.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/bpic23597_web.jpg'} />
-                                {/*<!--用户缩放层-->*/}
+                                {/*产品主图*/}
+                                <img id="attribute_image" alt="产品名称" src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                {/*<!--缩放区域 控制-->*/}
                                 <div className="zoom_black"></div>
                             </div>
                             <div className="product_image_group">
                                 {/*<!--用户缩放层-->*/}
-                                <div className="product_image selected">
-                                    <img src={process.env.PUBLIC_URL + '/images/product/bpic23597_mini.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/bpic23597_web.jpg'} />
-                                </div>
-                                <div className="product_image">
-                                    <img src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                </div>
-                                <div className="product_image">
-                                    <img src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                </div>
-                                <div className="product_image">
-                                    <img src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                <div className="product_image_list">
+                                    <div className="product_image selected">
+                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                    </div>
+                                    <div className="product_image ">
+                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                    </div>
+                                    <div className="product_image ">
+                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                    </div>
+                                    <div className="product_image ">
+                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                    </div>
+                                    <div className="product_image ">
+                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                    </div>
+                                    <div className="product_image ">
+                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                    </div>
+                                    <div className="product_image ">
+                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                    </div>
+                                    <div className="product_image ">
+                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         {/*<!--主图放大信息-->*/}
                         <div id="hd_display" className="hd_display">
                             <div className="overlay_content">
-                                <img src={process.env.PUBLIC_URL + '/images/product/bpic23597_web.jpg'} style={{ "position": "absolute", "top": "0px", "left": "0px" }} />
+                                <img alt="产品名称" src={process.env.PUBLIC_URL + '/images/product/bpic23597_web.jpg'} style={{ "position": "absolute", "top": "0px", "left": "0px" }} />
                             </div>
                         </div>
                         {/*<!--购买信息-->*/}
