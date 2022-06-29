@@ -13,13 +13,15 @@ function Index() {
     let $language_label = language(cookie.load('language_type'));//语言标签
     
     let $product_info = {}
-    $product_info.product_name = 'iphone 13';
-    $product_info.min_old_price = '6999.99';
+    $product_info.product_name = 'iphone 13';//产品名称
+    $product_info.min_old_price = '6999.99';//原价
+    $product_info.min_price = '5999.99';//促销价格
+    
     $product_info.monthly_sales = 200;//月销量
     $product_info.total_sales = 400;//总销量
     $product_info.total_evaluate = 100;//累计评价
     $product_info.payment_address = '';//购买地址
-
+    
     return (
         <>
             {/*<!-- breadcrumb 区域开始 -->*/}
@@ -54,31 +56,38 @@ function Index() {
                             </div>
                             <div className="product_image_group">
                                 {/*<!--用户缩放层-->*/}
-                                <div className="product_image_list">
-                                    <div className="product_image selected">
-                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                <div className="product_image_list_box">
+                                    <div className="product_image_list">
+                                        <div className="product_image selected">
+                                            <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                        </div>
+                                        <div className="product_image ">
+                                            <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                        </div>
+                                        <div className="product_image ">
+                                            <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                        </div>
+                                        <div className="product_image ">
+                                            <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                        </div>
+                                        <div className="product_image ">
+                                            <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                        </div>
+                                        <div className="product_image ">
+                                            <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                        </div>
+                                        <div className="product_image ">
+                                            <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                        </div>
+                                        <div className="product_image ">
+                                            <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                        </div>
                                     </div>
-                                    <div className="product_image ">
-                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                    </div>
-                                    <div className="product_image ">
-                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                    </div>
-                                    <div className="product_image ">
-                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                    </div>
-                                    <div className="product_image ">
-                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                    </div>
-                                    <div className="product_image ">
-                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                    </div>
-                                    <div className="product_image ">
-                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                    </div>
-                                    <div className="product_image ">
-                                        <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                    </div>
+                                </div>
+                                {/*<!--操作层-->*/}
+                                <div className="slider_banner">
+                                    <button className="slider_control slider_control_prev" aria-hidden="true" tabIndex="-1"><i className="lnr lnr_chevron_left"></i></button>
+                                    <button className="slider_control slider_control_next" aria-hidden="true" tabIndex="-1"><i className="lnr lnr_chevron_right"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +158,7 @@ function Index() {
                                     <div className="name">{$language_label.quantity}</div>
                                     <div className="tock" id="stock">
                                         <a href="#!" title="减1" className="qty_action reduce">-</a>
-                                        <input id="sku_qty" type="text" className="qty_val" value="1" onChange={() => { }} title="请输入购买量" />
+                                        <input id="sku_qty" type="text" className="qty_val" value="1" onChange={(e) => {return e }} title="请输入购买量" />
                                         <a href="#!" className="qty_action increase" title="加1">+</a>
                                         &nbsp;
                                         {$language_label.quantity}({$language_label.inventory} <span className="inventory">11</span>{$language_label.unit})
@@ -184,6 +193,7 @@ function Index() {
                     <div className="tab selected" data-name="product_details" data-name_zh="商品详情">{$language_label.product_details}</div>
                     <div className="tab" data-name="product_review" data-name_zh="评论信息" >{$language_label.review_information}</div>
                 </div>
+                <div className="tab_bar_box" style={{"height":"500px"}}></div>
             </div>
         </>
     )

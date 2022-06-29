@@ -90,29 +90,34 @@
 	width: 400px;
 	height: 400px;
 }
-
-
 .detail_meta .detail_content .product_showcase .product_image_group{
 	width:420px;
 	margin-top: 20px;
 	height:62px;
-	overflow:hidden;
+    position: relative;
 }
-.detail_meta .detail_content .product_showcase .product_image_group .product_image_list{
-	width:500px;
+.detail_meta .detail_content .product_showcase .product_image_group .product_image_list_box{
+	width:320px;
 	height:62px;
+    overflow: hidden;
+    position: absolute;
+    left: 50px;
 }
-
+.detail_meta .detail_content .product_showcase .product_image_group .product_image_list_box .product_image_list{
+	width:3200px;
+	height:62px;
+    position: absolute;
+}
 .detail_meta .detail_content .product_showcase .product_image_group .product_image{
 	width:60px;
     cursor: pointer;
-	display: inline-flex;
+	float: left;
 	height:60px;
     border:#ccc 1px solid;
 	margin-right:5px;
 }
 .detail_meta .detail_content .product_showcase .product_image_group .product_image img{
-	width:60px;
+	width:100%;
 	height:auto;
 }
 .detail_meta .detail_content .product_showcase .product_image_group .selected{
@@ -120,6 +125,33 @@
 }
 .detail_meta .detail_content .product_showcase .product_image_group .selected img{
     
+}
+/*操作按钮*/
+.detail_meta .detail_content .product_showcase .product_image_group .slider_banner{
+    width: 100%;
+    height: 100%;
+}
+.detail_meta .detail_content .product_showcase .product_image_group .slider_banner .slider_control{
+    background-color: rgba(0,0,0,.15);
+    border: none;
+    outline: none;
+    font-size: 14px;
+    height: 30px;
+    margin: 16px 0;
+    cursor: pointer;
+}
+.detail_meta .detail_content .product_showcase .product_image_group .slider_banner .slider_control:hover {
+    color: #fff;
+    background-color: #999;
+    background-color: rgba(0,0,0,.4)
+}
+.detail_meta .detail_content .product_showcase .product_image_group .slider_banner .slider_control_prev{
+    position: absolute;
+    left: 0;
+}
+.detail_meta .detail_content .product_showcase .product_image_group .slider_banner .slider_control_next{
+    position: absolute;
+    right: 0;
 }
 
 .detail_meta .detail_content .sales_info{
@@ -247,7 +279,7 @@
 	margin: 0;
 	padding: 0;
 	width: 48px;
-	height: 28px;
+	height: 26px;
 	font-size: 16px;
 	line-height: 26px;
 	text-align: center;

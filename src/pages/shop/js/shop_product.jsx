@@ -14,9 +14,10 @@ class main_image_class {
     }
     //初始化方法
     init = function (main_image) {
+        //////////////////////////////////////////////////
+        //主图放大模块
         //初始化时 加载一次属性图
         main_image.attribute_image_load(document.querySelector('#attribute_image'));
-
         //更新当前属性图
         $(".product_image_group .product_image").on('click', function(){
             $(".product_image_group .product_image").removeClass('selected');
@@ -37,6 +38,37 @@ class main_image_class {
         }).on('mouseout', function (e) {//鼠标移出事件
             $(".zoom_black,#hd_display").hide();
         });
+        
+        //容器宽度
+        let box_width=$('.product_image_group .product_image_list_box').width();
+        let image_box_width=0;//图片容器宽度
+        let image_width=0;//单个图片宽度
+        $('.product_image_group .product_image_list_box .product_image_list .product_image').each(function(){
+            image_box_width+=$(this).outerWidth(true);
+            image_width=$(this).outerWidth(true);
+        });
+        $('.product_image_group .product_image_list_box .product_image_list').css('width',image_box_width);
+
+        //属性图滚动条控制
+        $(".slider_control_prev").on('click',function(e){
+            let dom=document.querySelector('.product_image_group .product_image_list_box .product_image_list');
+            let margin_left=parseInt($(dom).css('margin-left'));
+            $(dom).finish();
+            margin_left=margin_left+image_width;
+            //右边最大值
+            if(margin_left>0)return false;
+            $(dom).animate({'margin-left':margin_left+'px'},50);
+        })
+        
+        $(".slider_control_next").on('click',function(e){
+            let dom=document.querySelector('.product_image_group .product_image_list_box .product_image_list');
+            let margin_left=parseInt($(dom).css('margin-left'));
+            $(dom).finish();
+            margin_left=margin_left-image_width;
+            //左边最大值
+            if(margin_left<=box_width-image_box_width)return false;
+            $(dom).animate({'margin-left':margin_left+'px'},50);
+        })
     };
     //移动事件处理
     zoom_mov = function (e) {
@@ -78,38 +110,6 @@ class main_image_class {
             $(this.hd_selector).css({ 'left': -(c_left * this.zoom_modulus), 'top': -(c_top * this.zoom_modulus) });
         }
     };
-    //图片居中
-    image_center=function(img_this){
-        //小图显示位置调整
-        let img_width = 0;
-        let img_height = 0;
-        let n_width=0;
-        let n_height=0;
-        // 现代浏览器
-        if (img_this.naturalWidth) {
-            n_width = img_this.naturalWidth;
-            n_height = img_this.naturalHeight;
-        }
-        //如果宽度大于高度
-        if (n_width > n_height) {
-            //计算宽度缩放比例
-            let ratio = n_width / this.box_width; //缩放比例
-            let new_height = n_height / ratio;
-            let margin_top = (this.box_height - new_height) / 2; //顶部边距
-            img_width = this.box_width;
-            img_height = new_height;
-            $(img_this).css({ "width": img_width, 'height': img_height, 'margin-top': margin_top, 'margin-left': 0 });
-        } else { //如果高度大于宽度
-            //计算宽度缩放比例
-            let ratio = n_height / this.box_height; //缩放比例
-            let new_width = n_width / ratio;
-            let margin_left = (this.box_width - new_width) / 2; //左边边距
-            img_width = new_width;
-            img_height = this.box_height;
-            $(img_this).css({ "width": img_width, 'height': img_height, 'margin-top': 0, 'margin-left': margin_left });
-        }
-    }
-
     //图片加载方法
     attribute_image_load = function(img_this){
         var n_width, n_height;
