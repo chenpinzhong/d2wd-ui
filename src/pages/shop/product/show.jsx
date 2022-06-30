@@ -5,11 +5,19 @@
 */
 //商店首页
 import '../css/index.css'
+import React, { useEffect } from "react"
 import cookie from 'react-cookies' //读取cookie
 import language from '../language' //多语言方案
 import '../js/shop_product' //展示产品
 
 function Index() {
+    const [qty_val, set] = React.useState(0);
+    const handle_qty=(e)=>{
+        let value = e.target.value.replace(/[^\d]/, '')
+        set(value)
+    }
+    
+
     let $language_label = language(cookie.load('language_type'));//语言标签
     
     let $product_info = {}
@@ -22,6 +30,7 @@ function Index() {
     $product_info.total_evaluate = 100;//累计评价
     $product_info.payment_address = '';//购买地址
     
+    //默认数量
     return (
         <>
             {/*<!-- breadcrumb 区域开始 -->*/}
@@ -158,7 +167,7 @@ function Index() {
                                     <div className="name">{$language_label.quantity}</div>
                                     <div className="tock" id="stock">
                                         <a href="#!" title="减1" className="qty_action reduce">-</a>
-                                        <input id="sku_qty" type="text" className="qty_val" value="1" onChange={(e) => {return e }} title="请输入购买量" />
+                                        <input id="sku_qty" type="text" className="qty_val" value={qty_val} onChange={handle_qty}  title="请输入购买量" />
                                         <a href="#!" className="qty_action increase" title="加1">+</a>
                                         &nbsp;
                                         {$language_label.quantity}({$language_label.inventory} <span className="inventory">11</span>{$language_label.unit})
