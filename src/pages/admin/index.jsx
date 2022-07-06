@@ -1,4 +1,6 @@
-function App(){
-  return <div>admin js</div>
+function Index(){
+  return <div>
+    <div>123</div>
+  </div>
 }
-export default App
+export default Index
