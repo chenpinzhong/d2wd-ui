@@ -8,7 +8,9 @@ function IndexLayout() {
     <>
       <Header />
       <Menu />
-      <Outlet />
+      <div id="content">
+        <Outlet />
+      </div>
       <End />
     </>
   );

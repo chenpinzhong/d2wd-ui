@@ -9,7 +9,9 @@
     flex-direction: row;
     min-width: 1440px;
     height: 61px;
-    border-bottom:#dbdcdd 1px solid ;
+    background-color: #FFF;
+    border-bottom:#dbdcdd 1px solid;
+    z-index: 9999;
 }
 .header .header_logo {
     position: unset;
@@ -24,7 +26,6 @@
 .header .header_content {
     flex: 1;
 }
-
 .header .header_right {
     position: unset!important;
     float: right;
@@ -48,4 +49,3 @@
     max-width: 120px;
     overflow: hidden;
 }
-
