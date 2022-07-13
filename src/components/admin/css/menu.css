@@ -18,7 +18,7 @@
     list-style: none
 }
 .sider_menu .menu_submenu{
-    padding-bottom: 5px;
+    padding-bottom: 0px;
 }
 
 .sider_menu .menu_submenu .menu_submenu_title{
@@ -102,6 +102,9 @@
     cursor: pointer;
     margin-top: 4px;
     margin-bottom: 8px;
+}
+.menu_sub.menu_inline>.menu_item:last-child{
+    margin-bottom: 0px;
 }
 
 .menu_item_selected {

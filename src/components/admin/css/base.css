@@ -834,7 +834,7 @@ ul li {
     top: 60px;
     left: 240px;
     bottom: 0px;
-    width: calc(100vw - 80px);
+    width: calc(100vw - 240px);
     height: calc(100vh - 100px);
     overflow: hidden;
 }
