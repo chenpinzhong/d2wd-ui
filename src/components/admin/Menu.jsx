@@ -16,12 +16,12 @@ class Menu extends React.Component {
     //插入DOM 树中
     componentDidMount(){
         let server_url=process.env.REACT_APP_SERVER_URL;
-        axios.get("/index/index/index").then(
+        axios.get("http://127.0.0.1:3000/api/index/json").then(
             response => {console.log('成功了',response.data);},
             error => {console.log('失败了',error);}
         )
     }
-
+    
     render() {
         return (
             <>
