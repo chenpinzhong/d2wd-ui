@@ -17,11 +17,15 @@ class Menu extends React.Component {
     componentDidMount(){
         let server_url=process.env.REACT_APP_SERVER_URL;
         axios.get("http://127.0.0.1:3000/api/index/json").then(
-            response => {console.log('成功了',response.data);},
-            error => {console.log('失败了',error);}
+            response => {
+                console.log('成功了',response.data);
+            },
+            error => {
+                console.log('失败了',error);
+            }
         )
     }
-    
+
     render() {
         return (
             <>
