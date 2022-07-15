@@ -11,7 +11,9 @@
     z-index: 10;
     min-height: 100%;
     border-right: 1px solid #dbdcdd;
+    background: #fafafa;
 }
+
 .menu_left ol,.menu_left ul ,.menu_left li {
     margin: 0;
     padding: 0;
@@ -60,7 +62,7 @@
     transition: opacity .3s cubic-bezier(.645,.045,.355,1),margin .3s,color .3s;
 }
 
-.sider_menu .menu_submenu .menu_submenu_title .menu_submenu_arrow {
+.sider_menu .menu_submenu  .menu_submenu_arrow {
     position: absolute;
     top: 50%;
     right: 16px;
@@ -69,15 +71,16 @@
     transform: translateY(-50%);
     transition: transform .3s cubic-bezier(.645,.045,.355,1);
 }
-.sider_menu .menu_submenu .menu_submenu_title .menu_submenu_arrow:before {
+.sider_menu .menu_submenu .menu_submenu_arrow:before {
     transform: rotate(-45deg) translateX(2.5px);}
 
-.sider_menu .menu_submenu .menu_submenu_title .menu_submenu_arrow:after {
+.sider_menu .menu_submenu .menu_submenu_arrow:after {
     transform: rotate(45deg) translateX(-2.5px)
 }
 
 
-.sider_menu .menu_submenu .menu_submenu_title .menu_submenu_arrow:after,.sider_menu .menu_submenu .menu_submenu_title .menu_submenu_arrow:before {
+.sider_menu .menu_submenu  .menu_submenu_arrow:after,
+.sider_menu .menu_submenu  .menu_submenu_arrow:before {
     position: absolute;
     width: 6px;
     height: 1.5px;
@@ -89,11 +92,10 @@
 
 .menu_sub.menu_inline {
     padding: 0;
-    background: #fafafa;
     border-radius: 0;
     box-shadow: none;
 }
-.menu_sub.menu_inline>.menu_item{
+.menu_sub.menu_inline .menu_item{
     height: 40px;
     line-height: 40px;
     list-style-position: inside;
@@ -103,8 +105,25 @@
     margin-top: 4px;
     margin-bottom: 8px;
 }
-.menu_sub.menu_inline>.menu_item:last-child{
+.menu_sub.menu_inline .menu_item a{
+    color: rgba(0,0,0,.85);
+}
+.menu_sub.menu_inline .menu_item.menu_item_selected a,.menu_sub.menu_inline .menu_item a:hover{
+    color: #1890ff;
+    color: var(--ant-primary-6);
+}
+
+
+
+.menu_sub.menu_inline .menu_item:last-child{
     margin-bottom: 0px;
+}
+.menu_sub.menu_inline .menu_item .menu_title_content{
+    padding-left: 32px;
+}
+/*三级菜单*/
+.menu_sub.menu_inline .menu_item .menu_item .menu_title_content{
+    padding-left: 50px;
 }
 
 .menu_item_selected {

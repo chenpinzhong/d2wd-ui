@@ -11,22 +11,30 @@ import axios from "axios"
 class Menu extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {favoritewebsite: "runoob"};
+        this.state = {menu_list: []};
     }
     //插入DOM 树中
     componentDidMount(){
         let server_url=process.env.REACT_APP_SERVER_URL;
-        axios.get("http://127.0.0.1:3000/api/index/json").then(
+        //http://127.0.0.1:19730/admin/menu.api/index
+        axios.get("http://127.0.0.1:3000/admin/menu.api/index").then(
             response => {
-                console.log('成功了',response.data);
+                this.setState({menu_list: response.data.data});//更新菜单列表
             },
             error => {
-                console.log('失败了',error);
+                console.log('获取菜单失败失败了',error);
             }
-        )
+        );
     }
 
     render() {
+        
+        let menu_list = this.state.menu_list.map(function (value, key) {
+           console.log(value)
+        })
+
+
+
         return (
             <>
                 {/*<!--菜单-->*/}
@@ -49,16 +57,32 @@ class Menu extends React.Component {
                                 <i className="menu_submenu_arrow"></i>
                             </div>
                             <ul className="menu_sub menu_inline">
-                                <li title="分析页" className="menu_item menu_item_selected" style={{'paddingLeft':"32px"}}>
-                                    <span className="ant-menu-title-content">
+                                <li title="分析页" className="menu_item menu_item_selected" >
+                                    <span className="menu_title_content">
                                         <a href="/dashboard/analysis"><span className="ant-pro-menu-item"><span className="ant-pro-menu-item-title">分析页</span></span></a>
                                     </span>
                                 </li>
-                                <li title="监控页" className="menu_item" style={{'paddingLeft':"32px"}}>
-                                    <span className="ant-menu-title-content"><a href="/dashboard/monitor"><span className="ant-pro-menu-item"><span className="ant-pro-menu-item-title">监控页</span></span></a></span>
+                                <li title="监控页" className="menu_item" >
+                                    <span className="menu_title_content"><a href="/dashboard/monitor"><span className="ant-pro-menu-item"><span className="ant-pro-menu-item-title">监控页</span></span></a></span>
                                 </li>
-                                <li title="工作台" className="menu_item" style={{'paddingLeft':"32px"}}>
-                                    <span className="ant-menu-title-content"><a href="/dashboard/workplace"><span className="ant-pro-menu-item"><span className="ant-pro-menu-item-title">工作台</span></span></a></span>
+                                <li title="工作台" className="menu_item" >
+                                    <div role="menuitem" style={{"height":"40px","position":"relative"}}>
+                                        <span className="menu_title_content"><a href="/dashboard/monitor"><span className="ant-pro-menu-item"><span className="ant-pro-menu-item-title">监控页</span></span></a></span>
+                                        <i className="menu_submenu_arrow"></i>
+                                    </div>
+                                    <ul className="menu_sub menu_inline">
+                                        <li title="分析页" className="menu_item menu_item_selected" >
+                                            <span className="menu_title_content">
+                                                <a href="/dashboard/analysis"><span className="ant-pro-menu-item"><span className="ant-pro-menu-item-title">分析页</span></span></a>
+                                            </span>
+                                        </li>
+                                        <li title="监控页" className="menu_item" >
+                                            <span className="menu_title_content"><a href="/dashboard/monitor"><span className="ant-pro-menu-item"><span className="ant-pro-menu-item-title">监控页</span></span></a></span>
+                                        </li>
+                                        <li title="工作台" className="menu_item">
+                                            <span className="menu_title_content"><a href="/dashboard/workplace"><span className="ant-pro-menu-item"><span className="ant-pro-menu-item-title">工作台</span></span></a></span>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </li>
