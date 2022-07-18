@@ -26,17 +26,21 @@ class Menu extends React.Component {
             }
         );
     }
-
+    menu_click=(id)=>{
+        this.state.menu_list.map(function(value,key) {
+            if(value.id==id)value.fold=!value.fold;
+        })
+        //更新状态
+        this.setState(this.state.menu_list);
+    }
     render() {
-        function menu_click(e){
-            console.log('111',e)
-        }
+        var _this=this;
         function child_menu(child_value,level){
             //子孙菜单渲染
             return (
                 <li title="分析页" className="menu_item" key={child_value.id} data-id={child_value.id}>
                     {/*子菜单标题*/}
-                    <div className="item_title" onClick={menu_click} >
+                    <div className="item_title" onClick={(e)=>{_this.menu_click(child_value.id)}} >
                         <div className={"menu_title_content child_menu_level_"+level} >
                             <a href="/dashboard/monitor">
                                 <span className="menu_item">
@@ -87,8 +91,8 @@ class Menu extends React.Component {
                             <li title="分析页" className="menu_item" key={child_value.id} data-id={child_value.id}>
                                 <div className="menu_title_content">
                                     <a href={child_value.href}>
-                                        <span className="ant-pro-menu-item">
-                                            <span className="ant-pro-menu-item-title">{child_value.name}</span>
+                                        <span className="menu_item">
+                                            <span className="menu_item_title">{child_value.name}</span>
                                         </span>
                                     </a>
                                 </div>
@@ -98,11 +102,11 @@ class Menu extends React.Component {
                     menu_child.push(menu_child_content);
                 })
             }
-
+            
             return (
-                <li key={'menu_list_' + key} data-id={'menu_list_' + key} className="menu_submenu">
+                <li key={'menu_list_' + key} data-id={'menu_list_' + key} className={"menu_submenu "+(value.fold?'fold':'unfold')}>
                     {/*菜单标题*/}
-                    <div role="menuitem" className="menu_submenu_title" key={value.id} data-id={value.id} onClick={menu_click}>
+                    <div role="menuitem" className="menu_submenu_title" key={value.id} data-id={value.id} onClick={(e)=>{_this.menu_click(value.id)}} >
                         <div className="menu_title_content">
                             <span className="menu_item" title="Dashboard">
                                 <span role="img" aria-label="dashboard" className="anticon anticon_dashboard">
