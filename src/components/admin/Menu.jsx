@@ -8,6 +8,7 @@ import React from "react"
 import './css/menu.css'
 import $ from "jquery"
 import axios from "axios"
+import ScrollBar from '../common/ScrollBar' //滚动条组件
 class Menu extends React.Component {
     constructor(props) {
         super(props);
@@ -27,43 +28,68 @@ class Menu extends React.Component {
         );
     }
     menu_click=(id)=>{
+        //子菜单处理
+        function child_menu(value,level){
+            value.map(function (value, k) {
+                if(value.id==id){
+                    fold=value.fold=!value.fold;
+                }
+                if (typeof (value['child']) != "undefined") {
+                    return child_menu(value['child'],level+1);
+                }
+            })
+            return typeof(fold)=='undefined'?false:fold;
+        }
+        let fold=false;
         this.state.menu_list.map(function(value,key) {
-            if(value.id==id)value.fold=!value.fold;
+            //一级元素
+            if(value.id==id)fold=value.fold=!value.fold;
+            //子级元素
+            if (typeof (value['child']) != "undefined") {
+                fold=child_menu(value['child'],1);
+            }
         })
+        //元素是否显示
+        //判断元素是否折叠
+        if(fold==true){
+            $('[data-id="menu_ul_'+id+'"]').animate({'height':'show','opacity':'show'},100);
+        }else{
+            $('[data-id="menu_ul_'+id+'"]').animate({'height':'hide','opacity':'hide'},100);
+        }
         //更新状态
         this.setState(this.state.menu_list);
     }
     render() {
         var _this=this;
-        function child_menu(child_value,level){
+        function child_menu(value,level){
             //子孙菜单渲染
             return (
-                <li title="分析页" className="menu_item" key={child_value.id} data-id={child_value.id}>
+                <li title="分析页" className={"menu_item "+(value.fold?'fold':'')} key={value.id} data-id={value.id}>
                     {/*子菜单标题*/}
-                    <div className="item_title" onClick={(e)=>{_this.menu_click(child_value.id)}} >
+                    <div className="item_title" onClick={(e)=>{_this.menu_click(value.id)}} >
                         <div className={"menu_title_content child_menu_level_"+level} >
                             <a href="/dashboard/monitor">
                                 <span className="menu_item">
-                                    <span className="menu_item_title">{child_value.name}</span>
+                                    <span className="menu_item_title">{value.name}</span>
                                 </span>
                             </a>
                         </div>
                         <i className="menu_submenu_arrow"></i>
                     </div>
-                    <ul className="menu_sub menu_inline child_menu">
+                    <ul className={"menu_sub menu_inline child_menu "+(value.fold?'fold':'')} data-id={'menu_ul_' + value.id}>
                         {
-                            child_value['child'].map(function (child_value, k) {
-                                if (typeof (child_value['child']) != "undefined"){
+                            value['child'].map(function (value, k) {
+                                if (typeof (value['child']) != "undefined"){
                                     //孙菜单渲染
-                                    return child_menu(child_value,level+1)
+                                    return child_menu(value,level+1)
                                 } else {
                                     //子菜单渲染
                                     return (
-                                        <li key={child_value.id} title={child_value.name} className="menu_item" >
+                                        <li key={value.id} title={value.name} className="menu_item" >
                                             <div className={"menu_title_content child_menu_level_"+(level+1)}>
-                                                <a href={child_value.href}>
+                                                <a href={value.href}>
                                                     <span className="menu_item">
-                                                        <span className="menu_item_title">{child_value.name}</span>
+                                                        <span className="menu_item_title">{value.name}</span>
                                                     </span>
                                                 </a>
                                             </div>
@@ -104,7 +130,7 @@ class Menu extends React.Component {
             }
             
             return (
-                <li key={'menu_list_' + key} data-id={'menu_list_' + key} className={"menu_submenu "+(value.fold?'fold':'unfold')}>
+                <li key={'menu_list_' + key} data-id={'menu_list_' + value.id} className={"menu_submenu "+(value.fold?'fold':'')}>
                     {/*菜单标题*/}
                     <div role="menuitem" className="menu_submenu_title" key={value.id} data-id={value.id} onClick={(e)=>{_this.menu_click(value.id)}} >
                         <div className="menu_title_content">
@@ -118,15 +144,23 @@ class Menu extends React.Component {
                             </span>
                         </div>
                         {/*菜单是否展开*/}
-                        <i className="menu_submenu_arrow"></i>
+                        <i className="menu_submenu_arrow" ></i>
                     </div>
                     {/*子菜单*/}
-                    <ul className="menu_sub menu_inline">
+                    <ul className={"menu_sub menu_inline "+(value.fold?'fold':'')} data-id={'menu_ul_' + value.id}>
                         {menu_child}
                     </ul>
                 </li>
             )
         })
+        let params={
+            /*容器*/
+            'container':'.menu_left',
+            /*内容*/
+            'content':'.menu_left .sider_menu',
+            /*滚动条方向*/
+            'direction':'y',
+        }
         return (
             <>
                 {/*<!--菜单-->*/}
@@ -135,6 +169,8 @@ class Menu extends React.Component {
                         {/*菜单列表*/}
                         {menu_list}
                     </ul>
+                    {/*滚动条组件 绑定到对应元素上 selector="XXX" */}
+                    <ScrollBar params={params}/>
                 </div>
             </>
         )
