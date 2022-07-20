@@ -8,10 +8,12 @@
     cursor: pointer;
     z-index: 9999;
 }
-
+.scroll_bar_box.hide {
+    display: none;
+}
 .scroll_bar_box .scroll_bar{
     width: 6px;
-    height: 30%;
+    height: 10%;
     background-color: #cececf;
     position: absolute;
     top: 0;

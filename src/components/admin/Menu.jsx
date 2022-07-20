@@ -155,9 +155,11 @@ class Menu extends React.Component {
         })
         let params={
             /*容器*/
-            'container':'.menu_left',
+            'container':'.menu_left .menu_left_box',
             /*内容*/
-            'content':'.menu_left .sider_menu',
+            'content':'.menu_left .menu_left_box .sider_menu',
+            /*滚动条*/
+            'scroll_bar':'.menu_left .scroll_bar_box .scroll_bar',
             /*滚动条方向*/
             'direction':'y',
         }
@@ -165,11 +167,13 @@ class Menu extends React.Component {
             <>
                 {/*<!--菜单-->*/}
                 <div className="menu_left">
-                    <ul className="sider_menu menu">
-                        {/*菜单列表*/}
-                        {menu_list}
-                    </ul>
-                    {/*滚动条组件 绑定到对应元素上 selector="XXX" */}
+                    <div className="menu_left_box">
+                        <ul className="sider_menu menu">
+                            {/*菜单列表*/}
+                            {menu_list}
+                        </ul>
+                        {/*滚动条组件 绑定到对应元素上 selector="XXX" */}
+                    </div>
                     <ScrollBar params={params}/>
                 </div>
             </>

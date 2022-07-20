@@ -6,6 +6,11 @@
     top: 60px;
     position: fixed;
 }
+.menu_left .menu_left_box{
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
 .sider_menu {
     position: relative;
     z-index: 10;
