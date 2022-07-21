@@ -1,6 +1,5 @@
 import React from "react"
-import "./module/jq_scroll_bar" //引入jq 插件
-import "./css/jq_scroll_bar.css" //引入样式文件
+import "./css/scroll_bar.css" //引入样式文件
 
 class ScrollBar extends React.Component {
     constructor(props) {
@@ -21,9 +20,9 @@ class ScrollBar extends React.Component {
         setInterval(()=>this.check(),200);
         let _this=this
         let scroll_bar=document.querySelector(params.scroll_bar);
+        let dom = document.querySelector(params.container);//滚动对象
         //移动事件
         function mousemove_event(e){
-            let dom = document.querySelector(params.container);//滚动对象
             let start = parseFloat(_this.mousemove_event_start);//开始滚动的位置
             let show_scroll_height = document.querySelector(params.scroll_bar).offsetHeight;//显示的滚动条高度
             let end = e.pageY;
@@ -45,7 +44,7 @@ class ScrollBar extends React.Component {
         }
         //注册鼠标按下滚动条 事件
         scroll_bar.addEventListener('mousedown',function(e){
-            e.stopPropagation();//阻止默认事件
+            e.stopPropagation();//阻止事件冒泡
             _this.mousemove_event_start=e.clientY-parseFloat(scroll_bar.style.top);
             console.log(e.clientY,parseFloat(scroll_bar.style.top))
             document.addEventListener('mousemove',mousemove_event,false);
@@ -54,9 +53,32 @@ class ScrollBar extends React.Component {
         document.addEventListener('mouseup',function(e){
             document.removeEventListener('mousemove',mousemove_event,false);
         })
-        //滚动事件
-        //dom_scroll.addEventListener('DOMMouseScroll', e.scroll_handle, false);
-
+        function scroll_handle(e){
+            e.preventDefault();//阻止默认事件
+            e.stopPropagation();//阻止事件冒泡
+            if(e.type=='DOMMouseScroll'){//火狐浏览器
+                if(e.detail>=0){
+                    dom.scrollTop+=30;
+                }else {
+                    dom.scrollTop-=30;
+                }
+            }else{//谷歌浏览器
+                //计算虚拟的滚动条高度
+                if(e.wheelDelta<=0){
+                    dom.scrollTop+=30;
+                }else {
+                    dom.scrollTop-=30;
+                }
+            }
+            
+            
+            let ratio=dom.scrollTop/(dom.scrollHeight-dom.clientHeight);
+            let curr_postion=(document.querySelector(params.container).offsetHeight-document.querySelector(params.scroll_bar).offsetHeight)*ratio;
+            _this.state.top=curr_postion;
+            _this.setState(_this.state);
+        }
+        if(dom.addEventListener)dom.addEventListener('DOMMouseScroll', scroll_handle, false);
+        dom.onmousewheel = scroll_handle;
     }
     //检查内容是否发生变化
     check(){
