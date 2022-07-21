@@ -64,7 +64,7 @@ class Menu extends React.Component {
         function child_menu(value,level){
             //子孙菜单渲染
             return (
-                <li title="分析页" className={"menu_item "+(value.fold?'fold':'')} key={value.id} data-id={value.id}>
+                <li title="分析页1" className={"menu_item "+(value.fold?'fold':'')} key={value.id} data-id={value.id}>
                     {/*子菜单标题*/}
                     <div className="item_title" onClick={(e)=>{_this.menu_click(value.id)}} >
                         <div className={"menu_title_content child_menu_level_"+level} >

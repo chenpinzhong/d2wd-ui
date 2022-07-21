@@ -53,25 +53,25 @@ class ScrollBar extends React.Component {
         document.addEventListener('mouseup',function(e){
             document.removeEventListener('mousemove',mousemove_event,false);
         })
+        //滚动事件
         function scroll_handle(e){
             e.preventDefault();//阻止默认事件
             e.stopPropagation();//阻止事件冒泡
             if(e.type=='DOMMouseScroll'){//火狐浏览器
-                if(e.detail>=0){
-                    dom.scrollTop+=30;
+                if(e.detail0){
+                    dom.scrollTop+=20;
                 }else {
-                    dom.scrollTop-=30;
+                    dom.scrollTop-=20;
                 }
             }else{//谷歌浏览器
                 //计算虚拟的滚动条高度
                 if(e.wheelDelta<=0){
-                    dom.scrollTop+=30;
+                    dom.scrollTop+=20;
                 }else {
-                    dom.scrollTop-=30;
+                    dom.scrollTop-=20;
                 }
             }
-            
-            
+
             let ratio=dom.scrollTop/(dom.scrollHeight-dom.clientHeight);
             let curr_postion=(document.querySelector(params.container).offsetHeight-document.querySelector(params.scroll_bar).offsetHeight)*ratio;
             _this.state.top=curr_postion;
@@ -89,13 +89,15 @@ class ScrollBar extends React.Component {
         //更新元素高度信息
         if(this.state.scroll_box_height!=scroll_box_height)this.state.scroll_box_height=scroll_box_height;
         if(this.state.element_height!=element_height)this.state.element_height=element_height;
-        
         if (element_height / scroll_box_height >= 1) {
             this.state.is_show_y=false;//不需要滚动条
         } else {
             this.state.is_show_y=true;//需要滚动条
         }
-        this.state.is_show_y=true
+        if(params.container=='#content .content_box .content_details'){
+            console.log( element_height , scroll_box_height,'debug')
+        }
+        
         this.setState(this.state)
     }
     render() {

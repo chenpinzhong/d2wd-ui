@@ -835,6 +835,12 @@ ul li {
     left: 240px;
     bottom: 0px;
     width: calc(100vw - 240px);
-    height: calc(100vh - 100px);
+    height: calc(100vh - 60px);
     overflow: hidden;
+}
+
+#content .content_box{
+    height: 100%;
+    overflow: hidden;
+    position: relative;
 }
