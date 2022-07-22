@@ -20,6 +20,7 @@ class Menu extends React.Component {
         //http://127.0.0.1:19730/admin/menu.api/index
         axios.get("http://127.0.0.1:3000/admin/menu.api/index").then(
             response => {
+                Window.menu_list= response.data['data'];
                 this.setState({ menu_list: response.data['data'] });//更新菜单列表
             },
             error => {

@@ -827,6 +827,11 @@ ul li {
 .lnr_pointer_left:before {
     content: "\e8a9";
 }
+body{
+    width: calc(100vw);
+    height: calc(100vh);
+    overflow: hidden;
+}
 /*内容显示区域样式*/
 #content{
     transition: all .2s;
@@ -838,9 +843,12 @@ ul li {
     height: calc(100vh - 60px);
     overflow: hidden;
 }
-
 #content .content_box{
     height: 100%;
     overflow: hidden;
     position: relative;
+}
+#content .content_box .content_details{
+   height: auto;
+   background-color: #fafafa;
 }

@@ -7,7 +7,7 @@ import "../../components/admin/css/base.css";
 function IndexLayout() {
     let params = {
         /*容器*/
-        'container': '#content .content_box .content_details',
+        'container': '#content .content_box',
         /*内容*/
         'content': '#content .content_box .content_details',
         /*滚动条*/

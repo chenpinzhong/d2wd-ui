@@ -57,7 +57,7 @@ class ScrollBar extends React.Component {
         function scroll_handle(e){
             e.preventDefault();//阻止默认事件
             e.stopPropagation();//阻止事件冒泡
-            if(e.type=='DOMMouseScroll'){//火狐浏览器
+            if(e.type==='DOMMouseScroll'){//火狐浏览器
                 if(e.detail0){
                     dom.scrollTop+=20;
                 }else {
@@ -83,25 +83,21 @@ class ScrollBar extends React.Component {
     //检查内容是否发生变化
     check(){
         const { params } = this.props;
+        let state=this.state
         let dom = document.querySelector(params.container);
         let scroll_box_height = dom.scrollHeight;//滚动条容器高度
         let element_height = dom.offsetHeight;//元素实际高度
         //更新元素高度信息
-        if(this.state.scroll_box_height!=scroll_box_height)this.state.scroll_box_height=scroll_box_height;
-        if(this.state.element_height!=element_height)this.state.element_height=element_height;
+        if(state.scroll_box_height!==scroll_box_height)state.scroll_box_height=scroll_box_height;
+        if(state.element_height!==element_height)state.element_height=element_height;
         if (element_height / scroll_box_height >= 1) {
-            this.state.is_show_y=false;//不需要滚动条
+           state.is_show_y=false;//不需要滚动条
         } else {
-            this.state.is_show_y=true;//需要滚动条
+            state.is_show_y=true;//需要滚动条
         }
-        if(params.container=='#content .content_box .content_details'){
-            console.log( element_height , scroll_box_height,'debug')
-        }
-        
-        this.setState(this.state)
+        this.setState(state)
     }
     render() {
-        const { params } = this.props;
         return (
             <>
                 <div className={"scroll_bar_box "+(this.state.is_show_y?'':'hide')}>

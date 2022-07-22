@@ -4,7 +4,7 @@
     position: absolute;
     right: 0;
     top: 0;
-    background-color: #eceded;
+    background-color: #d5d5d5;
     cursor: pointer;
     z-index: 9999;
 }
@@ -14,7 +14,7 @@
 .scroll_bar_box .scroll_bar{
     width: 6px;
     height: 10%;
-    background-color: #cececf;
+    background-color: #818181;
     position: absolute;
     top: 0;
 }

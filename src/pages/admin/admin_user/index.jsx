@@ -61,13 +61,13 @@ class Index extends React.Component {
         ];
         return columns;
     }
-    table_data() {
+    table_data(){
         //行数据
         let data = [
             {
                 key: new Date() + Math.random(),
                 'id': '1',
-                'user_name': '陈品忠',
+                'user_name': '陈品忠1',
                 'user_rights': ['超级管理员', '财务管理员', '功能管理员'],
                 'phone_number': '153****4642',
                 'user_status': '1',
@@ -234,13 +234,14 @@ class Index extends React.Component {
     render() {
         return (
             <>
-                <div style={{ 'padding': '5px' }}>
+                <div className="title">用户模块/管理员/管理员列表</div>
+                <div style={{"padding":"10px 15px 10px 10px"}}>
                     <Table
                         columns={this.columns}
                         dataSource={this.data}
                         bordered
                         title={() => '管理员列表'}
-                    //footer={() => 'Footer'}
+                        //footer={() => 'Footer'}
                     />
                 </div>
             </>
