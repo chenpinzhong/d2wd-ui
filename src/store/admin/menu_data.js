@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 //定义初始化状态
-const initialState = {
+let initialState = {
     menu_list: [],
 }
 export const app = createSlice({
@@ -13,15 +13,6 @@ export const app = createSlice({
             let data=params['payload']
             state.menu_list=data
         },
-        /*更新菜单*/
-        set_menu_click:(state,params)=>{
-            let data=params['payload']
-            console.log(...state.menu_list)
-            state.menu_list['1000']['fold'] =!state.menu_list['1000']['fold']
-
-
-            //state.menu_list=data
-        }
     },
 })
 

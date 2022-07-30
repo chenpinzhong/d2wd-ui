@@ -9,12 +9,15 @@ import './css/menu.css' //菜单样式组件
 import axios from "axios" //ajax请求
 import ScrollBar from '../common/ScrollBar' //滚动条组件
 import { nanoid } from "nanoid"
+import $ from "jquery"
+import {produce} from 'immer';
 import { useSelector, useDispatch } from 'react-redux' //redux
-import { set_menu ,set_menu_click} from '../../store/admin/menu_data' //菜单数据方法
+import { set_menu} from '../../store/admin/menu_data' //菜单数据方法
 
 const Menu = (props) => {
     const dispatch = useDispatch();//设置数据方法
     let menu_list = useSelector((state) => state.menu_data.menu_list);
+    let temp_menu_list = JSON.parse(JSON.stringify(menu_list));//深拷贝数据
     
     //第一次渲染时 需要进行菜单列表的请求
     useEffect(() => {
@@ -29,47 +32,33 @@ const Menu = (props) => {
         );
     }, [dispatch])
     
-    function menu_click(id){
-        dispatch(set_menu_click(id))
-
-        
-        /*
+    function menu_click(e,id){
+        e.preventDefault();//阻止默认事件
+        e.stopPropagation();//阻止事件冒泡
+        let fold;
         //子菜单处理
-        function child_menu(value,level){
+        function query_child_menu(value,level){
             value.map(function (value, k) {
-                if(value.id===id){
-                    fold=value.fold=!value.fold;
-                }
+                if(value.id===id)fold=value.fold=!value.fold;
                 if (typeof (value['child']) != "undefined") {
-                    return child_menu(value['child'],level+1);
+                    return query_child_menu(value['child'],level+1);
                 }
             })
             return typeof(fold)=='undefined'?false:fold;
         }
-        let fold=false;
-        menu_list.map(function(value,key) {
-            if(value.id===id){
-                //value.fold=false;
-            }
+        
+        temp_menu_list.map(function(value,key) {
             //一级元素
-            if(value.id===id)fold=value.fold=!value.fold;
+            if(value.id===id){
+                fold=value.fold=!value.fold;
+            }
             //子级元素
             if (typeof (value['child']) !== "undefined") {
-                fold=child_menu(value['child'],1);
+                fold=query_child_menu(value['child'],1);
             }
         })
-        */
-        //元素是否显示
-        //判断元素是否折叠
-        /*
-        if(fold===true){
-            //$('[data-id="menu_ul_'+id+'"]').animate({'height':'show','opacity':'show'},100);
-        }else{
-            //$('[data-id="menu_ul_'+id+'"]').animate({'height':'hide','opacity':'hide'},100);
-        }
-        */
         //更新状态
-        dispatch(set_menu(menu_list))
+        dispatch(set_menu(temp_menu_list))
     }
     //渲染子菜单
     function child_menu(value,level){
@@ -77,7 +66,7 @@ const Menu = (props) => {
         return (
             <li title="分析页1" className={"menu_item "+(value.fold?'fold':'')} key={value.id} data-id={value.id}>
                 {/*子菜单标题*/}
-                <div className="item_title" onClick={(e)=>{menu_click(value.id)}} >
+                <div className="item_title" onClick={(e)=>{menu_click(e,value.id)}} >
                     <div className={"menu_title_content child_menu_level_"+level} >
                         <a href="/dashboard/monitor">
                             <span className="menu_item">
@@ -113,41 +102,7 @@ const Menu = (props) => {
             </li>
         );
     }
-    /*
-    menu_click=(id)=>{
-        //子菜单处理
-        function child_menu(value,level){
-            value.map(function (value, k) {
-                if(value.id==id){
-                    fold=value.fold=!value.fold;
-                }
-                if (typeof (value['child']) != "undefined") {
-                    return child_menu(value['child'],level+1);
-                }
-            })
-            return typeof(fold)=='undefined'?false:fold;
-        }
-        let fold=false;
-        this.state.menu_list.map(function(value,key) {
-            //一级元素
-            if(value.id==id)fold=value.fold=!value.fold;
-            //子级元素
-            if (typeof (value['child']) != "undefined") {
-                fold=child_menu(value['child'],1);
-            }
-        })
-        //元素是否显示
-        //判断元素是否折叠
-        if(fold==true){
-            $('[data-id="menu_ul_'+id+'"]').animate({'height':'show','opacity':'show'},100);
-        }else{
-            $('[data-id="menu_ul_'+id+'"]').animate({'height':'hide','opacity':'hide'},100);
-        }
-        //更新状态
-        this.setState(this.state.menu_list);
-    }
-    */
-
+    
     //渲染菜单列表
     let menu_data = menu_list.map(function(value,key){
         //子级信息
@@ -177,7 +132,7 @@ const Menu = (props) => {
         return (
             <li key={nanoid()} data-id={'menu_list_' + value.id} className={"menu_submenu "+(value.fold?'fold':'')}>
                 {/*菜单标题*/}
-                <div role="menuitem" className="menu_submenu_title"  data-id={value.id} onClick={(e)=>{menu_click(value.id)}} >
+                <div role="menuitem" className="menu_submenu_title"  data-id={value.id} onClick={(e)=>{menu_click(e,value.id)}} >
                     <div className="menu_title_content">
                         <span className="menu_item" title="Dashboard">
                             <span role="img" aria-label="dashboard" className="anticon anticon_dashboard">

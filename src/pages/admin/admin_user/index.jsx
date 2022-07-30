@@ -234,7 +234,7 @@ class Index extends React.Component {
     render() {
         return (
             <>
-                <div className="title">用户模块/管理员/管理员列表</div>
+                <div className="title">{this.props.path}</div>
                 <div style={{"padding":"10px 15px 10px 10px"}}>
                     <Table
                         columns={this.columns}

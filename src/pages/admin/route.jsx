@@ -11,7 +11,7 @@ function AdminRoutes() {
             element: <IndexLayout />,
             children: [
                 { path: '/', element: <Index /> },
-                { path: '/admin_user/index', element: <AdminUser/> },
+                { path: '/admin_user/index', element: <AdminUser title="管理员/首页"/> },
             ]
         },
         //404
