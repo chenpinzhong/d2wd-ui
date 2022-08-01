@@ -4,7 +4,7 @@
     开发备注:主要实现菜单功能
 */
 
-import React, {useEffect } from "react"
+import React, {useState,useEffect } from "react"
 import './css/menu.css' //菜单样式组件
 import axios from "axios" //ajax请求
 import ScrollBar from '../common/ScrollBar' //滚动条组件
@@ -12,26 +12,46 @@ import { nanoid } from "nanoid"
 import $ from "jquery"
 import {produce} from 'immer';
 import { useSelector, useDispatch } from 'react-redux' //redux
-import { set_menu} from '../../store/admin/menu_data' //菜单数据方法
+import { set_menu,set_current_menu} from '../../store/admin/menu_data' //菜单数据方法
 
 const Menu = (props) => {
     const dispatch = useDispatch();//设置数据方法
-    let menu_list = useSelector((state) => state.menu_data.menu_list);
-    let temp_menu_list = JSON.parse(JSON.stringify(menu_list));//深拷贝数据
-    
+    //let store_menu_list = useSelector((state) => state.menu_data.menu_list);//读取共享状态中的菜单数据
+    let [menu_list,set_menu_list]=useState()
+    if(typeof(menu_list)=="undefined")menu_list=[];
+
+    //找到页面对应的菜单层级关系
+    let menu_lavel=[]
+    menu_list.map(function(value,key){
+        if (typeof (value['href']) != "undefined") {
+            if(window.location.pathname.indexOf(value.href))menu_lavel.push(value);
+        }
+        if (typeof (value['child']) != "undefined") {
+            console.log(value.href)
+        }else{
+            console.log(value.href)
+        }
+    })
+
+
+
     //第一次渲染时 需要进行菜单列表的请求
     useEffect(() => {
         let server_url = process.env.REACT_APP_SERVER_URL;
         axios.get(server_url + "/admin/menu.api/index").then(
             response => {
-                dispatch(set_menu(response.data['data']));//更新菜单列表的数据
+                //更新共享菜单数据
+                dispatch(set_menu(response.data['data']));            
+                let menu_list = JSON.parse(JSON.stringify(response.data['data']));//深拷贝数据
+                set_menu_list([...menu_list])
             },
             error => {
                 console.log('获取菜单失败失败了', error);
             }
         );
-    }, [dispatch])
-    
+    }, [dispatch,set_menu_list])
+
+
     function menu_click(e,id){
         e.preventDefault();//阻止默认事件
         e.stopPropagation();//阻止事件冒泡
@@ -46,8 +66,8 @@ const Menu = (props) => {
             })
             return typeof(fold)=='undefined'?false:fold;
         }
-        
-        temp_menu_list.map(function(value,key) {
+
+        menu_list.map(function(value,key) {
             //一级元素
             if(value.id===id){
                 fold=value.fold=!value.fold;
@@ -57,18 +77,18 @@ const Menu = (props) => {
                 fold=query_child_menu(value['child'],1);
             }
         })
-        //更新状态
-        dispatch(set_menu(temp_menu_list))
+        set_menu_list([...menu_list]);
     }
+
     //渲染子菜单
     function child_menu(value,level){
         //子孙菜单渲染
         return (
-            <li title="分析页1" className={"menu_item "+(value.fold?'fold':'')} key={value.id} data-id={value.id}>
+            <li title={value.name} className={"menu_item "+(value.fold?'fold':'')} key={value.id}  data-id={'menu_list_' + value.id}>
                 {/*子菜单标题*/}
-                <div className="item_title" onClick={(e)=>{menu_click(e,value.id)}} >
+                <div className="item_title" onClick={(e)=>{menu_click(e,value.id)}}  >
                     <div className={"menu_title_content child_menu_level_"+level} >
-                        <a href="/dashboard/monitor">
+                        <a href={value.href}>
                             <span className="menu_item">
                                 <span className="menu_item_title">{value.name}</span>
                             </span>
@@ -102,24 +122,24 @@ const Menu = (props) => {
             </li>
         );
     }
-    
+
     //渲染菜单列表
     let menu_data = menu_list.map(function(value,key){
         //子级信息
         let menu_child = [];
         if (typeof (value['child'] !== "undefined")) {
-            value['child'].map(function (child_value, k) {
+            value['child'].map(function (value, k) {
                 let menu_child_content = null;
-                if (typeof (child_value['child']) != "undefined") {
-                    menu_child_content = child_menu(child_value,1)
+                if (typeof (value['child']) != "undefined") {
+                    menu_child_content = child_menu(value,1)
                 } else {
                     //正常菜单渲染
                     menu_child_content = (
-                        <li title="分析页" className="menu_item" key={child_value.id} data-id={child_value.id}>
+                        <li title={value.name} className="menu_item" key={value.id} data-id={'menu_list_' + value.id}>
                             <div className="menu_title_content">
-                                <a href={child_value.href}>
+                                <a href={value.href}>
                                     <span className="menu_item">
-                                        <span className="menu_item_title">{child_value.name}</span>
+                                        <span className="item_title menu_item_title">{value.name}</span>
                                     </span>
                                 </a>
                             </div>
@@ -130,9 +150,9 @@ const Menu = (props) => {
             })
         }
         return (
-            <li key={nanoid()} data-id={'menu_list_' + value.id} className={"menu_submenu "+(value.fold?'fold':'')}>
+            <li key={nanoid()} data-id={'menu_list_' + value.id} className={"menu_submenu menu_item "+(value.fold?'fold':'')}>
                 {/*菜单标题*/}
-                <div role="menuitem" className="menu_submenu_title"  data-id={value.id} onClick={(e)=>{menu_click(e,value.id)}} >
+                <div role="menuitem" className="menu_submenu_title item_title"  data-id={value.id} onClick={(e)=>{menu_click(e,value.id)}} >
                     <div className="menu_title_content">
                         <span className="menu_item" title="Dashboard">
                             <span role="img" aria-label="dashboard" className="anticon anticon_dashboard">

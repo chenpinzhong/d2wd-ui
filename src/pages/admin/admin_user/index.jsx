@@ -234,7 +234,7 @@ class Index extends React.Component {
     render() {
         return (
             <>
-                <div className="title">{this.props.path}</div>
+                <div className="title">{this.props.title}</div>
                 <div style={{"padding":"10px 15px 10px 10px"}}>
                     <Table
                         columns={this.columns}

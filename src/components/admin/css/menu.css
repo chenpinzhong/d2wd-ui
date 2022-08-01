@@ -88,19 +88,35 @@
     transition: background .3s cubic-bezier(.645,.045,.355,1),transform .3s cubic-bezier(.645,.045,.355,1),top .3s cubic-bezier(.645,.045,.355,1),color .3s cubic-bezier(.645,.045,.355,1);
     content: ""
 }
-.sider_menu .menu_submenu .menu_submenu_arrow:before,.menu_item .menu_submenu_arrow:before {
+
+/*是否展开图标样式*/
+.menu_item .menu_submenu_arrow:before {
     transform: rotate(45deg) translateX(2.5px);
 }
-.sider_menu .menu_submenu .menu_submenu_arrow:after,.menu_item .menu_submenu_arrow:after {
+.menu_item .menu_submenu_arrow:after {
     transform: rotate(-45deg) translateX(-2.5px)
 }
 
-.sider_menu .menu_submenu.fold .menu_submenu_arrow:before,.menu_item.fold .menu_submenu_arrow:before {
+.menu_item.fold>.item_title .menu_submenu_arrow:before {
     transform: rotate(-45deg) translateX(2.5px);
 }
-.sider_menu .menu_submenu.fold .menu_submenu_arrow:after,.menu_item.fold .menu_submenu_arrow:after {
+.menu_item.fold>.item_title .menu_submenu_arrow:after {
     transform: rotate(45deg) translateX(-2.5px)
 }
+
+/**/
+
+.menu_item>ul.menu_inline {
+    transition: background .3s cubic-bezier(.645,.045,.355,1),transform .3s cubic-bezier(.645,.045,.355,1),top .3s cubic-bezier(.645,.045,.355,1),color .3s cubic-bezier(.645,.045,.355,1);
+}
+
+.menu_item>ul.menu_inline{
+    display: block;
+}
+.menu_item.fold>ul.menu_inline{
+    display: none;
+}
+
 
 .menu_sub.menu_inline {
     padding: 0;
