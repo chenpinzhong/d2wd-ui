@@ -14,13 +14,14 @@ export const app = createSlice({
             state.menu_list=data
         },
         /*匹配当前菜单*/
-        set_current_menu:(state,params)=>{
-            
+        set_menu_tier:(state,params)=>{
+            let data=params['payload']
+            state.menu_list=data
         },
     },
 })
 
 // reducer方法的每一个case都会生成一个Action
-export const {set_menu,get_current_menu} = app.actions
+export const {set_menu,set_current_menu} = app.actions
 
 export default app.reducer

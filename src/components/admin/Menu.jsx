@@ -4,37 +4,27 @@
     开发备注:主要实现菜单功能
 */
 
-import React, {useState,useEffect } from "react"
+import React, {useRef,useState,useEffect } from "react"
 import './css/menu.css' //菜单样式组件
 import axios from "axios" //ajax请求
 import ScrollBar from '../common/ScrollBar' //滚动条组件
 import { nanoid } from "nanoid"
-import $ from "jquery"
-import {produce} from 'immer';
 import { useSelector, useDispatch } from 'react-redux' //redux
 import { set_menu,set_current_menu} from '../../store/admin/menu_data' //菜单数据方法
 
 const Menu = (props) => {
-    const dispatch = useDispatch();//设置数据方法
+    const dispatch = useDispatch();//设置数据方法·
     //let store_menu_list = useSelector((state) => state.menu_data.menu_list);//读取共享状态中的菜单数据
-    let [menu_list,set_menu_list]=useState()
+    let [menu_list,set_menu_list]=useState();//菜单列表数据
+    let [scroll_width,set_scroll_width]=useState();//菜单的宽度 有滚动条时方便调整宽度
     if(typeof(menu_list)=="undefined")menu_list=[];
 
-    //找到页面对应的菜单层级关系
-    let menu_lavel=[]
-    menu_list.map(function(value,key){
-        if (typeof (value['href']) != "undefined") {
-            if(window.location.pathname.indexOf(value.href))menu_lavel.push(value);
-        }
-        if (typeof (value['child']) != "undefined") {
-            console.log(value.href)
-        }else{
-            console.log(value.href)
-        }
-    })
-
-
-
+    //找到层级关系
+    let temp_menu_list = JSON.parse(JSON.stringify(menu_list));//深拷贝数据
+    let pathname=window.location.pathname;
+    let menu_tier=find_menu_tier(temp_menu_list,pathname).reverse();//查找到的层级 进行反转
+    dispatch(set_menu(menu_tier));
+    
     //第一次渲染时 需要进行菜单列表的请求
     useEffect(() => {
         let server_url = process.env.REACT_APP_SERVER_URL;
@@ -51,7 +41,33 @@ const Menu = (props) => {
         );
     }, [dispatch,set_menu_list])
 
+    //查找菜单层级
+    function find_menu_tier(menu_data,pathname){
+        //找到页面对应的菜单层级关系
+        let menu_lavel=[]
+        menu_data.map(function(value,key){
+            if (typeof (value['href']) != "undefined" && pathname.indexOf(value.href)>=0) {
+                menu_lavel.push(value);
+            }
+            if (typeof (value['child']) != "undefined") {
+                let temp_menu=find_menu_tier(value['child'],pathname);
+                if(temp_menu.length>=1){
+                    temp_menu.forEach(function(item){
+                        menu_lavel.push(item)
+                    })
+                    menu_lavel.push(value)
+                }
+            }
+            return value
+        })
+       return menu_lavel
+    }
+    //得到最后一个url参数
+    let end_menu_tier=menu_tier[menu_tier.length-1];//得到最后一个url
+    if(typeof(end_menu_tier)=="undefined")end_menu_tier={}
+    if(typeof(end_menu_tier.href)=="undefined")end_menu_tier.href='';
 
+    //菜单的点击事件
     function menu_click(e,id){
         e.preventDefault();//阻止默认事件
         e.stopPropagation();//阻止事件冒泡
@@ -66,7 +82,6 @@ const Menu = (props) => {
             })
             return typeof(fold)=='undefined'?false:fold;
         }
-
         menu_list.map(function(value,key) {
             //一级元素
             if(value.id===id){
@@ -79,9 +94,9 @@ const Menu = (props) => {
         })
         set_menu_list([...menu_list]);
     }
-
     //渲染子菜单
     function child_menu(value,level){
+
         //子孙菜单渲染
         return (
             <li title={value.name} className={"menu_item "+(value.fold?'fold':'')} key={value.id}  data-id={'menu_list_' + value.id}>
@@ -103,9 +118,10 @@ const Menu = (props) => {
                                 //孙菜单渲染
                                 return child_menu(value,level+1)
                             } else {
+                                let select=typeof(value.href)!="undefined" && end_menu_tier.href!=="" && value.href.indexOf(end_menu_tier.href)>=0?"select":""
                                 //子菜单渲染
                                 return (
-                                    <li key={value.id} title={value.name} className="menu_item" >
+                                    <li key={value.id} title={value.name} className={"menu_item "+select}>
                                         <div className={"menu_title_content child_menu_level_"+(level+1)}>
                                             <a href={value.href}>
                                                 <span className="menu_item">
@@ -133,9 +149,10 @@ const Menu = (props) => {
                 if (typeof (value['child']) != "undefined") {
                     menu_child_content = child_menu(value,1)
                 } else {
+                    let select=typeof(value.href)!="undefined" && end_menu_tier.href!=="" && value.href.indexOf(end_menu_tier.href)>=0?"select":""
                     //正常菜单渲染
                     menu_child_content = (
-                        <li title={value.name} className="menu_item" key={value.id} data-id={'menu_list_' + value.id}>
+                        <li title={value.name} className={"menu_item "+select} key={value.id} data-id={'menu_list_' + value.id}>
                             <div className="menu_title_content">
                                 <a href={value.href}>
                                     <span className="menu_item">
@@ -173,26 +190,45 @@ const Menu = (props) => {
             </li>
         )
     })
-
     //滚动条参数
     let scroll_bar_params = {
         'container': '.menu_left .menu_left_box',/*容器*/
         'content': '.menu_left .menu_left_box .sider_menu',/*内容*/
         'scroll_bar': '.menu_left .scroll_bar_box .scroll_bar',/*滚动条*/
         'direction': 'y',/*滚动条方向*/
+        'is_show_y':false,
+        'size_change':size_change
     }
+    //菜单主要dom对象
+    const content = useRef()
+
+    //检查是否存在滚动条
+    function size_change(){
+        if(typeof(content.current)==="undefined")return false;
+        let temp_width=document.querySelector(scroll_bar_params.scroll_bar).clientWidth
+        if(temp_width>0){
+            let scroll_bar_width=document.querySelector(scroll_bar_params.scroll_bar).clientWidth;//滚动条宽度
+            let new_width=content.current.clientWidth-scroll_bar_width;//容器宽度
+            set_scroll_width(new_width)//设置菜单宽度
+        }else{
+            let new_width=content.current.clientWidth
+            set_scroll_width(new_width)//设置菜单宽度
+        }
+    }
+    setInterval(() => size_change(), 200);
+
     return (
         <>
             {/*<!--菜单-->*/}
-            <div className="menu_left">
-                <div className="menu_left_box">
+            <div ref={content}  className="menu_left">
+                <div  className="menu_left_box" style={{"width":scroll_width+"px"}}>
                     <ul className="sider_menu menu">
                         {/*菜单列表*/}
                         {menu_data}
                     </ul>
                     {/*滚动条组件 绑定到对应元素上 selector="XXX" */}
                 </div>
-                <ScrollBar params={scroll_bar_params} />
+                <ScrollBar  params={scroll_bar_params} />
             </div>
         </>
     );

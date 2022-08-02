@@ -2,10 +2,8 @@ import React from "react"
 import "./css/scroll_bar.css" //引入样式文件
 
 class ScrollBar extends React.Component {
-    state = {
-        is_show_y: false,
-    }
-
+    state = {is_show_y: false,}
+    old_is_show_y=false;
     //dom渲染完成
     componentDidMount() {
         const { params } = this.props;
@@ -15,7 +13,8 @@ class ScrollBar extends React.Component {
         let dom = document.querySelector(params.container);//滚动对象
         let content = document.querySelector(params.content);//显示内容
         let scroll_bar = document.querySelector(params.scroll_bar);//滚动条
-
+        //let scroll_bar_width=6;//滚动条宽度=6
+        //console.log(dom.clientWidth,scroll_bar.clientWidth)
 
         //移动事件
         function mousemove_event(e) {
@@ -94,6 +93,7 @@ class ScrollBar extends React.Component {
         }
         this.setState(state)
     }
+    
     render() {
         return (
             <>
