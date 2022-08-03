@@ -8,10 +8,11 @@
     display: flex;
     flex-direction: row;
     min-width: 1440px;
-    height: 61px;
+    height: 60px;
     background-color: #FFF;
     border-bottom:#dbdcdd 1px solid;
     z-index: 9999;
+    box-sizing: content-box;
 }
 .header .header_logo {
     position: unset;

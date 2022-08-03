@@ -81,6 +81,7 @@ class ScrollBar extends React.Component {
         const { params } = this.props;
         let state = this.state
         let dom = document.querySelector(params.container);
+        if(dom==null)return false;
         let scroll_box_height = dom.scrollHeight;//滚动条容器高度
         let element_height = dom.offsetHeight;//元素实际高度
         //更新元素高度信息

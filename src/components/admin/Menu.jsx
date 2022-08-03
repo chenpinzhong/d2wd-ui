@@ -3,27 +3,27 @@
     作者:chenpinzhong
     开发备注:主要实现菜单功能
 */
-
 import React, {useRef,useState,useEffect } from "react"
 import './css/menu.css' //菜单样式组件
 import axios from "axios" //ajax请求
 import ScrollBar from '../common/ScrollBar' //滚动条组件
 import { nanoid } from "nanoid"
 import { useSelector, useDispatch } from 'react-redux' //redux
-import { set_menu,set_current_menu} from '../../store/admin/menu_data' //菜单数据方法
+import { set_menu,set_menu_tier,get_menu_tier} from '../../store/admin/menu_data' //菜单数据方法
 
 const Menu = (props) => {
     const dispatch = useDispatch();//设置数据方法·
-    //let store_menu_list = useSelector((state) => state.menu_data.menu_list);//读取共享状态中的菜单数据
+    let store_menu_data = useSelector((state) => state.menu_data);//读取共享状态中的菜单数据
     let [menu_list,set_menu_list]=useState();//菜单列表数据
     let [scroll_width,set_scroll_width]=useState();//菜单的宽度 有滚动条时方便调整宽度
     if(typeof(menu_list)=="undefined")menu_list=[];
-
-    //找到层级关系
-    let temp_menu_list = JSON.parse(JSON.stringify(menu_list));//深拷贝数据
-    let pathname=window.location.pathname;
-    let menu_tier=find_menu_tier(temp_menu_list,pathname).reverse();//查找到的层级 进行反转
-    dispatch(set_menu(menu_tier));
+    let end_menu_tier={};
+    if(store_menu_data.menu_tier.length>=0){
+        let menu_tier=store_menu_data.menu_tier;
+        end_menu_tier=menu_tier[menu_tier.length-1];
+    }
+    if(typeof(end_menu_tier)=="undefined")end_menu_tier={}
+    if(typeof(end_menu_tier.href)=="undefined")end_menu_tier.href='';
     
     //第一次渲染时 需要进行菜单列表的请求
     useEffect(() => {
@@ -31,9 +31,10 @@ const Menu = (props) => {
         axios.get(server_url + "/admin/menu.api/index").then(
             response => {
                 //更新共享菜单数据
-                dispatch(set_menu(response.data['data']));            
+                dispatch(set_menu(response.data['data']));
                 let menu_list = JSON.parse(JSON.stringify(response.data['data']));//深拷贝数据
                 set_menu_list([...menu_list])
+                dispatch(set_menu_tier(window.location.pathname));
             },
             error => {
                 console.log('获取菜单失败失败了', error);
@@ -41,31 +42,8 @@ const Menu = (props) => {
         );
     }, [dispatch,set_menu_list])
 
-    //查找菜单层级
-    function find_menu_tier(menu_data,pathname){
-        //找到页面对应的菜单层级关系
-        let menu_lavel=[]
-        menu_data.map(function(value,key){
-            if (typeof (value['href']) != "undefined" && pathname.indexOf(value.href)>=0) {
-                menu_lavel.push(value);
-            }
-            if (typeof (value['child']) != "undefined") {
-                let temp_menu=find_menu_tier(value['child'],pathname);
-                if(temp_menu.length>=1){
-                    temp_menu.forEach(function(item){
-                        menu_lavel.push(item)
-                    })
-                    menu_lavel.push(value)
-                }
-            }
-            return value
-        })
-       return menu_lavel
-    }
-    //得到最后一个url参数
-    let end_menu_tier=menu_tier[menu_tier.length-1];//得到最后一个url
-    if(typeof(end_menu_tier)=="undefined")end_menu_tier={}
-    if(typeof(end_menu_tier.href)=="undefined")end_menu_tier.href='';
+
+
 
     //菜单的点击事件
     function menu_click(e,id){

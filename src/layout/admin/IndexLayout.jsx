@@ -5,12 +5,14 @@ import Menu from "../../components/admin/Menu";
 import End from "../../components/admin/End";
 import ScrollBar from '../../components/common/ScrollBar' //滚动条组件
 import "../../components/admin/css/base.css";
+import NavTitle from '../../components/admin/NavTitle'
+
 function IndexLayout() {
     let [scroll_width,set_scroll_width]=useState();//菜单的宽度 有滚动条时方便调整宽度
     let scroll_bar_params = {
-        'container': '#content .content_box',/*容器*/
-        'content': '#content .content_box .content_details', /*内容*/
-        'scroll_bar': '#content .scroll_bar_box .scroll_bar',/*滚动条*/
+        'container': '#content .content_show .content_box',/*容器*/
+        'content': '#content .content_show .content_box .content_details', /*内容*/
+        'scroll_bar': '#content .content_show .scroll_bar_box .scroll_bar',/*滚动条*/
         'direction': 'y',/*滚动条方向*/
     }
     //菜单主要dom对象
@@ -36,12 +38,16 @@ function IndexLayout() {
             <Header />
             <Menu />
             <div ref={content} id="content">
-                <div  className="content_box" style={{"width":scroll_width+"px"}}>
-                    <div className="content_details">
-                        <Outlet />
+                {/*导航标签*/}
+                <NavTitle/>
+                <div className="content_show">
+                    <div className="content_box" style={{"width":scroll_width+"px"}}>
+                        <div className="content_details">
+                            <Outlet />
+                        </div>
                     </div>
+                    <ScrollBar params={scroll_bar_params} />
                 </div>
-                <ScrollBar params={scroll_bar_params} />
             </div>
             <End />
         </>

@@ -1,5 +1,7 @@
 import { Table } from 'antd';
 import React from 'react';
+
+
 class Index extends React.Component {
     constructor(props) {
         super(props);
@@ -234,7 +236,7 @@ class Index extends React.Component {
     render() {
         return (
             <>
-                <div className="title">{this.props.title}</div>
+                
                 <div style={{"padding":"10px"}}>
                     <Table
                         columns={this.columns}

@@ -842,13 +842,32 @@ body{
     width: calc(100vw - 240px);
     height: calc(100vh - 60px);
     overflow: hidden;
+    display: -webkit-flex; /* Safari */     
+    display: flex; /* Standard syntax */
+	flex-direction: column;
+}
+#content .content_show{
+    flex: 1;
+    position: relative;
+    overflow: hidden;
 }
 #content .content_box{
     height: 100%;
     overflow: hidden;
     position: relative;
+    background-color: #fafafa;
 }
 #content .content_box .content_details{
    height: auto;
-   background-color: #fafafa;
 }
+#content .content_title{
+    height: 40px;
+    line-height: 40px;
+    background-color: #FFF;
+    padding: 5px;
+    border-bottom: 1px solid #dbdcdd;
+    box-sizing: content-box;
+    width: 100%;
+}
+
+
