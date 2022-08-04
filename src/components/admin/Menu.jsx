@@ -9,7 +9,7 @@ import axios from "axios" //ajax请求
 import ScrollBar from '../common/ScrollBar' //滚动条组件
 import { nanoid } from "nanoid"
 import { useSelector, useDispatch } from 'react-redux' //redux
-import { set_menu,set_menu_tier,get_menu_tier} from '../../store/admin/menu_data' //菜单数据方法
+import { set_menu,set_menu_tier} from '../../store/admin/menu_data' //菜单数据方法
 
 const Menu = (props) => {
     const dispatch = useDispatch();//设置数据方法·
@@ -57,6 +57,7 @@ const Menu = (props) => {
                 if (typeof (value['child']) != "undefined") {
                     return query_child_menu(value['child'],level+1);
                 }
+                return value
             })
             return typeof(fold)=='undefined'?false:fold;
         }
@@ -69,6 +70,7 @@ const Menu = (props) => {
             if (typeof (value['child']) !== "undefined") {
                 fold=query_child_menu(value['child'],1);
             }
+            return value
         })
         set_menu_list([...menu_list]);
     }
@@ -142,6 +144,7 @@ const Menu = (props) => {
                     );
                 }
                 menu_child.push(menu_child_content);
+                return value
             })
         }
         return (

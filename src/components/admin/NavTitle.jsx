@@ -9,6 +9,7 @@ import { useSelector} from 'react-redux' //redux
 
 const NavTitle = (props) => {
     let store_menu_data = useSelector((state) => state.menu_data.menu_tier);//读取共享状态中的菜单数据
+    let menu_length=store_menu_data.length-1;
     return (
         <>
             {/*<!--菜单-->*/}
@@ -20,7 +21,10 @@ const NavTitle = (props) => {
                                 <span key={nanoid()} >
                                     <a key={nanoid()} href={value.href}>{value.name}</a>
                                 </span>
-                                <span>/</span>
+                                {/*最后一个导航菜单 不需要分隔符*/}
+                                {
+                                    menu_length!==key?<span className="readcrumb_separator">/</span>:''
+                                }
                             </div>
                         )
                     })

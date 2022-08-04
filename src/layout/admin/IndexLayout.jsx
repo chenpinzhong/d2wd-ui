@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import React, {useRef,useState,useEffect } from "react"
+import React, {useRef,useState } from "react"
 import Header from "../../components/admin/Header";
 import Menu from "../../components/admin/Menu";
 import End from "../../components/admin/End";
@@ -17,7 +17,7 @@ function IndexLayout() {
     }
     //菜单主要dom对象
     const content = useRef()
-
+    
     //检查是否存在滚动条
     function size_change(){
         if(typeof(content.current)==="undefined")return false;
