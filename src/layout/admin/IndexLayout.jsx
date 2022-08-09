@@ -17,11 +17,13 @@ function IndexLayout() {
     }
     //菜单主要dom对象
     const content = useRef()
-    
+
     //检查是否存在滚动条
     function size_change(){
         if(typeof(content.current)==="undefined")return false;
-        let temp_width=document.querySelector(scroll_bar_params.scroll_bar).clientWidth
+        let scroll_bar=document.querySelector(scroll_bar_params.scroll_bar)
+        if(scroll_bar==null)return false;
+        let temp_width=scroll_bar.clientWidth
         if(temp_width>0){
             let scroll_bar_width=document.querySelector(scroll_bar_params.scroll_bar).clientWidth;//滚动条宽度
             let new_width=content.current.clientWidth-scroll_bar_width;//容器宽度
