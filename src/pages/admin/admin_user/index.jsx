@@ -1,8 +1,10 @@
-import {Table} from 'antd';
+import {Select, Table} from 'antd';
 import React, {useEffect} from 'react';
 import axios from "axios"
 import {nanoid} from "nanoid"
-import {set_menu, set_menu_tier} from "../../../store/admin/menu_data"; //ajax请求
+import {set_menu, set_menu_tier} from "../../../store/admin/menu_data";
+import {Option} from "antd/es/mentions";
+import Input from "antd/es/input/Input"; //ajax请求
 
 class Index extends React.Component {
     constructor(props) {
@@ -128,6 +130,20 @@ class Index extends React.Component {
         return (
             <>
                 <div style={{"padding": "10px"}}>
+                    <div style={{"marginBottom": "10px"}}>
+                        <from autocomplete="off">
+                            <div className="left">
+                                <label htmlFor="desc" className="" title="描述">描述</label><Input name="account_name" placeholder="账号名称"/>
+                            </div>
+                            <div className="left">
+                                <label htmlFor="desc" className="" title="描述">描述</label><Input name="user_name" placeholder="用户名称" />
+                            </div>
+                            <div className="left">
+                                <label htmlFor="desc" className="" title="描述">描述</label><Input name="real_name" placeholder="真实名称" />
+                            </div>
+                        </from>
+                    </div>
+
                     <Table rowKey="id"
                         columns={this.columns}
                         dataSource={this.state.page_data.data}
@@ -135,7 +151,6 @@ class Index extends React.Component {
                         position='bottomCenter'
                         bordered
                         loading={this.state.table_loading}
-                        size='middle'
                         showSizeChanger='false'
                         title={() => '管理员列表'}
                     />
