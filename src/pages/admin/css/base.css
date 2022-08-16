@@ -1,0 +1,63 @@
+.from_box{
+    margin-bottom: 10px;
+    height: auto;
+    background-color: #FFF;
+    border: 1px solid #f0f0f0;
+}
+/*搜索表单*/
+.from_flex{
+    padding: 10px;
+    padding-bottom: 0px;
+    display: inline-block;
+}
+.from_flex .from_element{
+    margin-right: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    height: 32px;
+    float: left;
+}
+
+.from_flex .from_element label{
+    height: 32px;
+    line-height: 32px;
+    margin-right: 5px;
+}
+.from_flex .from_element input[type='text']{
+    height: 32px;
+    width: 220px;
+}
+.from_flex .from_element button{
+    margin-right: 10px;
+}
+/*普通表单*/
+.from_black{
+    padding: 20px;
+}
+.from_black .from_element{
+    display:flex;
+    margin-bottom: 5px;
+}
+.from_black .from_element .label{
+
+    display: block;
+    min-width: 120px;
+    text-align: right;
+    line-height: 32px;
+    padding-right: 10px;
+}
+.from_black .from_element .input{
+    float: left;
+    height: 32px;
+    width: 320px;
+}
+.from_black .from_element .remarks{
+    height: 32px;
+    line-height: 32px;
+    padding-left: 10px;
+    color: #979a9f;
+}
+
+
+
+

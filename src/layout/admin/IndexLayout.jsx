@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet  } from "react-router-dom";
 import React, {useRef,useState } from "react"
 import Header from "../../components/admin/Header";
 import Menu from "../../components/admin/Menu";
@@ -8,6 +8,7 @@ import "../../components/admin/css/base.css";
 import NavTitle from '../../components/admin/NavTitle'
 
 function IndexLayout() {
+
     let [scroll_width,set_scroll_width]=useState();//菜单的宽度 有滚动条时方便调整宽度
     let scroll_bar_params = {
         'container': '#content .content_show .content_box',/*容器*/
