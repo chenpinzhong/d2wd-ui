@@ -23,7 +23,7 @@ function IndexRoutes() {
         //404
         {
             path: '*',
-            element: <div>前台404</div>,
+            element: <div>前台路由 404</div>,
         }
     ]);
 }

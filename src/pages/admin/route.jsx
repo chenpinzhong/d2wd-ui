@@ -9,6 +9,7 @@ const HandleFail = lazy(() => import('./handle/fail'))
 const AdminUserIndex = lazy(() => import('./admin_user/index'))
 const AdminUserAdd = lazy(() => import('./admin_user/add'))
 function AdminRoutes() {
+
     const [params, set_params] = useSearchParams();
     return useRoutes([
         //后台管理页面

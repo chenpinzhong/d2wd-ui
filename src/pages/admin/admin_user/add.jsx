@@ -2,7 +2,8 @@ import React, {useEffect} from 'react';
 import axios from "axios"
 import {nanoid} from "nanoid"
 import {set_menu, set_menu_tier} from "../../../store/admin/menu_data";
-
+import "../../../components/admin/css/base.css";
+import "../css/base.css";//引入admin 管理的基础样式文件
 import {
     Button,
     Cascader,
@@ -14,7 +15,6 @@ import {
     Row,
     Select,
 } from 'antd';
-import "../css/base.css";//引入admin 管理的基础样式文件
 class Add extends React.Component {
     constructor(props) {
         super(props);

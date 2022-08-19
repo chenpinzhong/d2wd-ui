@@ -4,13 +4,10 @@ import Header from "../../components/admin/Header";
 import Menu from "../../components/admin/Menu";
 import End from "../../components/admin/End";
 import ScrollBar from '../../components/common/ScrollBar' //滚动条组件
-import "../../components/admin/css/base.css";
 import NavTitle from '../../components/admin/NavTitle'
 
 function IndexLayout() {
     //检查用户是否登陆
-
-
     let [scroll_width,set_scroll_width]=useState();//菜单的宽度 有滚动条时方便调整宽度
     let scroll_bar_params = {
         'container': '#content .content_show .content_box',/*容器*/
