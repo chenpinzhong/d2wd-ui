@@ -2,7 +2,6 @@ import React from "react"
 import './css/header.css'
 
 class Header extends React.Component {
-    
     render() {
         return (
             <>
@@ -21,7 +20,7 @@ class Header extends React.Component {
                             <a href="#" data-refresh="设置"><i className="lnr lnr_cog"></i></a>
                         </div>
                         <div className="nav_item">
-                            <img src={process.env.PUBLIC_URL + "/head.jpg"} className="nav_img" width="40" height="40"/>
+                            <img src={process.env.PUBLIC_URL + "/head.jpg"} className="nav_img" width="40" height="40" alt="head"/>
                             <cite className="admin_name">陈品忠GLKJ3959</cite>
                             <i className="lnr lnr_chevron_down"></i>
                         </div>

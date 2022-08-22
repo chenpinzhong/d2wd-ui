@@ -1,25 +1,9 @@
-import React, {useEffect} from 'react';
-import axios from "axios"
-import {nanoid} from "nanoid"
-import {set_menu, set_menu_tier} from "../../../store/admin/menu_data";
+import React from 'react';
 import "../../../components/admin/css/base.css";
 import "../css/base.css";//引入admin 管理的基础样式文件
-import {
-    Button,
-    Cascader,
-    Checkbox,
-    Col,
-    Form,
-    Input,
-    InputNumber,
-    Row,
-    Select,
-} from 'antd';
-class Add extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+import {Button,Input} from 'antd';
 
+class Add extends React.Component {
     //获取参数 没有时获取默认值
     get_params(name, val) {
         if (this.props.params.get(name)) return this.props.params.get(name);
@@ -29,7 +13,6 @@ class Add extends React.Component {
     //dom渲染完成
     componentDidMount() {
     }
-
     //页面刷新
     render() {
         return (

@@ -42,7 +42,7 @@ class ScrollBar extends React.Component {
         //注册鼠标按下滚动条 事件
         scroll_bar.addEventListener('mousedown', function (e) {
             e.stopPropagation();//阻止事件冒泡
-            if (scroll_bar.style.top == "") scroll_bar.style.top = "0px";
+            if (scroll_bar.style.top === "") scroll_bar.style.top = "0px";
             mousemove_event_start = e.clientY - parseFloat(scroll_bar.style.top);
             document.addEventListener('mousemove', mousemove_event, false);
         })
@@ -94,7 +94,7 @@ class ScrollBar extends React.Component {
         }
         this.setState(state)
     }
-    
+
     render() {
         return (
             <>
