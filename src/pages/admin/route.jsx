@@ -22,6 +22,7 @@ function AdminRoutes() {
             element: <IndexLayout />,
             children: [
                 { path: '/', element: <Index /> },
+                { path: '/index/*', element: <Index /> },
                 { path: '/admin_user/index', element: <AdminUserIndex title="管理员/管理员列表" params={params} set_params={set_params}/> },
                 { path: '/admin_user/add', element: <AdminUserAdd title="管理员/新增管理员" params={params} set_params={set_params}/> },
             ]
@@ -34,7 +35,7 @@ function AdminRoutes() {
         //404
         {
             path: '*',
-            element: <div>后台404</div>,
+            element: <div>前端路由 404</div>,
         }
     ]);
 }

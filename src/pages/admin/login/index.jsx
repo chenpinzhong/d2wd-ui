@@ -18,10 +18,10 @@ class Index extends React.Component {
                     <div className="inset">
                         <form method="post">
                             <div className="ant-row ant-form-item">
-                                <Input htmlType="text" size="large" placeholder="账号" prefix={<UserOutlined />} />
+                                <Input type="text" name="account_name" size="large" placeholder="账号" prefix={<UserOutlined />} />
                             </div>
                             <div className="ant-row ant-form-item">
-                                <Input htmlType="password" size="large" placeholder="密码" prefix={<UnlockOutlined />} />
+                                <Input type="password" name="password" size="large" placeholder="密码" prefix={<UnlockOutlined />} />
                             </div>
                             <div className="ant-row ant-form-item">
                                 <Button htmlType="submit" type="primary" style={{"width":"100%","height":"40px"}}>登录</Button>
