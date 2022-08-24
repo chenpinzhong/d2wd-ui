@@ -50,3 +50,24 @@
     max-width: 120px;
     overflow: hidden;
 }
+.header .header_right .nav_item .header_user_action{
+    position: absolute;
+    top: 60px;
+    right: 0px;
+    min-width: 100px;
+    box-sizing: border-box;
+    background: #FFFFFF;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 10%);
+    border-radius: 6px;
+    padding: 16px 16px 0 16px;
+}
+.header .header_right .nav_item .header_user_action li{
+    font-size: 13px;
+    line-height: 13px;
+    margin-bottom: 16px;
+    list-style: none;
+}
+
+
+
+

@@ -8,12 +8,12 @@ import Input from "antd/es/input/Input"; //ajax请求
 import "../../../components/admin/css/base.css";
 import "../css/base.css";//引入admin 管理的基础样式文件
 class Index extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
             page_data: [],//分页数据
             table_loading:false,//页面数据是否加载中
+            edit:'',
         };
         this.columns = this.table_columns();
     }
@@ -36,10 +36,9 @@ class Index extends React.Component {
         this.setState(this.state);//更新状态
         //第一次渲染时 需要进行菜单列表的请求
         let server_url = process.env.REACT_APP_SERVER_URL;
-        axios.get(server_url + "/admin/user.api/index"+"?page="+page+"&page_size="+page_size+params_string).then(
+        axios.get(server_url + "/admin/admin_user.api/index"+"?page="+page+"&page_size="+page_size+params_string).then(
             response => {
                 this.state.page_data = response.data['data'];
-                console.log(this.state.page_data)
                 this.state.table_loading=false
                 this.setState(this.state);
             },
@@ -48,8 +47,14 @@ class Index extends React.Component {
             }
         );
     }
+    //用户信息编辑操作
+    edit(data){
+        console.log(data)
+    }
     //表格列信息
     table_columns() {
+        //this.table_columns = this.table_columns.bind(this);
+        let _this=this
         let columns = [
             //ID列
             {
@@ -121,6 +126,18 @@ class Index extends React.Component {
             {
                 dataIndex: 'user_status',
                 title: '用户状态',
+
+            },
+            //用户状态
+            {
+                title: '操作',
+                width:140,
+                render:function(data) {
+                    return <>
+                        <Button size="small" type="link" data-id={data['id']} onClick={()=>_this.edit(data)}>编辑</Button>
+                        <Button size="small" type="link" data-id={data['id']}>删除</Button>
+                    </>
+                },
             },
         ];
         return columns;
@@ -143,7 +160,8 @@ class Index extends React.Component {
         };
         return (
             <>
-                <div style={{"padding": "10px"}}>
+                <div style={{"padding": "10px","position":"relative"}}>
+                    {/*搜索功能*/}
                     <div className="from_box" >
                         <form className="from_flex" onSubmit={()=>console.log('1')}>
                             <div className="from_element">
@@ -165,6 +183,7 @@ class Index extends React.Component {
                             </div>
                         </form>
                     </div>
+                    {/*表格与分页功能*/}
                     <Table rowKey="id"
                         columns={this.columns}
                         dataSource={this.state.page_data.data}
@@ -175,6 +194,18 @@ class Index extends React.Component {
                         showSizeChanger='false'
                     />
                 </div>
+                {/*页面编辑功能*/}
+                <>
+                    <div className="page_edit">
+                        <div className="page_content">
+                            123
+                        </div>
+                        <div className="page_bg">123</div>
+                    </div>
+                </>
+
+
+                {this.state.edit}
             </>
         )
     }
