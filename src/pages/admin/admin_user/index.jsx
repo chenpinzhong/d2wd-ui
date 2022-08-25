@@ -1,10 +1,9 @@
-import {Button, Select, Table} from 'antd';
+import { Button, Form, Input,Table ,Space,Tooltip} from 'antd';
 import React, {useEffect} from 'react';
 import axios from "axios"
 import {nanoid} from "nanoid"
 import {set_menu, set_menu_tier} from "../../../store/admin/menu_data";
 import {Option} from "antd/es/mentions";
-import Input from "antd/es/input/Input"; //ajax请求
 import "../../../components/admin/css/base.css";
 import "../css/base.css";//引入admin 管理的基础样式文件
 class Index extends React.Component {
@@ -142,6 +141,16 @@ class Index extends React.Component {
         ];
         return columns;
     }
+    onFinish = (values: any) => {
+        console.log('Success:', values);
+    };
+
+    onFinishFailed = (errorInfo: any) => {
+        console.log('Failed:', errorInfo);
+    };
+
+
+
     //页面刷新
     render() {
         let pagination = {
@@ -198,9 +207,56 @@ class Index extends React.Component {
                 <>
                     <div className="page_edit">
                         <div className="page_content">
-                            123
+                            <div className="page_title">编辑数据</div>
+                            <div style={{"marginTop":"20px"}}>
+                                <form method="post">
+                                    <div className="form_item">
+                                        <div className="form_item_label item_col_25">账号名称</div>
+                                        <div className="item_col_40">
+                                            <Input placeholder="请输入账号名称" />
+                                            {/*错误提示*/}
+                                            <div role="alert" className="form_item_error">账号名称</div>
+                                        </div>
+                                        {/*普通提示*/}
+                                        <div style={{marginLeft:"10px"}}>请输入账号密码</div>
+                                    </div>
+                                    <div className="form_item">
+                                        <div className="form_item_label item_col_25">账号名称</div>
+                                        <div className="item_content item_col_40">
+                                            <Input placeholder="请输入账号名称" />
+                                            {/*错误提示*/}
+                                            <div role="alert" className="form_item_error">账号名称</div>
+                                        </div>
+                                        {/*普通提示*/}
+                                        <div style={{marginLeft:"10px"}}>请输入账号密码</div>
+                                    </div>
+                                </form>
+
+
+                                <Form name="basic" labelCol={{ span: 6 }} onFinish={this.onFinish} onFinishFailed={this.onFinishFailed} autoComplete="off" >
+                                    <Form.Item label="账号名称">
+                                        <Space>
+                                            <Form.Item name="account_name" noStyle rules={[{ required: true, message: '账号名称' }]} >
+                                                <Input readOnly style={{ width: 260 }} placeholder="账号名称" />
+                                            </Form.Item>
+                                            <Tooltip>管理员登陆的账号</Tooltip>
+                                        </Space>
+                                    </Form.Item>
+                                    <Form.Item label="密码">
+                                        <Space>
+                                            <Form.Item name="password" noStyle rules={[{ required: true, message: '密码' }]} >
+                                                <Input style={{ width: 260 }} placeholder="密码" />
+                                            </Form.Item>
+                                            <Tooltip>管理员登陆密码</Tooltip>
+                                        </Space>
+                                    </Form.Item>
+                                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                                        <Button type="primary" htmlType="submit">提交</Button>
+                                    </Form.Item>
+                                </Form>
+                            </div>
                         </div>
-                        <div className="page_bg">123</div>
+                        <div className="page_bg"></div>
                     </div>
                 </>
 

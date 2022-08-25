@@ -69,14 +69,145 @@
 /*编辑内容*/
 .page_edit .page_content {
     position:relative;
-    width: 800px;
+    width: 1024px;
     height: auto;
     margin: 50px auto 0 auto;
-    padding: 10px;
     background-color: #FFFFFF;
-    border: 1px solid #f0f0f0;
+    border: 1px solid #919191;
     z-index: 999;
+    /*border-radius:1px;*/
 }
+.page_edit .page_content .page_title{
+    height: 30px;
+    line-height: 30px;
+    padding: 10px;
+    border-bottom: 1px solid #919191;
+    box-sizing:content-box;
+    cursor: pointer;
+}
+/*表单提交信息*/
+.form_item{
+    box-sizing: border-box;
+    padding: 0;
+    color: rgba(0,0,0,.85);
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 32px;
+    list-style: none;
+    font-feature-settings: "tnum";
+    margin: 0 0 24px;
+    vertical-align: top;
+    transition: margin-bottom .3s linear 17ms;
+    display: flex;
+}
+
+.form_item .form_item_label {
+    display: inline-block;
+    flex-grow: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: right;
+    vertical-align: middle;
+}
+.form_item .form_item_label:after {
+    content: ":";
+    position: relative;
+    top: -0.5px;
+    margin: 0 8px 0 2px;
+}
+.form-item-control{
+
+}
+
+.form_item .form_item_error {
+    height: 22px;
+    line-height: 22px;
+}
+.form_item .item_col{
+
+}
+.form_item .item_col_10 {
+    display: block;
+    flex: 0 0 10%;
+    max-width: 10%;
+}
+.form_item .item_col_15 {
+    display: block;
+    flex: 0 0 15%;
+    max-width: 15%;
+}
+.form_item .item_col_20 {
+    display: block;
+    flex: 0 0 20%;
+    max-width: 20%;
+}
+.form_item .item_col_25 {
+    display: block;
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+.form_item .item_col_30 {
+    display: block;
+    flex: 0 0 30%;
+    max-width: 30%;
+}
+.form_item .item_col_35 {
+    display: block;
+    flex: 0 0 35%;
+    max-width: 35%;
+}
+.form_item .item_col_40 {
+    display: block;
+    flex: 0 0 40%;
+    max-width: 40%;
+}
+.form_item .item_col_45 {
+    display: block;
+    flex: 0 0 45%;
+    max-width: 45%;
+}
+.form_item .item_col_50 {
+    display: block;
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+.form_item .item_col_55 {
+    display: block;
+    flex: 0 0 55%;
+    max-width: 55%;
+}
+.form_item .item_col_60 {
+    display: block;
+    flex: 0 0 60%;
+    max-width: 60%;
+}
+.form_item .item_col_65 {
+    display: block;
+    flex: 0 0 65%;
+    max-width: 65%;
+}
+.form_item .item_col_70 {
+    display: block;
+    flex: 0 0 70%;
+    max-width: 70%;
+}
+.form_item .item_col_70 {
+    display: block;
+    flex: 0 0 75%;
+    max-width: 75%;
+}
+.form_item .item_col_80 {
+    display: block;
+    flex: 0 0 80%;
+    max-width: 80%;
+}
+.form_item .item_col_80 {
+    display: block;
+    flex: 0 0 85%;
+    max-width: 85%;
+}
+
+
 /*编辑背景*/
 .page_edit .page_bg {
     position:absolute;
