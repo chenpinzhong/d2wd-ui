@@ -235,7 +235,14 @@
     z-index: 998;
 }
 
-
-
+.page_bottom{
+    height: auto;
+    margin-top: 20px;
+    display: flex;
+}
+/*底部的一些人为操作方法*/
+.page_bottom .bottom_function{
+    flex: 1;
+}
 
 
