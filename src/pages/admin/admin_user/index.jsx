@@ -5,17 +5,30 @@ import {nanoid} from "nanoid"
 import {set_menu, set_menu_tier} from "../../../store/admin/menu_data";
 import {Option} from "antd/es/mentions";
 import "../../../components/admin/css/base.css";
-import "../css/base.css";//引入admin 管理的基础样式文件
+import "../css/base.css";
+import {CloseOutlined} from "@ant-design/icons";
+
+//引入admin 管理的基础样式文件
 class Index extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            page_data: [],//分页数据
-            table_loading:false,//页面数据是否加载中
-            edit:'',
-        };
-        this.columns = this.table_columns();
+
+    state = {
+        page_data: [],//分页数据
+        table_loading:false,//页面数据是否加载中
+        //编辑数据
+        modify_page:{
+            show:false,
+            edit_type:'add',//add,edit  add 是添加数据 不会显示默认数据 ,edit会显示默认数据
+            title_map:{'add':'添加用户信息','edit':'编辑用户信息'},
+            submit_title_map:{'add':'提交','edit':'提交'},
+            default_data:{}//默认数据
+        },
+    };
+    columns = this.table_columns();
+    constructor(props){
+        super(props)
+
     }
+
     //获取参数 没有时获取默认值
     get_params(name,val){
         if(this.props.params.get(name))return this.props.params.get(name);
@@ -46,9 +59,24 @@ class Index extends React.Component {
             }
         );
     }
-    //用户信息编辑操作
+
+    //关闭编辑功能
+    page_edit_close(){
+        this.state.modify_page.show=!this.state.modify_page.show
+        this.setState(this.state);//刷新页面
+    }
+    //添加数据
+    add(){
+        this.state.modify_page.show=true
+        this.state.modify_page.edit_type='edit'
+        this.setState(this.state);//刷新页面
+    }
+    //编辑数据
     edit(data){
-        console.log(data)
+        this.state.modify_page.show=true
+        this.state.modify_page.edit_type='edit'
+        this.state.modify_page.default_data=data
+        this.setState(this.state);//刷新页面
     }
     //表格列信息
     table_columns() {
@@ -134,22 +162,101 @@ class Index extends React.Component {
                 render:function(data) {
                     return <>
                         <Button size="small" type="link" data-id={data['id']} onClick={()=>_this.edit(data)}>编辑</Button>
-                        <Button size="small" type="link" data-id={data['id']}>删除</Button>
+                        <Button size="small" type="link" data-id={data['id']} onClick={()=>alert('目前不支持删除')}>删除</Button>
                     </>
                 },
             },
         ];
         return columns;
     }
-    onFinish = (values: any) => {
-        console.log('Success:', values);
-    };
 
-    onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-    };
+    //修改数据页面的渲染
+    modify_page(){
+        let data=this.state.modify_page;
+        let title='';
+        let submit_title='';
+        if(data.edit_type in  data.title_map)title=data.title_map[data.edit_type];
+        if(data.edit_type in  data.submit_title_map)submit_title=data.submit_title_map[data.edit_type];
 
-
+        return <>
+            <div className={"page_edit"+" "+(data.show?'':"hide")}>
+                <div className="page_content">
+                    <div className="page_title_box">
+                        <div className="page_title">{title}</div>
+                        <div className="page_edit_close" onClick={()=>{this.page_edit_close()}}><CloseOutlined /></div>
+                    </div>
+                    <div style={{"marginTop":"20px"}}>
+                        <form method="post">
+                            {/*提交类型 表示当前表单的操作类型*/}
+                            <input type="hidden" name="action_type" value={data.edit_type}/>
+                            {/*账号名称*/}
+                            <div className="form_item">
+                                <div className="form_item_label item_col_25">账号名称</div>
+                                <div className="form_item_col item_col_40">
+                                    <Input placeholder="请输入账号名称" name="account_name" />
+                                    {/*错误提示*/}
+                                    <div role="alert" style={{display:"none"}} className="form_item_error">账号名称</div>
+                                </div>
+                                {/*普通提示*/}
+                                <div style={{marginLeft:"10px"}}>请输入账号密码</div>
+                            </div>
+                            {/*密码*/}
+                            <div className="form_item">
+                                <div className="form_item_label item_col_25">密码</div>
+                                <div className="form_item_col item_col_40">
+                                    <Input placeholder="请输入密码" name="password" type="password" />
+                                    {/*错误提示*/}
+                                    <div role="alert" style={{display:"none"}}  className="form_item_error">请输入密码</div>
+                                </div>
+                                {/*普通提示*/}
+                                <div style={{marginLeft:"10px"}}>请输入密码</div>
+                            </div>
+                            {/*手机号*/}
+                            <div className="form_item">
+                                <div className="form_item_label item_col_25">手机号</div>
+                                <div className="form_item_col item_col_40">
+                                    <Input placeholder="请输入手机号" name="phone" />
+                                    {/*错误提示*/}
+                                    <div role="alert" style={{display:"none"}}  className="form_item_error">请输入手机号</div>
+                                </div>
+                                {/*普通提示*/}
+                                <div style={{marginLeft:"10px"}}>请输入手机号</div>
+                            </div>
+                            {/*用户名称*/}
+                            <div className="form_item">
+                                <div className="form_item_label item_col_25">用户名称</div>
+                                <div className="form_item_col item_col_40">
+                                    <Input placeholder="请输入真实名称" name="user_name" />
+                                    {/*错误提示*/}
+                                    <div role="alert" style={{display:"none"}}  className="form_item_error">请输入用户名称</div>
+                                </div>
+                                {/*普通提示*/}
+                                <div style={{marginLeft:"10px"}}>请输入用户名称</div>
+                            </div>
+                            {/*真实名称*/}
+                            <div className="form_item">
+                                <div className="form_item_label item_col_25">真实名称</div>
+                                <div className="form_item_col item_col_40">
+                                    <Input placeholder="请输入真实名称" name="real_name" />
+                                    {/*错误提示*/}
+                                    <div role="alert" style={{display:"none"}}  className="form_item_error">请输入真实名称</div>
+                                </div>
+                                {/*普通提示*/}
+                                <div style={{marginLeft:"10px"}}>请输入真实名称</div>
+                            </div>
+                            <div className="form_item">
+                                <div className="item_col_25"></div>
+                                <div className="form_item_col item_col_40">
+                                    <Button type="primary" htmlType="submit">{submit_title}</Button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div className="page_bg"></div>
+            </div>
+        </>
+    }
 
     //页面刷新
     render() {
@@ -203,65 +310,8 @@ class Index extends React.Component {
                         showSizeChanger='false'
                     />
                 </div>
-                {/*页面编辑功能*/}
-                <>
-                    <div className="page_edit">
-                        <div className="page_content">
-                            <div className="page_title">编辑数据</div>
-                            <div style={{"marginTop":"20px"}}>
-                                <form method="post">
-                                    <div className="form_item">
-                                        <div className="form_item_label item_col_25">账号名称</div>
-                                        <div className="item_col_40">
-                                            <Input placeholder="请输入账号名称" />
-                                            {/*错误提示*/}
-                                            <div role="alert" className="form_item_error">账号名称</div>
-                                        </div>
-                                        {/*普通提示*/}
-                                        <div style={{marginLeft:"10px"}}>请输入账号密码</div>
-                                    </div>
-                                    <div className="form_item">
-                                        <div className="form_item_label item_col_25">账号名称</div>
-                                        <div className="item_content item_col_40">
-                                            <Input placeholder="请输入账号名称" />
-                                            {/*错误提示*/}
-                                            <div role="alert" className="form_item_error">账号名称</div>
-                                        </div>
-                                        {/*普通提示*/}
-                                        <div style={{marginLeft:"10px"}}>请输入账号密码</div>
-                                    </div>
-                                </form>
-
-
-                                <Form name="basic" labelCol={{ span: 6 }} onFinish={this.onFinish} onFinishFailed={this.onFinishFailed} autoComplete="off" >
-                                    <Form.Item label="账号名称">
-                                        <Space>
-                                            <Form.Item name="account_name" noStyle rules={[{ required: true, message: '账号名称' }]} >
-                                                <Input readOnly style={{ width: 260 }} placeholder="账号名称" />
-                                            </Form.Item>
-                                            <Tooltip>管理员登陆的账号</Tooltip>
-                                        </Space>
-                                    </Form.Item>
-                                    <Form.Item label="密码">
-                                        <Space>
-                                            <Form.Item name="password" noStyle rules={[{ required: true, message: '密码' }]} >
-                                                <Input style={{ width: 260 }} placeholder="密码" />
-                                            </Form.Item>
-                                            <Tooltip>管理员登陆密码</Tooltip>
-                                        </Space>
-                                    </Form.Item>
-                                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                                        <Button type="primary" htmlType="submit">提交</Button>
-                                    </Form.Item>
-                                </Form>
-                            </div>
-                        </div>
-                        <div className="page_bg"></div>
-                    </div>
-                </>
-
-
-                {this.state.edit}
+                {/*页面数据的修改*/}
+                {this.modify_page()}
             </>
         )
     }

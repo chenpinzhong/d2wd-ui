@@ -10,7 +10,6 @@ const HandleFail = lazy(() => import('./handle/fail'))
 
 //普通页面
 const AdminUserIndex = lazy(() => import('./admin_user/index'))
-const AdminUserAdd = lazy(() => import('./admin_user/add'))
 
 function AdminRoutes() {
 
@@ -24,7 +23,6 @@ function AdminRoutes() {
                 { path: '/', element: <Index /> },
                 { path: '/index/*', element: <Index /> },
                 { path: '/admin_user/index', element: <AdminUserIndex title="管理员/管理员列表" params={params} set_params={set_params}/> },
-                { path: '/admin_user/add', element: <AdminUserAdd title="管理员/新增管理员" params={params} set_params={set_params}/> },
             ]
         },
         //登陆页面
