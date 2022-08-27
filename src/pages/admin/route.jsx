@@ -11,6 +11,9 @@ const HandleFail = lazy(() => import('./handle/fail'))
 //普通页面
 const AdminUserIndex = lazy(() => import('./admin_user/index'))
 
+const ProductManageCategory = lazy(() => import('./product_manage/category'))
+
+
 function AdminRoutes() {
 
     const [params, set_params] = useSearchParams();
@@ -23,6 +26,7 @@ function AdminRoutes() {
                 { path: '/', element: <Index /> },
                 { path: '/index/*', element: <Index /> },
                 { path: '/admin_user/index', element: <AdminUserIndex title="管理员/管理员列表" params={params} set_params={set_params}/> },
+                { path: '/product_manage/category', element: <ProductManageCategory title="产品管理/产品管理/产品类目" params={params} set_params={set_params}/> },
             ]
         },
         //登陆页面

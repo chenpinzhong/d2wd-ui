@@ -28,7 +28,7 @@ const Menu = (props) => {
     //第一次渲染时 需要进行菜单列表的请求
     useEffect(() => {
         let server_url = process.env.REACT_APP_SERVER_URL;
-        axios.get(server_url + "/admin/menu.api/index").then(
+        axios.post(server_url + "/admin/menu/index").then(
             response => {
                 //更新共享菜单数据
                 dispatch(set_menu(response.data['data']));

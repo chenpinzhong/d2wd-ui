@@ -222,7 +222,6 @@
     max-width: 85%;
 }
 
-
 /*编辑背景*/
 .page_edit .page_bg {
     position:absolute;
@@ -244,5 +243,27 @@
 .page_bottom .bottom_function{
     flex: 1;
 }
+
+/*产品类目的样式*/
+.product_category_box{
+    display: flex;
+    padding: 10px;
+}
+/*产品类目树的样式*/
+.product_category_box .product_category_tree_box{
+    height: auto;
+}
+/*产品类目 编辑功能*/
+.product_category_box .product_category_modify{
+
+}
+.product_category_box .product_category_modify .modify_action{
+    margin-bottom: 20px;
+}
+
+
+
+
+
 
 
