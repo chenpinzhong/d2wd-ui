@@ -2,12 +2,15 @@ const proxy = require('http-proxy-middleware')//引入http-proxy-middleware，re
 
 //api请求过滤
 const filter_rules = function (pathname,req){
-    //return pathname.match('api') && req.method === 'GET';
-    if(req.method === 'POST'){
-        console.log('准备准发post请求')
-        return true;
-    }
-    return pathname.match('/.*api.*/');
+    //所有post请求转发
+    if(req.method === 'POST')return true;
+    //get请求转发
+    if(req.method === 'GET' && pathname.match(/.*get.*/))return true;
+    //ajax请求转发
+    if(req.method === 'GET' && pathname.match(/.*ajax.*/))return true;
+    //api请求转发
+    if(req.method === 'GET' && pathname.match(/.*api.*/))return true;
+    return false;
 };
 
 let server_addr='http://localhost:19730';

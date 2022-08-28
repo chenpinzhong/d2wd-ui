@@ -69,7 +69,7 @@ class Index extends React.Component {
 
         //第一次渲染时 需要进行菜单列表的请求
         let server_url = process.env.REACT_APP_SERVER_URL;
-        axios.post(server_url + "/admin/admin_user/get"+search).then(
+        axios.get(server_url + "/admin/admin_user/get"+search).then(
             response => {
                 this.state.page_data = response.data['data'];
                 this.state.table_loading=false

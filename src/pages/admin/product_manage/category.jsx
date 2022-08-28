@@ -11,66 +11,30 @@ import {DownOutlined } from "@ant-design/icons";//引入图标
 //引入admin 管理的基础样式文件
 class Index extends React.Component {
     //产品类目树
-    tree_data = [
-        {
-            title: '产品类目',
-            key: '0',
-            children: [
-                {
-                    title: '衣服',
-                    key: '2',
-                    children: [
-                        {
-                            title: '上衣',
-                            key: '3',
-                        },
-                        {
-                            title: '裙子',
-                            key: '4',
-                        }
-                    ],
-                },
-                {
-                    title: '生活用品',
-                    key: '5',
-                    children: [
-                        {
-                            title: '雨伞',
-                            key: '雨伞',
-                            children: [
-                                {
-                                    title: '太阳伞',
-                                    key: '太阳伞',
-                                },
-                                {
-                                    title: '油布伞',
-                                    key: '油布伞',
-                                },
-                            ],
-                        },
-                        {
-                            title: '充电宝',
-                            key: '充电宝',
-                        },
-                    ],
-                },
+    
+    //状态信息
+    state={
+        select_category_id:'',
+        select_category_title:'',
+        current_category_title:'',
+        tree_data:[],
+        expanded_keys:[],
+    }
+    
 
-            ],
-        },
-    ];
-
+    
     //根据id 得到选择的层级关系
-    select_tree(id){
-        let tree_data=this.tree_data
-        let category_lavel = []
-
+    select_tree(id_array){
+        let tree_data=this.state.tree_data
+        if(id_array.length==0)return false;
+        let id=id_array[0];//可以多选但是 目前只处理一个
         //查找菜单层级
         function find_category(tree_data, id) {
             //找到页面对应的菜单层级关系
             let category_level = []
-            tree_data.map(function (value, key) {
+            tree_data.map(function (value) {
+                if(value['key']==id)category_level.push(value)
                 if (typeof (value['children']) != "undefined") {
-                    console.log(value['children'])
                     let temp_category_level=find_category(value['children'],id);
                     if (temp_category_level.length >= 1) {
                         temp_category_level.forEach(function (item) {
@@ -79,44 +43,27 @@ class Index extends React.Component {
                         category_level.push(value)
                     }
                 }
-                return value
             })
-            console.log(category_level)
             return category_level
         }
-        let category_array=find_category(tree_data, id);
-        console.log(category_array)
+        let category_array=find_category(tree_data,id);
+        category_array=category_array.reverse();//数组反转
 
-        /*
-        //找到页面对应的菜单层级关系
-        let menu_lavel = []
-        menu_data.map(function (value, key) {
-            if (typeof (value['href']) != "undefined" && pathname.indexOf(value.href) >= 0) {
-                menu_lavel.push(value);
-            }
-            if (typeof (value['child']) != "undefined") {
-                let temp_menu = find_menu_tier(value['child'], pathname);
-                if (temp_menu.length >= 1) {
-                    temp_menu.forEach(function (item) {
-                        menu_lavel.push(item)
-                    })
-                    menu_lavel.push(value)
-                }
-            }
-            return value
+        let title_array=new Array()
+        category_array.forEach(function(val){
+            if(typeof(val['title'])=="string")title_array.push(val['title'])
         })
-        return menu_lavel
-        */
-
-
-
-
-
+        //更新状态
+        this.state.current_category_title=title_array.join('->')
+        this.setState(this.state);
     }
 
     on_select(id,info){
+
+        this.state.select_category_id=info.node.key;//选择类目的id
+        this.state.select_category_title=info.node.title;//选择类目的标题
+        this.setState(this.state);
         this.select_tree(id)
-        console.log('selected', id, info);
     }
 
     //获取参数 没有时获取默认值
@@ -126,11 +73,32 @@ class Index extends React.Component {
     }
     //dom渲染完成
     componentDidMount() {
-
+        //第一次渲染时 需要进行菜单列表的请求
+        let server_url = process.env.REACT_APP_SERVER_URL;
+        axios.get(server_url + "admin/product_manage/get").then(
+            response => {
+                this.state.tree_data = response.data['data'];
+                this.setState(this.state);
+            },
+            error => {
+                console.log('获取用户数据失败', error);
+            }
+        );
     }
 
     //页面刷新
     render() {
+        //等树节点加载完成后渲染
+        let temp_tree='';
+        if(this.state.tree_data.length>=1){
+            temp_tree=<Tree
+                        showLine
+                        height={300}
+                        defaultExpandAll={true}
+                        onSelect={(ids,val)=>this.on_select(ids,val)}
+                        treeData={this.state.tree_data}
+                        /> 
+        }
 
         return (
             <>
@@ -139,23 +107,16 @@ class Index extends React.Component {
                     <div className="from_box" >
                         <div className="product_category_box">
                             <div className="product_category_tree_box" style={{width:"400px"}}>
-                                <Tree
-                                    showLine
-                                    height={300}
-                                    defaultExpandAll
-                                    defaultExpandedKeys={['0']}
-                                    onSelect={(id,val)=>this.on_select(id,val)}
-                                    treeData={this.tree_data}
-                                />
+                                {temp_tree}
                             </div>
                             <div className="product_category_modify">
                                 <div className="modify_action">
-                                    <label>当前选择:雨伞</label>
+                                    <label>当前选择:<span style={{"color":"red"}}> {this.state.current_category_title}</span></label>
                                 </div>
                                 {/*改名操作*/}
                                 <div className="modify_action">
                                     <Space>
-                                        <Input /><Button type="primary">改名</Button>
+                                        <Input value={this.state.select_category_title}  /><Button type="primary">改名</Button>
                                     </Space>
                                 </div>
                                 {/*添加操作*/}
@@ -167,7 +128,7 @@ class Index extends React.Component {
                                 {/*删除*/}
                                 <div className="modify_action">
                                     <Space>
-                                        <Input /><Button type="primary">删除</Button>
+                                        <Input value={this.state.select_category_title}  /><Button type="primary">删除</Button>
                                     </Space>
                                 </div>
                             </div>
