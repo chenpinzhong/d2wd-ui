@@ -21,7 +21,6 @@ class Index extends React.Component {
         expanded_keys:[],
     }
     
-
     
     //根据id 得到选择的层级关系
     select_tree(id_array){
@@ -84,6 +83,7 @@ class Index extends React.Component {
                 console.log('获取用户数据失败', error);
             }
         );
+        
     }
 
     //页面刷新
@@ -99,7 +99,7 @@ class Index extends React.Component {
                         treeData={this.state.tree_data}
                         /> 
         }
-
+        
         return (
             <>
                 <div style={{"padding": "10px","position":"relative"}}>
