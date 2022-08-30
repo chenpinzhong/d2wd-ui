@@ -10,17 +10,14 @@ import {DownOutlined } from "@ant-design/icons";//引入图标
 
 //引入admin 管理的基础样式文件
 class Index extends React.Component {
-
     category_modify = React.createRef();//修改
     category_add = React.createRef();//添加
     category_del = React.createRef();//删除
-
     //状态信息
     state={
         select_category_id:'',//选择的ID
         select_category_title:'',//选择的目录名称
         current_category_title:'',//当前的目录名称
-
         edit_category_title:'',//编辑的目录名称
         add_category_title:'',//添加的目录名称
         tree_data:[],
@@ -65,13 +62,11 @@ class Index extends React.Component {
     on_select(id,info){
         this.state.select_category_id=info.node.key;//选择类目的id
         this.state.select_category_title=info.node.title;//选择的目录名称
-
         this.state.edit_category_title=info.node.title;//编辑的目录名称
         this.state.add_category_title=info.node.title;//添加的目录名称
         this.setState(this.state);
         this.select_tree(id)
     }
-
     //获取参数 没有时获取默认值
     get_params(name,val){
         if(this.props.params.get(name))return this.props.params.get(name);
@@ -82,11 +77,25 @@ class Index extends React.Component {
         //第一次渲染时 需要进行菜单列表的请求
         this.get_product_catalog()
     }
+    //类目树 默认展开
+    default_expanded(product_catalog){
+        let return_ids=[]
+        for(let i=0;i<product_catalog.length;i++){
+            let current_val=product_catalog[i]
+            return_ids.push(current_val['key'])
+            if(typeof (current_val['children'])!="object")continue;
+            let temp_return_ids=this.default_expanded(current_val['children'])
+            return_ids=return_ids.concat(temp_return_ids);
+        }
+        return return_ids
+    }
     get_product_catalog(){
         let server_url = process.env.REACT_APP_SERVER_URL;
         axios.get(server_url + "admin/product_catalog/get").then(
             response => {
-                this.state.tree_data = response.data['data'];
+                this.state.product_catalog = response.data['data'];
+                let expanded_keys=this.default_expanded(this.state.product_catalog,2);
+                this.state.expanded_keys=expanded_keys;
                 this.setState(this.state);
             },
             error => {
@@ -94,7 +103,6 @@ class Index extends React.Component {
             }
         );
     }
-
     //类目编辑操作
     category_edit(e,type){
         let server_url = process.env.REACT_APP_SERVER_URL;
@@ -111,7 +119,6 @@ class Index extends React.Component {
 
         axios.post(server_url + "admin/product_catalog/category_edit",data).then(
             response => {
-                console.log(response.data['data']['code'])
                 if(response.data['code']=='200'){
                     this.get_product_catalog();//刷新产品目录
                     message.success(response.data['msg']);//错误信息
@@ -128,20 +135,13 @@ class Index extends React.Component {
     modify_change(e,name){
         this.setState({[name]:  e.target.value})
     }
-
+    //类目树 展开方法
+    on_expand = expanded_keys => {
+        this.state.expanded_keys=expanded_keys;
+        this.setState(this.state)
+    }
     //页面刷新
     render() {
-        //等树节点加载完成后渲染
-        let temp_tree='';
-        if(this.state.tree_data.length>=1){
-            temp_tree=<Tree
-                        showLine
-                        height={300}
-                        defaultExpandAll={true}
-                        onSelect={(ids,val)=>this.on_select(ids,val)}
-                        treeData={this.state.tree_data}
-                        />
-        }
 
         return (
             <>
@@ -150,7 +150,14 @@ class Index extends React.Component {
                     <div className="from_box" >
                         <div className="product_category_box">
                             <div className="product_category_tree_box" style={{width:"400px"}}>
-                                {temp_tree}
+                                <Tree
+                                    showLine
+                                    height={300}
+                                    onExpand={this.on_expand}
+                                    expandedKeys={this.state.expanded_keys}
+                                    onSelect={(ids,val)=>this.on_select(ids,val)}
+                                    treeData={this.state.product_catalog}
+                                />
                             </div>
                             <div className="product_category_modify">
                                 <div className="modify_action">

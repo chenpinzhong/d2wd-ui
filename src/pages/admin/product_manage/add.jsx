@@ -4,20 +4,82 @@ import "../css/base.css";//引入admin 管理的基础样式文件
 
 import {Button, Input, Tree} from 'antd';
 import axios from "axios";
+import {CloseOutlined} from "@ant-design/icons";
+
+import '@wangeditor/editor/dist/css/style.css' // 引入 css
+
+import { Editor, Toolbar } from '@wangeditor/editor-for-react'
+import { DomEditor,IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
+
 
 
 class Add extends React.Component {
+    toolbar = DomEditor.getToolbar(Editor)
     state={
-        expanded_keys:[]
+        product_catalog:[],//产品类目数据
+        expanded_keys:[],//默认展开的产品类目
+        category_select:false,//是否打开选择目录
+
+        //工具栏配置
+        toolbarConfig:Toolbar.getConfig(),
+        editorConfig :{                         // JS 语法
+            placeholder: '请输入内容...',
+            MENU_CONF:['bold','underline','italic','through','code','sub','sup','clearStyle','color','bgColor','fontSize','fontFamily','indent','delIndent','justifyLeft','justifyRight','justifyCenter','justifyJustify','lineHeight','insertImage','deleteImage','editImage','viewImageLink','imageWidth30','imageWidth50','imageWidth100','divider','emotion','insertLink','editLink','unLink','viewLink','codeBlock','blockquote','headerSelect','header1','header2','header3','header4','header5','todo','redo','undo','fullScreen','enter','bulletedList','numberedList','insertTable','deleteTable','insertTableRow','deleteTableRow','insertTableCol','deleteTableCol','tableHeader','tableFullWidth','insertVideo','uploadVideo','editVideoSize','uploadImage','codeSelectLang']
+        },
+
     };
-    //产品类目树
-    tree_data = [];
-    //获取参数 没有时获取默认值
+    //获取请求参数
     get_params(name, val) {
         if (this.props.params.get(name)) return this.props.params.get(name);
         return val;
     }
-    //默认展开
+    //获取参数 没有时获取默认值
+    open_category_select(){
+        this.state.category_select=true;
+        this.setState(this.state)
+    }
+
+    //根据id 得到选择的层级关系
+    select_tree(id_array){
+        let tree_data=this.state.product_catalog
+        if(id_array.length==0)return false;
+        let id=id_array[0];//可以多选但是 目前只处理一个
+        //查找菜单层级
+        function find_category(tree_data, id) {
+            //找到页面对应的菜单层级关系
+            let category_level = []
+            tree_data.map(function (value) {
+                if(value['key']==id)category_level.push(value)
+                if (typeof (value['children']) != "undefined") {
+                    let temp_category_level=find_category(value['children'],id);
+                    if (temp_category_level.length >= 1) {
+                        temp_category_level.forEach(function (item) {
+                            category_level.push(item)
+                        })
+                        category_level.push(value)
+                    }
+                }
+            })
+            return category_level
+        }
+        let category_array=find_category(tree_data,id);
+        category_array=category_array.reverse();//数组反转
+
+        let title_array=new Array()
+        category_array.forEach(function(val){
+            if(typeof(val['title'])=="string")title_array.push(val['title'])
+        })
+        //更新状态
+        return  title_array.join('->')
+    }
+
+    on_select(id,info){
+        this.state.current_category_title=this.select_tree(id)
+        this.setState(this.state);
+        this.page_edit_close('category_select')
+    }
+
+    //类目树 默认展开
     default_expanded(product_catalog){
         let return_ids=[]
         for(let i=0;i<product_catalog.length;i++){
@@ -29,11 +91,18 @@ class Add extends React.Component {
         }
         return return_ids
     }
-    //展开方法
+    //类目树 展开方法
     on_expand = expanded_keys => {
         this.state.expanded_keys=expanded_keys;
         this.setState(this.state)
     }
+
+    //关闭编辑功能
+    page_edit_close(name){
+        this.state[name]=false
+        this.setState(this.state);//刷新页面
+    }
+
     //dom渲染完成
     componentDidMount() {
         let server_url = process.env.REACT_APP_SERVER_URL;
@@ -98,15 +167,33 @@ class Add extends React.Component {
                                 </ul>
                             </div>
                             {/*产品类目*/}
+
+                            {/*类目选择功能*/}
+                            <div className={"page_edit "+(this.state.category_select==true?'':'hide') } ref={this.category_select}>
+                                <div className="page_content">
+                                    <div className="page_title_box">
+                                        <div className="page_title">选择类目</div>
+                                        <div className="page_edit_close" onClick={()=>{this.page_edit_close('category_select')}}><CloseOutlined /></div>
+                                    </div>
+                                    <div style={{"margin":"20px"}}>
+                                        <Tree
+                                            showLine
+                                            onExpand={this.on_expand}
+                                            expandedKeys={this.state.expanded_keys}
+                                            onSelect={(ids,val)=>this.on_select(ids,val)}
+                                            height={300}
+                                            treeData={this.state.product_catalog}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="page_bg"></div>
+                            </div>
+
                             <div className="from_element" id="current_category" style={{width:"1000px"}}>
                                 <label className="label">产品目录</label>
-                                <Tree
-                                    showLine
-                                    onExpand={this.on_expand}
-                                    expandedKeys={this.state.expanded_keys}
-                                    height={200}
-                                    treeData={this.state.product_catalog}
-                                />
+                                <div className="remarks">{this.state.current_category_title}</div>
+                                <input type="hidden" name="category_id"/>
+                                <Button style={{padding:"0px 5px"}} type="link" onClick={()=>this.open_category_select()}>选择目录</Button>
                             </div>
 
                             {/*基础信息*/}
@@ -120,21 +207,24 @@ class Add extends React.Component {
                                 <Input className="input" name="brand_name" placeholder="品牌"/>
                                 <span className="remarks" title="描述">品牌</span>
                             </div>
-                            <div className="from_element"  style={{width:"1000px"}}>
-                                <label className="label">产品参数</label>
-                                <Input className="input" name="brand_name" placeholder="产品参数"/>
-                                <span className="remarks" title="描述">产品参数</span>
-                                {/*
-                                <li title="证书编号" data-parameters_name_zh="证书编号" data-parameters_value_zh="2017011606002401" data-parameters_name_en="证书编号"  data-parameters_value_en="2017011606002401">
-                                证书编号 : 2017011606002401<div class="close"></div>
-                                </li>
-                                */}
 
-                                <div className="com_struct">
-                                    <button  type="button" className="next_btn">添加参数</button>
-                                </div>
-                            </div>
                             {/*富文本编辑器 https://www.wangeditor.com/*/}
+                            <div style={{ border: '1px solid #ccc', zIndex: 100}}>
+                                <Toolbar
+                                    editor={this.state.editor}
+                                    defaultConfig={this.state.toolbarConfig}
+                                    mode="default"
+                                    style={{ borderBottom: '1px solid #ccc' }}
+                                />
+                                <Editor
+                                    defaultConfig={this.state.editorConfig}
+                                    value={"<p>1111</p>"}
+                                    onCreated={(e)=>console.log(1)}
+                                    onChange={editor => console.log(editor.getHtml())}
+                                    mode="default"
+                                    style={{ height: '400px', overflowY: 'hidden' }}
+                                />
+                            </div>
 
 
                             <div className="from_element">

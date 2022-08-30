@@ -39,7 +39,6 @@
     margin-bottom: 5px;
 }
 .from_black .from_element .label{
-
     display: block;
     min-width: 120px;
     text-align: right;
@@ -60,11 +59,12 @@
 
 /*页面编辑*/
 .page_edit{
-    position:absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    position:fixed;
+    top: 60px;
+    left: 240px;
+    width: calc(100vw);
+    height: calc(100vh);
+    z-index: 999;
 }
 .hide{
     display: none;
@@ -260,6 +260,21 @@
 .product_category_box .product_category_modify .modify_action{
     margin-bottom: 20px;
 }
+
+
+/*编辑产品*/
+/*类目选择*/
+.select_catalog{
+    width:500px;
+    height:300px;
+    background:#FFF;
+    position:fixed;
+    top:50%;
+    left:50%;
+    margin-left:-50px;
+    margin-top:-50px;
+}
+
 
 
 
