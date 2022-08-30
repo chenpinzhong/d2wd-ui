@@ -6,27 +6,16 @@ import {Button, Input, Tree} from 'antd';
 import axios from "axios";
 import {CloseOutlined} from "@ant-design/icons";
 
-import '@wangeditor/editor/dist/css/style.css' // 引入 css
-
-import { Editor, Toolbar } from '@wangeditor/editor-for-react'
-import { DomEditor,IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor'
+import MyEditor from "../../../components/common/MyEditor"
 
 
 
 class Add extends React.Component {
-    toolbar = DomEditor.getToolbar(Editor)
+    myRef=React.createRef();
     state={
         product_catalog:[],//产品类目数据
         expanded_keys:[],//默认展开的产品类目
         category_select:false,//是否打开选择目录
-
-        //工具栏配置
-        toolbarConfig:Toolbar.getConfig(),
-        editorConfig :{                         // JS 语法
-            placeholder: '请输入内容...',
-            MENU_CONF:['bold','underline','italic','through','code','sub','sup','clearStyle','color','bgColor','fontSize','fontFamily','indent','delIndent','justifyLeft','justifyRight','justifyCenter','justifyJustify','lineHeight','insertImage','deleteImage','editImage','viewImageLink','imageWidth30','imageWidth50','imageWidth100','divider','emotion','insertLink','editLink','unLink','viewLink','codeBlock','blockquote','headerSelect','header1','header2','header3','header4','header5','todo','redo','undo','fullScreen','enter','bulletedList','numberedList','insertTable','deleteTable','insertTableRow','deleteTableRow','insertTableCol','deleteTableCol','tableHeader','tableFullWidth','insertVideo','uploadVideo','editVideoSize','uploadImage','codeSelectLang']
-        },
-
     };
     //获取请求参数
     get_params(name, val) {
@@ -101,6 +90,10 @@ class Add extends React.Component {
     page_edit_close(name){
         this.state[name]=false
         this.setState(this.state);//刷新页面
+    }
+
+    get_html(){
+        console.log(this.child_editor,MyEditor)
     }
 
     //dom渲染完成
@@ -204,34 +197,23 @@ class Add extends React.Component {
                             </div>
                             <div className="from_element"  style={{width:"1000px"}}>
                                 <label className="label">品牌</label>
-                                <Input className="input" name="brand_name" placeholder="品牌"/>
+                                <Input className="input" name="brand_name" placeholder="品牌"/>hello world
                                 <span className="remarks" title="描述">品牌</span>
                             </div>
-
-                            {/*富文本编辑器 https://www.wangeditor.com/*/}
-                            <div style={{ border: '1px solid #ccc', zIndex: 100}}>
-                                <Toolbar
-                                    editor={this.state.editor}
-                                    defaultConfig={this.state.toolbarConfig}
-                                    mode="default"
-                                    style={{ borderBottom: '1px solid #ccc' }}
-                                />
-                                <Editor
-                                    defaultConfig={this.state.editorConfig}
-                                    value={"<p>1111</p>"}
-                                    onCreated={(e)=>console.log(1)}
-                                    onChange={editor => console.log(editor.getHtml())}
-                                    mode="default"
-                                    style={{ height: '400px', overflowY: 'hidden' }}
-                                />
+                            <div className="from_element"  style={{width:"1000px"}}>
+                                <label className="label">产品描述</label>
+                                {/*富文本编辑器 https://www.wangeditor.com/*/}
+                                <div>
+                                    <MyEditor />
+                                </div>
                             </div>
-
 
                             <div className="from_element">
                                 {/*占位标签*/}
                                 <label className="label"></label>
                                 <input name="page" type="hidden" value={this.get_params('page', 1)}/>
                                 <input name="page_size" type="hidden" value={this.get_params('page_size', 1)}/>
+                                <Button type="primary" onClick={()=>this.get_html()} >获取数据</Button>
                                 <Button type="primary" htmlType="submit">提交</Button>
                             </div>
 
