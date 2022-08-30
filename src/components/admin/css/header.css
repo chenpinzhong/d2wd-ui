@@ -11,7 +11,7 @@
     height: 60px;
     background-color: #FFF;
     border-bottom:#dbdcdd 1px solid;
-    z-index: 9999;
+    z-index: 999;
     box-sizing: content-box;
 }
 .header .header_logo {

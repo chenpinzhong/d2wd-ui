@@ -1,4 +1,4 @@
-import { Button, Input,Tree,Space} from 'antd';
+import { Button, Input,Tree,Space,message} from 'antd';
 import React, {useEffect} from 'react';
 import axios from "axios"
 import {nanoid} from "nanoid"
@@ -10,18 +10,23 @@ import {DownOutlined } from "@ant-design/icons";//引入图标
 
 //引入admin 管理的基础样式文件
 class Index extends React.Component {
-    //产品类目树
-    
+
+    category_modify = React.createRef();//修改
+    category_add = React.createRef();//添加
+    category_del = React.createRef();//删除
+
     //状态信息
     state={
-        select_category_id:'',
-        select_category_title:'',
-        current_category_title:'',
+        select_category_id:'',//选择的ID
+        select_category_title:'',//选择的目录名称
+        current_category_title:'',//当前的目录名称
+
+        edit_category_title:'',//编辑的目录名称
+        add_category_title:'',//添加的目录名称
         tree_data:[],
         expanded_keys:[],
     }
-    
-    
+
     //根据id 得到选择的层级关系
     select_tree(id_array){
         let tree_data=this.state.tree_data
@@ -58,9 +63,11 @@ class Index extends React.Component {
     }
 
     on_select(id,info){
-
         this.state.select_category_id=info.node.key;//选择类目的id
-        this.state.select_category_title=info.node.title;//选择类目的标题
+        this.state.select_category_title=info.node.title;//选择的目录名称
+
+        this.state.edit_category_title=info.node.title;//编辑的目录名称
+        this.state.add_category_title=info.node.title;//添加的目录名称
         this.setState(this.state);
         this.select_tree(id)
     }
@@ -73,8 +80,11 @@ class Index extends React.Component {
     //dom渲染完成
     componentDidMount() {
         //第一次渲染时 需要进行菜单列表的请求
+        this.get_product_catalog()
+    }
+    get_product_catalog(){
         let server_url = process.env.REACT_APP_SERVER_URL;
-        axios.get(server_url + "admin/product_manage/get").then(
+        axios.get(server_url + "admin/product_catalog/get").then(
             response => {
                 this.state.tree_data = response.data['data'];
                 this.setState(this.state);
@@ -83,7 +93,40 @@ class Index extends React.Component {
                 console.log('获取用户数据失败', error);
             }
         );
-        
+    }
+
+    //类目编辑操作
+    category_edit(e,type){
+        let server_url = process.env.REACT_APP_SERVER_URL;
+        let select_category_id=this.state.select_category_id;
+        if(select_category_id==""){
+            message.error('请先选择要操作的目录');
+            return false
+        }
+        let data= {};
+        data['type']=type;
+        data['category_id']=select_category_id;
+        if(type=='category_modify')data['category_name']=this.category_modify.current.input.value;
+        if(type=='category_add')data['category_name']=this.category_add.current.input.value;
+
+        axios.post(server_url + "admin/product_catalog/category_edit",data).then(
+            response => {
+                console.log(response.data['data']['code'])
+                if(response.data['code']=='200'){
+                    this.get_product_catalog();//刷新产品目录
+                    message.success(response.data['msg']);//错误信息
+                }else{
+                    message.error(response.data['msg']);
+                }
+            },
+            error => {
+                message.error('编辑目录错误');
+            }
+        );
+    }
+    //输入框 修改对应值
+    modify_change(e,name){
+        this.setState({[name]:  e.target.value})
     }
 
     //页面刷新
@@ -97,9 +140,9 @@ class Index extends React.Component {
                         defaultExpandAll={true}
                         onSelect={(ids,val)=>this.on_select(ids,val)}
                         treeData={this.state.tree_data}
-                        /> 
+                        />
         }
-        
+
         return (
             <>
                 <div style={{"padding": "10px","position":"relative"}}>
@@ -116,19 +159,22 @@ class Index extends React.Component {
                                 {/*改名操作*/}
                                 <div className="modify_action">
                                     <Space>
-                                        <Input value={this.state.select_category_title}  /><Button type="primary">改名</Button>
+                                        <Input ref={this.category_modify} value={this.state.edit_category_title}   onChange ={e=>this.modify_change(e,'edit_category_title')} />
+                                        <Button type="primary" onClick={(e)=>this.category_edit(e,'category_modify')}>改名</Button>
                                     </Space>
                                 </div>
                                 {/*添加操作*/}
                                 <div className="modify_action">
                                     <Space>
-                                        <Input /><Button type="primary">添加</Button>
+                                        <Input ref={this.category_add} value={this.state.add_category_title}  onChange ={e=>this.modify_change(e,'add_category_title')}  />
+                                        <Button type="primary" onClick={(e)=>this.category_edit(e,'category_add')}>添加</Button>
                                     </Space>
                                 </div>
                                 {/*删除*/}
                                 <div className="modify_action">
                                     <Space>
-                                        <Input value={this.state.select_category_title}  /><Button type="primary">删除</Button>
+                                        <Input ref={this.category_del} disabled  value={this.state.select_category_title}  />
+                                        <Button type="primary" onClick={(e)=>this.category_edit(e,'category_del')}>删除</Button>
                                     </Space>
                                 </div>
                             </div>
