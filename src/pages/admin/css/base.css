@@ -275,6 +275,65 @@
     margin-top:-50px;
 }
 
+/*产品属性*/
+.attribute_info_box{
+    display: block;
+    border: #979a9f 1px solid;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.attribute_info_box .attribute_info{
+    margin-bottom: 10px;
+}
+.attribute_name_box{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.attribute_name_box .attribute_title{
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+}
+.attribute_name_box .attribute_name{
+    display: inline-block;
+}
+.attribute_set{
+    display: block;
+}
+.attribute_set .attribute_set_name{
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+}
+.attribute_set .attribute_value{
+    display: inline-block;
+    text-decoration: none;
+    padding: 3px 10px;
+    line-height:22px;
+    min-width: 10px;
+    text-align: center;
+    border: 1px solid #DCDCDC;
+    background: #FFF;
+    margin-right:5px;
+    margin-bottom:5px;
+    cursor:pointer;
+    user-select: none;
+}
+
+.attribute_img_box{
+    display: inline-block;
+}
+.attribute_img_box .attribute_img{
+    width: 40px;
+    height: 40px;
+    float: left;
+    border: #ccc 1px solid;
+    padding: 4px;
+}
+
+
+
 
 
 

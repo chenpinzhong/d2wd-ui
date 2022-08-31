@@ -108,7 +108,7 @@ class Index extends React.Component {
         let server_url = process.env.REACT_APP_SERVER_URL;
         let select_category_id=this.state.select_category_id;
         if(select_category_id==""){
-            message.error('请先选择要操作的目录');
+            message.error('请先选择要操作的目录!').then(r => {console.log('请先选择要操作的目录!')});
             return false
         }
         let data= {};

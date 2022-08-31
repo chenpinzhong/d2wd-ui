@@ -2,21 +2,27 @@ import React from 'react';
 import "../../../components/admin/css/base.css";
 import "../css/base.css";//引入admin 管理的基础样式文件
 
-import {Button, Input, Tree} from 'antd';
+import {Button, Image, Input, Tree} from 'antd';
 import axios from "axios";
-import {CloseOutlined} from "@ant-design/icons";
+import {CloseOutlined, PlusOutlined, UploadOutlined} from "@ant-design/icons";
+import { Modal, Upload } from 'antd';
 
 import MyEditor from "../../../components/common/MyEditor"
 
-
-
 class Add extends React.Component {
-    myRef=React.createRef();
+    editor={
+        editor_html:''
+    }
     state={
         product_catalog:[],//产品类目数据
         expanded_keys:[],//默认展开的产品类目
         category_select:false,//是否打开选择目录
+        attribute_select:false,//属性选择是否打开
     };
+    //编辑器数据
+    editor_get_html=(html)=>{
+        this.editor.editor_html=html;
+    }
     //获取请求参数
     get_params(name, val) {
         if (this.props.params.get(name)) return this.props.params.get(name);
@@ -93,7 +99,7 @@ class Add extends React.Component {
     }
 
     get_html(){
-        console.log(this.child_editor,MyEditor)
+        console.log(this.editor.editor_html)
     }
 
     //dom渲染完成
@@ -117,6 +123,27 @@ class Add extends React.Component {
     }
     //页面刷新
     render() {
+        let server_url = process.env.REACT_APP_SERVER_URL;
+        const props = {
+            action: server_url+'/admin/upload/attribute_image',//上传地址
+            listType: 'text',
+            name:'attribute_image',
+            showUploadList:false,
+            multiple: true,//多文件上传
+            //预览文件
+            previewFile(file) {
+                console.log('Your upload file:', file); // 您的流程逻辑。在这里，我们只是模拟同一个文件
+                /*
+                return fetch('https://next.json-generator.com/api/json/get/4ytyBoLK8', {
+                    method: 'POST',
+                    body: file,
+                })
+                    .then((res) => res.json())
+                    .then(({ thumbnail }) => thumbnail);
+                 */
+            },
+        };
+
         return (
             <>
                 <div style={{"padding": "10px"}}>
@@ -182,29 +209,121 @@ class Add extends React.Component {
                                 <div className="page_bg"></div>
                             </div>
 
+                            {/*属性选择功能*/}
+                            <div className={"page_edit "+(this.state.attribute_select==true?'':'hide') } ref={this.attribute_select}>
+                                <div className="page_content">
+                                    <div className="page_title_box">
+                                        <div className="page_title">添加属性</div>
+                                        <div className="page_edit_close" onClick={()=>{this.page_edit_close('attribute_select')}}><CloseOutlined /></div>
+                                    </div>
+                                    <div style={{"margin":"20px"}}>
+                                        <div style={{color:"red",marginBottom:"10px"}}>
+                                              ps:<br/>
+                                            1.添加属性基本逻辑,例如产品是一个衣服,有<span style={{color:"#000"}}>黑色</span>,<span style={{color:"#00F"}}>蓝色</span> 2种颜色。那么属性值需要增加 <span style={{color:"#000"}}>黑色</span>,<span style={{color:"#00F"}}>蓝色</span>
+                                            如果有上传属性图 可以在填写属性值的同时选择属性图<br/>
+                                            2.编辑属性名称 点击提交 就完成属性编辑了
+                                        </div>
+                                        {/*<!--属性值编辑-->*/}
+                                        <div className="attribute_info_box">
+                                            {/*<!--目前属性信息-->*/}
+                                            <div>编辑属性值：</div>
+                                            {/*<!--当前的属性信息 开始-->*/}
+                                            <div className="attribute_info">
+                                                {/*<!--属性标题信息-->*/}
+                                                <div className="attribute_name_box">
+                                                    <div className="attribute_title">属性值：</div>
+                                                    <input className="attribute_input" name="attribute_value_zh"/>
+                                                </div>
+                                                <div className="attribute_name_box">
+                                                    <div className="attribute_title">属性图：</div>
+                                                    <div className="attribute_img_box">
+                                                        <div className="attribute_img">
+                                                            <img width={30} src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {/*<!--属性值变更-->*/}
+                                                <div className="attribute_action_box" style={{paddingLeft:"120px"}}>
+                                                    <Button type="link" style={{padding:"0 5px"}}>添加</Button>
+                                                    <Button type="link" style={{padding:"0 5px"}}>修改</Button>
+                                                    <Button type="link" style={{padding:"0 5px"}}>删除</Button>
+                                                </div>
+                                            </div>
+                                            {/*<!--当前属性信息 结束-->*/}
+                                        </div>
+
+                                        {/*属性编辑*/}
+                                        <div className="attribute_info_box">
+                                            <div>属性信息：</div>
+                                            <div className="attribute_info">
+                                                <div className="attribute_name_box">
+                                                    <div className="attribute_title">属性名：</div>
+                                                    <input className="attribute_name" name="attribute_name_zh"/>
+                                                </div>
+                                            </div>
+                                            <div className="attribute_info">
+                                                <div className="attribute_set">
+                                                    <div className="attribute_set_name">属性值：</div>
+                                                    <div className="attribute_value">白色</div>
+                                                    <div className="attribute_value">黑色</div>
+                                                </div>
+                                            </div>
+                                            <div className="attribute_action_box" style={{paddingLeft:"120px"}}>
+                                                <Button type="link" style={{padding:"0 5px"}}>提交属性</Button>
+                                            </div>
+                                        </div>
+
+
+                                        {/*<!--新增属性框 结束-->*/}
+                                    </div>
+                                </div>
+                                <div className="page_bg"></div>
+                            </div>
+
+                            {/*产品目录*/}
                             <div className="from_element" id="current_category" style={{width:"1000px"}}>
                                 <label className="label">产品目录</label>
                                 <div className="remarks">{this.state.current_category_title}</div>
                                 <input type="hidden" name="category_id"/>
                                 <Button style={{padding:"0px 5px"}} type="link" onClick={()=>this.open_category_select()}>选择目录</Button>
                             </div>
-
                             {/*基础信息*/}
                             <div className="from_element"  style={{width:"1000px"}}>
                                 <label className="label">产品名称</label>
                                 <Input className="input" name="product_name" placeholder="产品名称"/>
                                 <span className="remarks" title="描述">产品名称</span>
                             </div>
+                            {/*品牌信息*/}
                             <div className="from_element"  style={{width:"1000px"}}>
                                 <label className="label">品牌</label>
-                                <Input className="input" name="brand_name" placeholder="品牌"/>hello world
+                                <Input className="input" name="brand_name" placeholder="品牌"/>
                                 <span className="remarks" title="描述">品牌</span>
                             </div>
+                            {/*产品属性图*/}
+                            <div className="from_element"  style={{width:"1000px"}}>
+                                <label className="label">产品属性图</label>
+                                <div>
+                                    <Upload {...props}>
+                                        <Button icon={<UploadOutlined />}>上传图片</Button>
+                                    </Upload>
+
+                                </div>
+                                <span className="remarks" title="描述">品牌</span>
+                            </div>
+
+
+
+
+
+
+
+
+
                             <div className="from_element"  style={{width:"1000px"}}>
                                 <label className="label">产品描述</label>
                                 {/*富文本编辑器 https://www.wangeditor.com/*/}
                                 <div>
-                                    <MyEditor />
+                                    <MyEditor get_html={this.editor_get_html}/>
                                 </div>
                             </div>
 
