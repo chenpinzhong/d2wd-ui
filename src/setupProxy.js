@@ -2,6 +2,7 @@ const proxy = require('http-proxy-middleware')//引入http-proxy-middleware，re
 
 //api请求过滤
 const filter_rules = function (pathname,req){
+
     //所有post请求转发
     if(req.method === 'POST')return true;
     //get请求转发
@@ -10,6 +11,9 @@ const filter_rules = function (pathname,req){
     if(req.method === 'GET' && pathname.match(/.*ajax.*/))return true;
     //api请求转发
     if(req.method === 'GET' && pathname.match(/.*api.*/))return true;
+    //页面测试上传的图片 /upload 或者//upload 开头的 进行转发
+    if(req.method === 'GET' && pathname.match(/^\/upload|^\/\/upload/))return true;
+
     return false;
 };
 

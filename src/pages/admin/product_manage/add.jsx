@@ -1,7 +1,7 @@
 import React from 'react';
 import "../../../components/admin/css/base.css";
 import "../css/base.css";//引入admin 管理的基础样式文件
-
+import { nanoid } from "nanoid"
 import {Button, Image, Input, Tree} from 'antd';
 import axios from "axios";
 import {CloseOutlined, PlusOutlined, UploadOutlined} from "@ant-design/icons";
@@ -13,12 +13,27 @@ class Add extends React.Component {
     editor={
         editor_html:''
     }
+    up_img={
+        file_extension: "jpg",
+        file_id: "6",
+        file_name: "s2.jpg",
+        file_path: "D:\\UI\\d2wd-server\\public/upload/temp/2022-09-01\\631066e034c71_s2.jpg",
+        file_size: 178330,
+        file_type: "image/jpeg",
+        user_id: 0,
+        web_path: "/upload/temp/2022-09-01\\631066e034c71_s2.jpg",
+        web_path_100: "/upload/temp/2022-09-01\\100_631066e034c71_s2.jpg",
+        web_path_400: "/upload/temp/2022-09-01\\400_631066e034c71_s2.jpg",
+    };
     state={
         product_catalog:[],//产品类目数据
         expanded_keys:[],//默认展开的产品类目
         category_select:false,//是否打开选择目录
         attribute_select:false,//属性选择是否打开
+        product_images:[this.up_img,this.up_img],
     };
+
+
     //编辑器数据
     editor_get_html=(html)=>{
         this.editor.editor_html=html;
@@ -91,12 +106,21 @@ class Add extends React.Component {
         this.state.expanded_keys=expanded_keys;
         this.setState(this.state)
     }
+    //打开属性选择器
+    open_attribute_select(){
+        this.state.attribute_select=true;
+        this.setState(this.state)
+    }
+
 
     //关闭编辑功能
     page_edit_close(name){
         this.state[name]=false
         this.setState(this.state);//刷新页面
     }
+
+
+
 
     get_html(){
         console.log(this.editor.editor_html)
@@ -144,6 +168,9 @@ class Add extends React.Component {
             },
         };
 
+        let product_images=this.state.product_images
+
+        console.log(product_images)
         return (
             <>
                 <div style={{"padding": "10px"}}>
@@ -299,17 +326,40 @@ class Add extends React.Component {
                                 <Input className="input" name="brand_name" placeholder="品牌"/>
                                 <span className="remarks" title="描述">品牌</span>
                             </div>
-                            {/*产品属性图*/}
+
+                            {/*上传产品图*/}
                             <div className="from_element"  style={{width:"1000px"}}>
-                                <label className="label">产品属性图</label>
+                                <label className="label">产品图</label>
                                 <div>
                                     <Upload {...props}>
                                         <Button icon={<UploadOutlined />}>上传图片</Button>
                                     </Upload>
-
+                                    <div className="product_image_list">
+                                        {product_images.map(function (image_data){
+                                            return (
+                                                <div key={nanoid()} className="product_image" >
+                                                    <Image
+                                                        data-id={image_data['file_id']}
+                                                        width={100}
+                                                        src={image_data['web_path_400']}
+                                                    />
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
                                 </div>
-                                <span className="remarks" title="描述">品牌</span>
                             </div>
+
+                            {/*产品属性*/}
+                            <div className="from_element"  style={{width:"1000px"}}>
+                                <label className="label">产品属性</label>
+                                <div>
+                                    <Button  onClick={()=>this.open_attribute_select()}>增加属性</Button>
+                                </div>
+                            </div>
+
+
+
 
 
 
