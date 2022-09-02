@@ -4,12 +4,12 @@ import "../css/base.css";//引入admin 管理的基础样式文件
 import {Button,Input} from 'antd';
 
 class Add extends React.Component {
+
     //获取参数 没有时获取默认值
     get_params(name, val) {
         if (this.props.params.get(name)) return this.props.params.get(name);
         return val;
     }
-
     //dom渲染完成
     componentDidMount() {
     }

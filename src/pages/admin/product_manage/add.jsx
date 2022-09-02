@@ -2,39 +2,66 @@ import React from 'react';
 import "../../../components/admin/css/base.css";
 import "../css/base.css";//引入admin 管理的基础样式文件
 import { nanoid } from "nanoid"
-import {Button, Image, Input, Tree} from 'antd';
+import {Button, Image, Input, Space, Table, Tree} from 'antd';
 import axios from "axios";
 import {CloseOutlined, PlusOutlined, UploadOutlined} from "@ant-design/icons";
 import { Modal, Upload } from 'antd';
 
-import MyEditor from "../../../components/common/MyEditor"
+import AttributeEdit from "../../../components/admin/AttributeEdit" //属性编辑组件
+import MyEditor from "../../../components/common/MyEditor" //编辑器组件
 
-class Add extends React.Component {
+
+class Add extends React.Component{
     editor={
         editor_html:''
     }
-    up_img={
-        file_extension: "jpg",
-        file_id: "6",
-        file_name: "s2.jpg",
-        file_path: "D:\\UI\\d2wd-server\\public/upload/temp/2022-09-01\\631066e034c71_s2.jpg",
-        file_size: 178330,
-        file_type: "image/jpeg",
+    up_img1={
+        file_extension: "png",
+        file_id: "12",
+        file_name: "O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
+        file_path: "D:\\UI\\d2wd-server\\public/upload/temp/2022-09-02\\631158ff69e5c_O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
+        file_size: 241491,
+        file_type: "image/png",
         user_id: 0,
-        web_path: "/upload/temp/2022-09-01\\631066e034c71_s2.jpg",
-        web_path_100: "/upload/temp/2022-09-01\\100_631066e034c71_s2.jpg",
-        web_path_400: "/upload/temp/2022-09-01\\400_631066e034c71_s2.jpg",
+        web_path: "/upload/temp/2022-09-02\\631158ff69e5c_O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
+        web_path_100: "/upload/temp/2022-09-02\\100_631158ff69e5c_O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
+        web_path_400: "/upload/temp/2022-09-02\\400_631158ff69e5c_O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
     };
+    up_img2={
+        file_extension: "png",
+        file_id: "13",
+        file_name: "O1CN01vuqUkt22AES7LdcoV_!!2-item_pic.png",
+        file_path: "D:\\UI\\d2wd-server\\public/upload/temp/2022-09-02\\631158ff80fba_O1CN01vuqUkt22AES7LdcoV_!!2-item_pic.png",
+        file_size: 250043,
+        file_type: "image/png",
+        user_id: 0,
+        web_path: "/upload/temp/2022-09-02\\631158ff80fba_O1CN01vuqUkt22AES7LdcoV_!!2-item_pic.png",
+        web_path_100: "/upload/temp/2022-09-02\\100_631158ff80fba_O1CN01vuqUkt22AES7LdcoV_!!2-item_pic.png",
+        web_path_400: "/upload/temp/2022-09-02\\400_631158ff80fba_O1CN01vuqUkt22AES7LdcoV_!!2-item_pic.png",
+    };
+    up_img3={
+        file_extension: "png",
+        file_id: "14",
+        file_name: "O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
+        file_path: "D:\\UI\\d2wd-server\\public/upload/temp/2022-09-02\\631158ff9881f_O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
+        file_size: 233230,
+        file_type: "image/png",
+        user_id: 0,
+        web_path: "/upload/temp/2022-09-02\\631158ff9881f_O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
+        web_path_100: "/upload/temp/2022-09-02\\100_631158ff9881f_O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
+        web_path_400: "/upload/temp/2022-09-02\\400_631158ff9881f_O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
+    };
+
     state={
         product_catalog:[],//产品类目数据
         expanded_keys:[],//默认展开的产品类目
         category_select:false,//是否打开选择目录
         attribute_select:false,//属性选择是否打开
-        product_images:[this.up_img,this.up_img],
+        product_images:[this.up_img1,this.up_img2,this.up_img3],
     };
 
 
-    //编辑器数据
+    //接收编辑器的html 数据
     editor_get_html=(html)=>{
         this.editor.editor_html=html;
     }
@@ -43,12 +70,15 @@ class Add extends React.Component {
         if (this.props.params.get(name)) return this.props.params.get(name);
         return val;
     }
-    //获取参数 没有时获取默认值
+
+
+    ////////////////////////////////////////////////////////////////////
+    //类型选择 方法
+    //打开选择类目
     open_category_select(){
         this.state.category_select=true;
         this.setState(this.state)
     }
-
     //根据id 得到选择的层级关系
     select_tree(id_array){
         let tree_data=this.state.product_catalog
@@ -82,7 +112,7 @@ class Add extends React.Component {
         //更新状态
         return  title_array.join('->')
     }
-
+    //类目选择
     on_select(id,info){
         this.state.current_category_title=this.select_tree(id)
         this.setState(this.state);
@@ -112,14 +142,37 @@ class Add extends React.Component {
         this.setState(this.state)
     }
 
+    ////////////////////////////////////////////////////////////////////
+    //产品图 方法
 
-    //关闭编辑功能
+    //添加产品图
+    product_images_add(file){
+        console.log('1111')
+        this.state.product_images.push(file);
+        this.setState(this.state);
+    }
+
+    //移除当前的产品图
+    product_images_del(file_id){
+        let product_images=[];
+        let product_images_index=false;
+        this.state.product_images.map(function (value,index){
+            if(value['file_id']==file_id)product_images_index=index;
+        })
+        if(product_images_index===false)return false;
+        this.state.product_images.splice(product_images_index,1);//移除掉一个成员
+        this.setState(this.state);
+    }
+
+    ////////////////////////////////////////////////////////////////////
+    //产品属性 方法
+
+
+    //通用功能 关闭编辑功能
     page_edit_close(name){
         this.state[name]=false
         this.setState(this.state);//刷新页面
     }
-
-
 
 
     get_html(){
@@ -147,30 +200,43 @@ class Add extends React.Component {
     }
     //页面刷新
     render() {
+        let _this=this;//方便操作
         let server_url = process.env.REACT_APP_SERVER_URL;
-        const props = {
+        const update_props = {
             action: server_url+'/admin/upload/attribute_image',//上传地址
             listType: 'text',
             name:'attribute_image',
             showUploadList:false,
             multiple: true,//多文件上传
-            //预览文件
-            previewFile(file) {
-                console.log('Your upload file:', file); // 您的流程逻辑。在这里，我们只是模拟同一个文件
-                /*
-                return fetch('https://next.json-generator.com/api/json/get/4ytyBoLK8', {
-                    method: 'POST',
-                    body: file,
-                })
-                    .then((res) => res.json())
-                    .then(({ thumbnail }) => thumbnail);
-                 */
+            onChange:function (data){
+                let file=data['file'];
+                //图片上传中
+                if(file['status']=='uploading'){
+                    console.log("上传文件","上传进度",'文件名:'+file['name']+" 文件大小:"+(file['size']/1024/1024).toFixed(2)+"MB","上传进度",file['percent'])
+                }
+                //图片上传完成
+                if(file['status']=='done'){
+                    let response=file['response'];
+                    if(response["code"]==200){
+                        _this.state.product_images.push(response['data']);//增加产品图
+                        _this.setState(_this.state);
+                    }else{
+                        console.log("上传文件","存在错误",'文件名:'+file['name'],response['data']["msg"])
+                    }
+                }
             },
         };
+        let product_images=this.state.product_images;
 
-        let product_images=this.state.product_images
+        let attribute_edit_props={
+            'product_images':product_images,//属性的产品图
+            'attribute_info':[],//目前已有的属性信息
+            'add_attribute':function (){
+                console.log('新增属性')
+            }
+        }
 
-        console.log(product_images)
+
         return (
             <>
                 <div style={{"padding": "10px"}}>
@@ -244,64 +310,7 @@ class Add extends React.Component {
                                         <div className="page_edit_close" onClick={()=>{this.page_edit_close('attribute_select')}}><CloseOutlined /></div>
                                     </div>
                                     <div style={{"margin":"20px"}}>
-                                        <div style={{color:"red",marginBottom:"10px"}}>
-                                              ps:<br/>
-                                            1.添加属性基本逻辑,例如产品是一个衣服,有<span style={{color:"#000"}}>黑色</span>,<span style={{color:"#00F"}}>蓝色</span> 2种颜色。那么属性值需要增加 <span style={{color:"#000"}}>黑色</span>,<span style={{color:"#00F"}}>蓝色</span>
-                                            如果有上传属性图 可以在填写属性值的同时选择属性图<br/>
-                                            2.编辑属性名称 点击提交 就完成属性编辑了
-                                        </div>
-                                        {/*<!--属性值编辑-->*/}
-                                        <div className="attribute_info_box">
-                                            {/*<!--目前属性信息-->*/}
-                                            <div>编辑属性值：</div>
-                                            {/*<!--当前的属性信息 开始-->*/}
-                                            <div className="attribute_info">
-                                                {/*<!--属性标题信息-->*/}
-                                                <div className="attribute_name_box">
-                                                    <div className="attribute_title">属性值：</div>
-                                                    <input className="attribute_input" name="attribute_value_zh"/>
-                                                </div>
-                                                <div className="attribute_name_box">
-                                                    <div className="attribute_title">属性图：</div>
-                                                    <div className="attribute_img_box">
-                                                        <div className="attribute_img">
-                                                            <img width={30} src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {/*<!--属性值变更-->*/}
-                                                <div className="attribute_action_box" style={{paddingLeft:"120px"}}>
-                                                    <Button type="link" style={{padding:"0 5px"}}>添加</Button>
-                                                    <Button type="link" style={{padding:"0 5px"}}>修改</Button>
-                                                    <Button type="link" style={{padding:"0 5px"}}>删除</Button>
-                                                </div>
-                                            </div>
-                                            {/*<!--当前属性信息 结束-->*/}
-                                        </div>
-
-                                        {/*属性编辑*/}
-                                        <div className="attribute_info_box">
-                                            <div>属性信息：</div>
-                                            <div className="attribute_info">
-                                                <div className="attribute_name_box">
-                                                    <div className="attribute_title">属性名：</div>
-                                                    <input className="attribute_name" name="attribute_name_zh"/>
-                                                </div>
-                                            </div>
-                                            <div className="attribute_info">
-                                                <div className="attribute_set">
-                                                    <div className="attribute_set_name">属性值：</div>
-                                                    <div className="attribute_value">白色</div>
-                                                    <div className="attribute_value">黑色</div>
-                                                </div>
-                                            </div>
-                                            <div className="attribute_action_box" style={{paddingLeft:"120px"}}>
-                                                <Button type="link" style={{padding:"0 5px"}}>提交属性</Button>
-                                            </div>
-                                        </div>
-
-
-                                        {/*<!--新增属性框 结束-->*/}
+                                        <AttributeEdit {...attribute_edit_props}/>
                                     </div>
                                 </div>
                                 <div className="page_bg"></div>
@@ -331,8 +340,8 @@ class Add extends React.Component {
                             <div className="from_element"  style={{width:"1000px"}}>
                                 <label className="label">产品图</label>
                                 <div>
-                                    <Upload {...props}>
-                                        <Button icon={<UploadOutlined />}>上传图片</Button>
+                                    <Upload {...update_props}>
+                                        <Button type="dashed" icon={<UploadOutlined />}>上传图片</Button>
                                     </Upload>
                                     <div className="product_image_list">
                                         {product_images.map(function (image_data){
@@ -341,8 +350,11 @@ class Add extends React.Component {
                                                     <Image
                                                         data-id={image_data['file_id']}
                                                         width={100}
-                                                        src={image_data['web_path_400']}
+                                                        src={image_data['web_path']}
                                                     />
+                                                    <div data-id={image_data['file_id']} className="sub_close" onClick={()=>_this.product_images_del(image_data['file_id'])}>
+                                                        <CloseOutlined style={{fontSize:"12px"}} />
+                                                    </div>
                                                 </div>
                                             )
                                         })}
@@ -354,21 +366,25 @@ class Add extends React.Component {
                             <div className="from_element"  style={{width:"1000px"}}>
                                 <label className="label">产品属性</label>
                                 <div>
-                                    <Button  onClick={()=>this.open_attribute_select()}>增加属性</Button>
+                                    <Button type="dashed"  onClick={()=>this.open_attribute_select()}>增加属性</Button>
+                                    <div className="attribute_info_list" style={{marginTop:"5px"}}>
+                                        <Space>
+                                            <Button>颜色</Button>
+                                            <Button>容量</Button>
+                                        </Space>
+                                    </div>
+                                </div>
+                            </div>
+                            {/*子产品表*/}
+                            <div className="from_element"  style={{width:"1000px"}}>
+                                <label className="label">产品表</label>
+                                <div>
+                                    <Table/>
                                 </div>
                             </div>
 
 
-
-
-
-
-
-
-
-
-
-
+                            {/*产品描述*/}
                             <div className="from_element"  style={{width:"1000px"}}>
                                 <label className="label">产品描述</label>
                                 {/*富文本编辑器 https://www.wangeditor.com/*/}

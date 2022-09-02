@@ -1,18 +1,16 @@
 import { Button, Input,Tree,Space,message} from 'antd';
-import React, {useEffect} from 'react';
+import React from 'react';
 import axios from "axios"
-import {nanoid} from "nanoid"
-import {set_menu, set_menu_tier} from "../../../store/admin/menu_data";
-import {Option} from "antd/es/mentions";
 import "../../../components/admin/css/base.css";
 import "../css/base.css";
-import {DownOutlined } from "@ant-design/icons";//引入图标
+//引入图标
 
 //引入admin 管理的基础样式文件
 class Index extends React.Component {
     category_modify = React.createRef();//修改
     category_add = React.createRef();//添加
     category_del = React.createRef();//删除
+
     //状态信息
     state={
         select_category_id:'',//选择的ID
@@ -20,13 +18,13 @@ class Index extends React.Component {
         current_category_title:'',//当前的目录名称
         edit_category_title:'',//编辑的目录名称
         add_category_title:'',//添加的目录名称
-        tree_data:[],
+        product_catalog:[],
         expanded_keys:[],
     }
 
     //根据id 得到选择的层级关系
     select_tree(id_array){
-        let tree_data=this.state.tree_data
+        let tree_data=this.state.product_catalog
         if(id_array.length==0)return false;
         let id=id_array[0];//可以多选但是 目前只处理一个
         //查找菜单层级
