@@ -17,50 +17,36 @@ class Add extends React.Component{
     }
     up_img1={
         file_extension: "png",
-        file_id: "12",
-        file_name: "O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
-        file_path: "D:\\UI\\d2wd-server\\public/upload/temp/2022-09-02\\631158ff69e5c_O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
-        file_size: 241491,
+        file_id: "9",
+        file_name: "O1CN011M1IYq22AESE7qsIr_!!2-item_pic.png",
+        file_path: "D:\\code\\d2wd-server\\public/upload/temp/2022-09-03\\6312cb60befbc_O1CN011M1IYq22AESE7qsIr_!!2-item_pic.png",
+        file_size: 297861,
         file_type: "image/png",
         user_id: 0,
-        web_path: "/upload/temp/2022-09-02\\631158ff69e5c_O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
-        web_path_100: "/upload/temp/2022-09-02\\100_631158ff69e5c_O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
-        web_path_400: "/upload/temp/2022-09-02\\400_631158ff69e5c_O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
+        web_path: "/upload/temp/2022-09-03\\6312cb60befbc_O1CN011M1IYq22AESE7qsIr_!!2-item_pic.png",
+        web_path_100: "/upload/temp/2022-09-03\\100_6312cb60befbc_O1CN011M1IYq22AESE7qsIr_!!2-item_pic.png",
+        web_path_400: "/upload/temp/2022-09-03\\400_6312cb60befbc_O1CN011M1IYq22AESE7qsIr_!!2-item_pic.png",
     };
     up_img2={
         file_extension: "png",
-        file_id: "13",
-        file_name: "O1CN01vuqUkt22AES7LdcoV_!!2-item_pic.png",
-        file_path: "D:\\UI\\d2wd-server\\public/upload/temp/2022-09-02\\631158ff80fba_O1CN01vuqUkt22AES7LdcoV_!!2-item_pic.png",
-        file_size: 250043,
+        file_id: "10",
+        file_name: "O1CN011Ypae422AESGHcnIP_!!2-item_pic.png",
+        file_path: "D:\\code\\d2wd-server\\public/upload/temp/2022-09-03\\6312cba88a947_O1CN011Ypae422AESGHcnIP_!!2-item_pic.png",
+        file_size: 288077,
         file_type: "image/png",
         user_id: 0,
-        web_path: "/upload/temp/2022-09-02\\631158ff80fba_O1CN01vuqUkt22AES7LdcoV_!!2-item_pic.png",
-        web_path_100: "/upload/temp/2022-09-02\\100_631158ff80fba_O1CN01vuqUkt22AES7LdcoV_!!2-item_pic.png",
-        web_path_400: "/upload/temp/2022-09-02\\400_631158ff80fba_O1CN01vuqUkt22AES7LdcoV_!!2-item_pic.png",
+        web_path: "/upload/temp/2022-09-03\\6312cba88a947_O1CN011Ypae422AESGHcnIP_!!2-item_pic.png",
+        web_path_100: "/upload/temp/2022-09-03\\100_6312cba88a947_O1CN011Ypae422AESGHcnIP_!!2-item_pic.png",
+        web_path_400: "/upload/temp/2022-09-03\\400_6312cba88a947_O1CN011Ypae422AESGHcnIP_!!2-item_pic.png",
     };
-    up_img3={
-        file_extension: "png",
-        file_id: "14",
-        file_name: "O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
-        file_path: "D:\\UI\\d2wd-server\\public/upload/temp/2022-09-02\\631158ff9881f_O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
-        file_size: 233230,
-        file_type: "image/png",
-        user_id: 0,
-        web_path: "/upload/temp/2022-09-02\\631158ff9881f_O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
-        web_path_100: "/upload/temp/2022-09-02\\100_631158ff9881f_O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
-        web_path_400: "/upload/temp/2022-09-02\\400_631158ff9881f_O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
-    };
-
     state={
         product_catalog:[],//产品类目数据
         expanded_keys:[],//默认展开的产品类目
         category_select:false,//是否打开选择目录
         attribute_select:false,//属性选择是否打开
-        product_images:[this.up_img1,this.up_img2,this.up_img3],
+        product_images:[this.up_img1,this.up_img2],
     };
-
-
+    
     //接收编辑器的html 数据
     editor_get_html=(html)=>{
         this.editor.editor_html=html;
@@ -147,7 +133,6 @@ class Add extends React.Component{
 
     //添加产品图
     product_images_add(file){
-        console.log('1111')
         this.state.product_images.push(file);
         this.setState(this.state);
     }
@@ -167,13 +152,11 @@ class Add extends React.Component{
     ////////////////////////////////////////////////////////////////////
     //产品属性 方法
 
-
     //通用功能 关闭编辑功能
     page_edit_close(name){
         this.state[name]=false
         this.setState(this.state);//刷新页面
     }
-
 
     get_html(){
         console.log(this.editor.editor_html)
@@ -227,12 +210,12 @@ class Add extends React.Component{
             },
         };
         let product_images=this.state.product_images;
-
+        
         let attribute_edit_props={
             'product_images':product_images,//属性的产品图
             'attribute_info':[],//目前已有的属性信息
-            'add_attribute':function (){
-                console.log('新增属性')
+            'add_attribute':function (attribute_name,attribute_value_list){
+                console.log('新增属性',attribute_name,attribute_value_list)
             }
         }
 

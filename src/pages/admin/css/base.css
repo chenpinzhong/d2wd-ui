@@ -298,6 +298,7 @@
 .attribute_name_box .attribute_name{
     display: inline-block;
 }
+/*属性集合*/
 .attribute_set{
     display: block;
 }
@@ -319,6 +320,18 @@
     margin-bottom:5px;
     cursor:pointer;
     user-select: none;
+}
+.attribute_set .attribute_image{
+    display: inline-block;
+    padding: 4px;
+    border: #ccc 1px solid;
+    margin: 0 15px 15px 0;
+    cursor: pointer;
+    position: relative;
+    cursor:pointer;
+}
+.attribute_set .select{
+    border: #F00 1px solid;
 }
 
 .attribute_img_box{
