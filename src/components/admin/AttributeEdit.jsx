@@ -27,7 +27,7 @@ class Header extends React.Component {
         this.state={
             attribute_value_map:attribute_value_map,//属性值
             attribute_value_select:'',//当前选择的属性值ID
-            
+
             product_images:product_images,//用户上传的属性图
             attribute_images_select_map:attribute_images_select_map,//属性图的选择
             dom_attribute_name:'颜色',//属性名称
@@ -36,12 +36,12 @@ class Header extends React.Component {
         //方便开发 先写死一个 属性值
         let temp_attribute_value_map1={
             'value':'白色',//属性值
-            'image_id':9,//图片的id
+            'image_id':41,//图片的id
         }
         //方便开发 先写死一个 属性值
         let temp_attribute_value_map2={
             'value':'粉色',//属性值
-            'image_id':10,//图片的id
+            'image_id':42,//图片的id
         }
         this.state.attribute_value_map=[temp_attribute_value_map1,temp_attribute_value_map2];
     }
@@ -53,10 +53,13 @@ class Header extends React.Component {
     }
     //属性值选择
     attribute_value_select(value,image_id){
-        
         if(this.state.attribute_value_select!==value){
             this.state.attribute_value_select=value;//当前选择的属性值名称
             this.state.dom_attribute_value=value;//改变当前属性值名称
+            for (let key in this.state.attribute_images_select_map){
+                this.state.attribute_images_select_map[key]=false;
+            }
+            this.state.attribute_images_select_map[image_id]=true;
             this.setState(this.state);
         }else{
             //第二次选择 相当于取消选择
@@ -72,7 +75,6 @@ class Header extends React.Component {
             this.setState(this.state);
             return true;
         }
-        
         for (let key in this.state.attribute_images_select_map){
             this.state.attribute_images_select_map[key]=false;
         }
@@ -107,12 +109,12 @@ class Header extends React.Component {
     //删除属性值
     del_attribute_value() {
         let attribute_value=this.state.dom_attribute_value;//得到属性值的名称
-        
+
         let del_index=false;
         this.state.attribute_value_map.map(function(value,index){
             if(value['value']==attribute_value)del_index=index;
         })
-        
+
         //如果找到了位置
         if(typeof(del_index)=="number"){
             this.state.attribute_value_map.splice(del_index,1);//移除掉一个成员
@@ -164,7 +166,7 @@ class Header extends React.Component {
                                         if(image['file_id']==image_id)image_data=image;//找到图片信息
                                     })
                                     return (
-                                        <div key={nanoid()} onClick={()=>_this.attribute_value_select(attribute_value['value'],attribute_value['image_id'])} 
+                                        <div key={nanoid()} onClick={()=>_this.attribute_value_select(attribute_value['value'],attribute_value['image_id'])}
                                             className={"attribute_image "+(_this.state.attribute_value_select==attribute_value['value']?'select':'')}>
                                             <img width={30} src={image_data['web_path']} title={attribute_value['value']}/>
                                         </div>
@@ -172,7 +174,7 @@ class Header extends React.Component {
                                 }
                                 return <div key={nanoid()} onClick={()=>_this.attribute_value_select(attribute_value['value'],attribute_value['image_id'])} className={"attribute_value "+(_this.state.attribute_value_select==attribute_value['value']?'select':'')}>{attribute_value['value']}</div>
                             })}
-                            
+
                         </div>
                     </div>
                     <div className="attribute_action_box" style={{paddingLeft:"120px"}}>
