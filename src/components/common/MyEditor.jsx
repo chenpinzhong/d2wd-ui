@@ -42,6 +42,7 @@ function MyEditor(props) {
     }
 
     editorConfig.MENU_CONF['uploadVideo'] = {
+        server: server_url+'/admin/upload/editor_video',
         // form-data fieldName ，默认值 'wangeditor-uploaded-video'
         fieldName: 'your-custom-name',
         // 单个文件的最大体积限制，默认为 10M
