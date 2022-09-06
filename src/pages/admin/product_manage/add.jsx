@@ -63,6 +63,8 @@ class Add extends React.Component{
         attribute_select:false,//属性选择是否打开
         product_images:[this.up_img1,this.up_img2],
         attribute_info:[this.attribute_data1,this.attribute_data2],//目前产品拥有的属性
+        product_table_columns:[],//产品表表头
+        product_table_data:[],//表格数据
     };
 
 
@@ -256,13 +258,66 @@ class Add extends React.Component{
         //补充信息
         //库存,价格,售价
         sku_info=return_array.map(function (val,index){
-            val['uid']={'value':index};
-            val['库存']={'value':0};
-            val['价格']={'value':0};
-            val['售价']={'value':0};
+            val['库存']={'value':999,'editable': true};
+            val['价格']={'value':0,'editable': true};
+            val['售价']={'value':0,'editable': true};
             return val
         })
-        console.log(sku_info)
+
+        //设置表头
+        let product_table_columns=[];
+        let product_images=this.state.product_images
+        let title_data=sku_info[0];
+        for(let key in title_data){
+            let temp_width=false;
+
+            //如果展示图片则显示宽度为100
+            if(typeof(title_data[key]['image_id'])!=="undefined" && title_data[key]['image_id']!=false){
+                temp_width=100;
+            }
+
+            let column={
+                'title':key,
+                'dataIndex':key,
+                'key':nanoid(),
+                'width':temp_width,
+                render:function(data,record){
+                    //图片展示
+                    if(typeof(data['image_id'])!=="undefined" && data['image_id']!=false){
+                        let image_info={};
+                        product_images.map(function (image){
+                            if(data['image_id']==image['file_id'])image_info=image
+                        })
+                        //如果是图片
+                        return <>
+                            <Image width={100} src={image_info['web_path']} title={data['value']}/>
+                        </>
+                    }
+                    //可编辑节点
+                    if(typeof(data['editable'])!=="undefined" && data['editable']===true){
+                        return <Input defaultValue={data['value']}/>
+                    }
+                    //根据数据来渲染
+                    return <>
+                        {data['value']}
+                    </>
+                },
+            };
+            product_table_columns.push(column);
+        }
+
+        let product_table_data=[];
+        sku_info.forEach(function (value,index){
+            let data={};
+            data['key']=nanoid();
+            for(let key in value){
+                data[key]=value[key]
+            }
+            product_table_data.push(data)
+        })
+        this.state.product_table_columns=product_table_columns;
+        this.state.product_table_data=product_table_data;
+        this.setState(this.state)
     }
 
 
@@ -308,6 +363,7 @@ class Add extends React.Component{
             showUploadList:false,
             multiple: true,//多文件上传
             onChange:function (data){
+                console.log(data)
                 let file=data['file'];
                 //图片上传中
                 if(file['status']=='uploading'){
@@ -317,7 +373,9 @@ class Add extends React.Component{
                 if(file['status']=='done'){
                     let response=file['response'];
                     if(response["code"]==200){
-                        _this.state.product_images.push(response['data']);//增加产品图
+                        response['data'].forEach(function (data){
+                            _this.state.product_images.push(data);//增加产品图
+                        })
                         _this.setState(_this.state);
                     }else{
                         console.log("上传文件","存在错误",'文件名:'+file['name'],response['data']["msg"])
@@ -488,9 +546,13 @@ class Add extends React.Component{
                             {/*子产品表*/}
                             <div className="from_element"  style={{width:"1000px"}}>
                                 <label className="label">产品表</label>
-                                <div>
-                                    <Table/>
-                                </div>
+                                <Table style={{width:"100%"}}
+                                       dataSource={this.state.product_table_data}
+                                       columns={this.state.product_table_columns}
+                                       pagination={false}
+                                       size="small"
+                                       bordered
+                                />
                             </div>
 
 
