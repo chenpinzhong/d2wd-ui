@@ -12,6 +12,7 @@ import MyEditor from "../../../components/common/MyEditor" //编辑器组件
 
 
 class Add extends React.Component{
+    //编辑器内容
     editor={
         editor_html:''
     }
@@ -50,13 +51,14 @@ class Add extends React.Component{
     attribute_data2={
         attribute_name:"容量",
         attribute_value_list:[
-            {value: '64GB', image_id: false},
             {value: '128GB', image_id: false},
             {value: '256GB', image_id: false},
         ],
     }
 
     state={
+        current_catalog_id:0,//当前产品的目录ID
+        current_category_title:'',//当前类目的标题
         product_catalog:[],//产品类目数据
         expanded_keys:[],//默认展开的产品类目
         category_select:false,//是否打开选择目录
@@ -122,6 +124,7 @@ class Add extends React.Component{
     }
     //类目选择
     on_select(id,info){
+        this.state.current_catalog_id=id;//当前类目的id
         this.state.current_category_title=this.select_tree(id)
         this.setState(this.state);
         this.page_edit_close('category_select')
@@ -211,10 +214,13 @@ class Add extends React.Component{
         this.setState(this.state)
     }
 
+
     ////////////////////////////////////////////////////////////////////
     //产品表方法
     //更新产品表
     update_product_table(){
+        //输入框 修改对应值
+
         let attribute_info=this.state.attribute_info;
         let sku_info=[];
         //笛卡尔乘积
@@ -254,6 +260,14 @@ class Add extends React.Component{
             return result_array;
         }
         let return_array=cartesian_product(attribute_info);
+        table_modify_change=table_modify_change.bind(this);
+
+        //编辑数据
+        function table_modify_change(e,name,record){
+            if(record[name]['editable']==true){
+                record[name]['value']=e.target.value;
+            }
+        }
 
         //补充信息
         //库存,价格,售价
@@ -270,12 +284,10 @@ class Add extends React.Component{
         let title_data=sku_info[0];
         for(let key in title_data){
             let temp_width=false;
-
             //如果展示图片则显示宽度为100
             if(typeof(title_data[key]['image_id'])!=="undefined" && title_data[key]['image_id']!=false){
                 temp_width=100;
             }
-
             let column={
                 'title':key,
                 'dataIndex':key,
@@ -295,7 +307,7 @@ class Add extends React.Component{
                     }
                     //可编辑节点
                     if(typeof(data['editable'])!=="undefined" && data['editable']===true){
-                        return <Input defaultValue={data['value']}/>
+                        return <Input defaultValue={data['value']} onChange={e=>table_modify_change(e,key,record)}/>
                     }
                     //根据数据来渲染
                     return <>
@@ -320,16 +332,61 @@ class Add extends React.Component{
         this.setState(this.state)
     }
 
-
     //通用功能 关闭编辑功能
     page_edit_close(name){
         this.state[name]=false
         this.setState(this.state);//刷新页面
     }
-
+    //获取编辑器内容
     get_html(){
         console.log(this.editor.editor_html)
     }
+    //提交数据
+    submit_data() {
+        //类目ID
+        let catalog_id=this.state.current_catalog_id;
+        //产品名称
+        let product_name=document.querySelector(".from_data input[name='product_name']").value;
+        //品牌名称
+        let brand_name=document.querySelector(".from_data input[name='brand_name']").value;
+        //产品图
+        let product_images=this.state.product_images;
+        //产品属性
+        let attribute_info=this.state.attribute_info;
+        //产品属性
+        let product_table_data=this.state.product_table_data;
+        //产品描述
+        let editor_html=this.editor.editor_html;
+
+        let data={
+            catalog_id:catalog_id,
+            product_name:product_name,
+            brand_name:brand_name,
+            product_images:product_images,
+            attribute_info:attribute_info,
+            product_table_data:product_table_data,
+            editor_html:editor_html,
+        };
+
+        let server_url = process.env.REACT_APP_SERVER_URL;
+        axios.post(server_url + "admin/product_manage/add",data).then(
+            response => {
+                console.log(response.data['code'])
+                /*
+                if(response.data['code']=='200'){
+                    message.success(response.data['msg']);//错误信息
+                }else{
+                    message.error(response.data['msg']);
+                }
+                */
+            },
+            error => {
+                message.error('编辑目录错误');
+            }
+        );
+        return undefined;
+    }
+
 
     //dom渲染完成
     componentDidMount() {
@@ -363,7 +420,6 @@ class Add extends React.Component{
             showUploadList:false,
             multiple: true,//多文件上传
             onChange:function (data){
-                console.log(data)
                 let file=data['file'];
                 //图片上传中
                 if(file['status']=='uploading'){
@@ -392,12 +448,11 @@ class Add extends React.Component{
             'add_attribute':this.add_attribute,
         }
 
-
         return (
             <>
                 <div style={{"padding": "10px"}}>
                     <div className="from_box ant-form ant-form-horizontal">
-                        <form className="from_black" action="/admin/user.api/add" method="post" onSubmit={() => console.log('1')}>
+                        <form className="from_data from_black" action="/admin/user.api/add" method="post" onSubmit={() => console.log('1')}>
                             {/*导航功能*/}
                             <div tabIndex="0" className="next_nav_menu" style={{display:"none"}}>
                                 <ul className="next_menu_content">
@@ -543,6 +598,37 @@ class Add extends React.Component{
                                     </div>
                                 </div>
                             </div>
+                            {/*产品参数*/}
+                            {/*
+                            暂时不开发了
+                            <div className="from_element"  style={{width:"1000px"}}>
+                                <label className="label">产品参数</label>
+                                <div>
+                                    <Button type="dashed"  onClick={()=>this.open_attribute_select()}>增加参数</Button>
+                                    <div className="attribute_info_list" style={{marginTop:"5px"}}>
+                                        <Space>
+                                            <Button >产品分类:手机</Button>
+                                            <Button >产品分类:手机</Button>
+                                            {
+                                                this.state.attribute_info.map(function (val){
+                                                    return(
+                                                        <Popconfirm key={nanoid()} icon={<QuestionCircleOutlined style={{ color: 'red' }}/>}
+                                                                    title={"是否删除:"+val['attribute_name']}
+                                                                    okText={"确认"}
+                                                                    cancelText={"取消"}
+                                                                    onConfirm={()=>_this.del_attribute(val['attribute_name'])}
+                                                        >
+                                                            <Button >{val['attribute_name']}</Button>
+                                                        </Popconfirm>
+                                                    )
+                                                })
+                                            }
+                                        </Space>
+                                    </div>
+                                </div>
+                            </div>
+                            */}
+
                             {/*子产品表*/}
                             <div className="from_element"  style={{width:"1000px"}}>
                                 <label className="label">产品表</label>
@@ -561,7 +647,7 @@ class Add extends React.Component{
                                 <label className="label">产品描述</label>
                                 {/*富文本编辑器 https://www.wangeditor.com/*/}
                                 <div>
-                                    <MyEditor get_html={this.editor_get_html}/>
+                                    <MyEditor editor_get_html={this.editor_get_html}/>
                                 </div>
                             </div>
 
@@ -570,8 +656,7 @@ class Add extends React.Component{
                                 <label className="label"></label>
                                 <input name="page" type="hidden" value={this.get_params('page', 1)}/>
                                 <input name="page_size" type="hidden" value={this.get_params('page_size', 1)}/>
-                                <Button type="primary" onClick={()=>this.get_html()} >获取数据</Button>
-                                <Button type="primary" htmlType="submit">提交</Button>
+                                <Button type="primary"  onClick={()=>this.submit_data()}>提交</Button>
                             </div>
 
                         </form>
