@@ -371,7 +371,11 @@ class Add extends React.Component{
         let server_url = process.env.REACT_APP_SERVER_URL;
         axios.post(server_url + "admin/product_manage/add",data).then(
             response => {
-                console.log(response.data['code'])
+                if(response.data['code']===200){
+                    message.success(response.data['msg']).then(r => console.log('异常 X2222'));//错误信息
+                }else{
+                    message.error(response.data['msg']).then(r => console.log('异常 X2223'));//错误信息
+                }
                 /*
                 if(response.data['code']=='200'){
                     message.success(response.data['msg']);//错误信息
