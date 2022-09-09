@@ -22,7 +22,7 @@ class Header extends React.Component {
         //this.setState(this.state);//更新状态
         //第一次渲染时 需要进行菜单列表的请求
         let server_url = process.env.REACT_APP_SERVER_URL;
-        axios.get(server_url + "/admin/admin_user/get").then(
+        axios.get(server_url + "/admin/admin_user/get_admin_info").then(
             response => {
                 if(response.data.code=='200'){
                     this.state=response.data['data'];
