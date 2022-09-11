@@ -5,10 +5,15 @@ import "../../pages/admin/css/base.css"
 
 
 class Header extends React.Component {
-
+    props
     //初始化方法
     constructor(props) {
         super(props);
+        this.props=props;
+        this.init(this.props);//初始化方法
+    }
+
+    init(props){
         //基础数据处理
         let product_images=props.product_images
         let attribute_images_select_map= {};//属性图选择表
@@ -27,24 +32,15 @@ class Header extends React.Component {
         this.state={
             attribute_value_map:attribute_value_map,//属性值
             attribute_value_select:'',//当前选择的属性值ID
-
             product_images:product_images,//用户上传的属性图
             attribute_images_select_map:attribute_images_select_map,//属性图的选择
-            dom_attribute_name:'颜色',//属性名称
-            dom_attribute_value:'白色',//属性值名称
+            dom_attribute_name:'',//属性名称
+            dom_attribute_value:'',//属性值名称
         };
-        //方便开发 先写死一个 属性值
-        let temp_attribute_value_map1={
-            'value':'白色',//属性值
-            'image_id':41,//图片的id
-        }
-        //方便开发 先写死一个 属性值
-        let temp_attribute_value_map2={
-            'value':'粉色',//属性值
-            'image_id':42,//图片的id
-        }
-        this.state.attribute_value_map=[temp_attribute_value_map1,temp_attribute_value_map2];
+        this.state.attribute_value_map=[];
     }
+
+
     attribute_name_handle_change(e){
         this.setState(()=>{return {'dom_attribute_name':e.target.value}})
     }
@@ -102,7 +98,6 @@ class Header extends React.Component {
             message.info("属性值:"+attribute_value+" 已经存在!").then(r =>{});
             return false;
         }
-
         this.state.attribute_value_map.push(attribute_value_info)
         this.setState(this.state);
     }
@@ -130,6 +125,9 @@ class Header extends React.Component {
         let attribute_name=this.state.dom_attribute_name
         let attribute_value_list=this.state.attribute_value_map
         this.add_attribute(attribute_name,attribute_value_list);
+
+        this.init(this.props);//初始化状态 
+        this.setState(this.state);//更新状态
     }
 
     render() {

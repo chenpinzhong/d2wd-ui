@@ -1,4 +1,4 @@
-import { Button, Input,Table ,Pagination} from 'antd';
+import { Button, Input,Table ,Pagination,Image} from 'antd';
 import React, {useEffect} from 'react';
 import axios from "axios"
 import {nanoid} from "nanoid"
@@ -25,6 +25,7 @@ class Index extends React.Component {
             submit_title_map:{'add':'提交','edit':'提交'},
             default_data:{}//默认数据
         },
+        expandedRowKeys:[],//子表默认展开清空
     };
     columns = this.table_columns();
 
@@ -40,6 +41,8 @@ class Index extends React.Component {
         window.addEventListener("popstate", function(e) {
             window.location.href=window.location.href;//强制刷新
         }, false);
+
+        this.onExpandedRowsChange=this.onExpandedRowsChange.bind(this);
     }
     //获取页面数据
     get_page_data(page=1,page_size=10){
@@ -80,14 +83,15 @@ class Index extends React.Component {
             }
         );
     }
-
     //数据展示处理
     table_data_handle(data){
         this.state.page_data = data;//得到分页数据
+        let table_data=this.state.page_data['data'];
+        this.state.expandedRowKeys=table_data.map(function(rows){
+            return rows['id'];
+        })
         this.setState(this.state);
     }
-
-
     //关闭编辑功能
     page_edit_close(){
         this.state.modify_page.show=!this.state.modify_page.show
@@ -143,29 +147,45 @@ class Index extends React.Component {
         ];
         return columns;
     }
-
+    onExpandedRowsChange(keys){
+        this.state.expandedRowKeys=keys;
+        this.setState(this.state);//刷新页面
+    }
     //页面刷新
     render() {
         let page_data=this.state.page_data
-        const expandedRowRender = () => {
-            const columns = [
-                {
-                    title: "Date",
-                    dataIndex: "date",
-                    key: "date"
-                },
-            ];
-            const data = [];
-
-            for (let i = 0; i < 3; ++i) {
-                data.push({
-                    key: i.toString()+"ASDASASAA",
-                    date: "2014-12-24 23:12:00",
-                    name: "This is production name",
-                    upgradeNum: "Upgraded: 56"
-                });
+        const expandedRowRender = (table_data) => {
+            //根据字表信息 渲染表头
+            if(typeof(table_data['child_table'])=="undefined")return false;
+            let product_images=JSON.parse(table_data['product_images']);
+            let temp_title_array=table_data['child_table'][0];
+            let columns = [];//表头信息
+            for(let key_name in temp_title_array){
+                let data={};
+                if(typeof(temp_title_array[key_name]['attribute_image'])!="undefined"){
+                    //如果该列是显示图片 那么可以设定 好宽度
+                    data={title:key_name,dataIndex:key_name,'width':"100px",'align':'center'}
+                }else{
+                    data={title:key_name,dataIndex:key_name,}
+                }
+                columns.push(data)
             }
-            return <Table columns={columns} dataSource={data} pagination={false} />;
+            //渲染字表信息
+            let child_table = [];
+            table_data['child_table'].forEach(function(child){
+                let temp_data={};
+                temp_data['key']=nanoid();
+                for(let key_name in child){
+                    if(typeof(child[key_name]['attribute_image'])!="undefined"){
+                        //如果可以显示图片
+                        temp_data[key_name]=<Image width={100} src={child[key_name]['attribute_image']} title={child[key_name]['value']}/>;
+                    }else{
+                        temp_data[key_name]=child[key_name]['attribute_value']
+                    }
+                }
+                child_table.push(temp_data)
+            })
+            return <Table columns={columns} dataSource={child_table} pagination={false} />;
         };
 
 
@@ -197,7 +217,8 @@ class Index extends React.Component {
                            dataSource={this.state.page_data.data}
                            expandable={{
                                expandedRowRender,
-                               defaultExpandedRowKeys: ['0'],
+                               expandedRowKeys:this.state.expandedRowKeys,
+                               onExpandedRowsChange:this.onExpandedRowsChange
                            }}
                            position='bottomCenter'
                            pagination={false}

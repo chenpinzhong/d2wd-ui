@@ -26,6 +26,7 @@ function IndexLayout() {
         let temp_width=scroll_bar.clientWidth
         if(temp_width>0){
             let scroll_bar_width=document.querySelector(scroll_bar_params.scroll_bar).clientWidth;//滚动条宽度
+            if(typeof(content.current.clientWidth)=="undefined")return false;
             let new_width=content.current.clientWidth-scroll_bar_width;//容器宽度
             set_scroll_width(new_width)//设置菜单宽度
         }else{

@@ -19,6 +19,7 @@ function slide_list(){
 }
 //用户首页
 function Index(){
+    //拉取产品列表
     return (
         <>
             <main>
@@ -36,18 +37,6 @@ function Index(){
                                 <p>大家喜欢的好物</p>
                             </div>
                             {/*产品展示模块*/}
-                            <div className='row mtn-40'>
-                                <ProductDisplay/>
-                                <ProductDisplay/>
-                                <ProductDisplay/>
-                                <ProductDisplay/>
-                            </div>
-                            <div className='row mtn-40'>
-                                <ProductDisplay/>
-                                <ProductDisplay/>
-                                <ProductDisplay/>
-                                <ProductDisplay/>
-                            </div>
                             <div className='row mtn-40'>
                                 <ProductDisplay/>
                                 <ProductDisplay/>

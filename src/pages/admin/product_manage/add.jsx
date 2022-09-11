@@ -16,45 +16,6 @@ class Add extends React.Component{
     editor={
         editor_html:''
     }
-    up_img1={
-        file_extension: "png",
-        file_id: "41",
-        file_name: "O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
-        file_path: "D:\\UI\\d2wd-server\\public/upload/temp/2022-09-05\\63154de41eaf6_O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
-        file_size: 233230,
-        file_type: "image/png",
-        user_id: 0,
-        web_path: "/upload/temp/2022-09-05\\63154de41eaf6_O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
-        web_path_100: "/upload/temp/2022-09-05\\100_63154de41eaf6_O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
-        web_path_400: "/upload/temp/2022-09-05\\400_63154de41eaf6_O1CN017hfOEl22AESNS8Qyu_!!2-item_pic.png",
-    };
-    up_img2={
-        file_extension: "png",
-        file_id: "42",
-        file_name: "O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
-        file_path: "D:\\UI\\d2wd-server\\public/upload/temp/2022-09-05\\63154e1f65050_O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
-        file_size: 241491,
-        file_type: "image/png",
-        user_id: 0,
-        web_path: "/upload/temp/2022-09-05\\63154e1f65050_O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
-        web_path_100: "/upload/temp/2022-09-05\\100_63154e1f65050_O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
-        web_path_400: "/upload/temp/2022-09-05\\400_63154e1f65050_O1CN01hfgFGr22AESGHd3u6_!!2-item_pic.png",
-    };
-
-    attribute_data1={
-        attribute_name:"颜色",
-        attribute_value_list:[
-            {value: '白色', image_id: 41},
-            {value: '粉色', image_id: 42},
-        ],
-    }
-    attribute_data2={
-        attribute_name:"容量",
-        attribute_value_list:[
-            {value: '128GB', image_id: false},
-            {value: '256GB', image_id: false},
-        ],
-    }
 
     state={
         current_catalog_id:0,//当前产品的目录ID
@@ -63,8 +24,8 @@ class Add extends React.Component{
         expanded_keys:[],//默认展开的产品类目
         category_select:false,//是否打开选择目录
         attribute_select:false,//属性选择是否打开
-        product_images:[this.up_img1,this.up_img2],
-        attribute_info:[this.attribute_data1,this.attribute_data2],//目前产品拥有的属性
+        product_images:[],
+        attribute_info:[],//目前产品拥有的属性
         product_table_columns:[],//产品表表头
         product_table_data:[],//表格数据
     };
@@ -222,6 +183,7 @@ class Add extends React.Component{
         //输入框 修改对应值
 
         let attribute_info=this.state.attribute_info;
+        console.log(attribute_info)
         let sku_info=[];
         //笛卡尔乘积
         function cartesian_product(attribute_set_array){
