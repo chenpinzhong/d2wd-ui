@@ -36,7 +36,6 @@ class Index extends React.Component {
     //dom渲染完成
     componentDidMount() {
         this.get_page_data(this.get_params('page',1),this.get_params('page_size',10));//获取页面数据
-
         window.addEventListener("popstate", function(e) {
             window.location.href=window.location.href;//强制刷新
         }, false);
