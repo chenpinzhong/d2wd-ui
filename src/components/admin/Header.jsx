@@ -17,7 +17,7 @@ class Header extends React.Component {
         "offline_time": null,
         "update_time": null
     };
-    componentDidMount() {
+    componentDidMount(){
         //this.get_page_data(this.get_params('page',1),this.get_params('page_size',15));//获取页面数据
         //this.setState(this.state);//更新状态
         //第一次渲染时 需要进行菜单列表的请求

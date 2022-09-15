@@ -51,7 +51,7 @@ class Index extends React.Component{
         $product_info.total_sales = 400;//总销量
         $product_info.total_evaluate = 100;//累计评价
         $product_info.payment_address = '';//购买地址
-          
+
         //默认数量
         return (
             <>
@@ -90,28 +90,10 @@ class Index extends React.Component{
                                     <div className="product_image_list_box">
                                         <div className="product_image_list">
                                             <div className="product_image selected">
-                                                <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                                <img alt="产品名称" src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
                                             </div>
                                             <div className="product_image ">
-                                                <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                            </div>
-                                            <div className="product_image ">
-                                                <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                            </div>
-                                            <div className="product_image ">
-                                                <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                            </div>
-                                            <div className="product_image ">
-                                                <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                            </div>
-                                            <div className="product_image ">
-                                                <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                            </div>
-                                            <div className="product_image ">
-                                                <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
-                                            </div>
-                                            <div className="product_image ">
-                                                <img alt="产品名称"  src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
+                                                <img alt="产品名称" src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} data-src={process.env.PUBLIC_URL + '/images/product/iphone13 purple.jpg'} />
                                             </div>
                                         </div>
                                     </div>
@@ -194,7 +176,7 @@ class Index extends React.Component{
                                         {/*{/foreach}*/}
                                     </div>
                                     {/*{/foreach}*/}
-    
+
                                     {/*<!--属性信息区域 结束-->*/}
                                     {/*<!--数量-->*/}
                                     <div className="promo_row">
