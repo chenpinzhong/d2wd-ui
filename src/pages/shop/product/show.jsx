@@ -8,6 +8,7 @@ import '../css/index.css'
 import React, { useState } from "react"
 import cookie from 'react-cookies' //读取cookie
 import language from '../language' //多语言方案
+import axios from "axios";
 import '../js/shop_product' //展示产品
 
 class Index extends React.Component{
@@ -21,6 +22,29 @@ class Index extends React.Component{
             qty_val: 1,//默认购买数量
         }
     }
+    //获取请求参数
+    get_params(name, val) {
+        if (this.props.params.get(name)) return this.props.params.get(name);
+        return val;
+    }
+    //dom渲染完成
+    componentDidMount(){
+        //第一次渲染时 需要进行菜单列表的请求
+        let server_url = process.env.REACT_APP_SERVER_URL;
+        let id=this.get_params('id')
+        axios.get(server_url + "/shop/product/get_data?id="+id).then(
+            response => {
+                this.state.page_data = response.data['data'];
+                this.state.table_loading=false
+                this.setState(this.state);
+            },
+            error => {
+                console.log('获取用户数据失败', error);
+            }
+        );
+    }
+
+
     handle_qty=(e)=>{
         if(e.target.className.indexOf('reduce')>-1){
             this.state.qty_val-=1;
